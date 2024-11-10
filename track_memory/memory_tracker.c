@@ -39,12 +39,15 @@ void free_all_allocate()
 }
 
 
-int main ()
-{
-    char *str = tracker_malloc (sizeof(char));
-    char *nub = tracker_malloc (sizeof(int));
-    char *sls = tracker_malloc (sizeof(-77));
+// int main ()
+// {
+//     char *str = tracker_malloc (sizeof(char));
+//     str[0]='s';
+//     // char *sls = tracker_malloc (sizeof(-77));
 
-    free_all_allocate();
-    while(){}
-}
+//     free_all_allocate();
+//     // char *ll = malloc(sizeof(int)*2);
+//     int *nub = tracker_malloc (sizeof(int)*2);
+//     nub[0] = 2;
+//     while(1){};
+// }

@@ -142,25 +142,27 @@ int check_exention_file(char *ext)
     return 0;
 }
 
-void free_struct(map_t *hd, int file)
-{
-    close(file);
-    free(hd->c_color);
-    free(hd->f_color);
-    free(hd->f);
-    free(hd->c);
-    free(hd->no);
-    free(hd->so);
-    free(hd->we);
-    free(hd->ea);
-    free(hd);
-}
+// void free_struct(map_t *hd, int file)
+// {
+//     close(file);
+//     free(hd->c_color);
+//     free(hd->f_color);
+//     free(hd->f);
+//     free(hd->c);
+//     free(hd->no);
+//     free(hd->so);
+//     free(hd->we);
+//     free(hd->ea);
+//     free(hd);
+// }
 
 void texture_data(map_t *stc, char **texture_dt, char *line, int file)
 {
+    (void)stc;
+    (void)file;
     if (*texture_dt != NULL)
     {
-        free_struct(stc, file);
+        free_all_allocate();
         exit(write(1, "duplicated\n", 11));
     }
     *texture_dt = ft_strdup(line);
@@ -174,15 +176,15 @@ int main(int ac, char **av)
         return 1;
     }
     check_exention_file(av[1]);
-    map_t *stc = malloc(sizeof(map_t));
+    map_t *stc = tracker_malloc(sizeof(map_t));
     if (stc == NULL)
     {
         write(1, "malloc\n", 7);
         return 1;
     }
     ft_memset(stc, 0, sizeof(map_t));
-    stc->f_color = malloc(sizeof(color_t));
-    stc->c_color = malloc(sizeof(color_t));
+    stc->f_color = tracker_malloc(sizeof(color_t));
+    stc->c_color = tracker_malloc(sizeof(color_t));
     if (stc->f_color == NULL || stc->c_color == NULL)
     {
         write(1, "malloc\n", 7);
@@ -195,9 +197,7 @@ int main(int ac, char **av)
     if (file == -1)
     {
         write(1, "file\n", 5);
-        free(stc->f_color);
-        free(stc->c_color);
-        free(stc);
+        free_all_allocate();    
         return 1;
     }
 
@@ -227,7 +227,7 @@ int main(int ac, char **av)
         if (line2 == NULL)
         {
             write(1, "split\n", 6);
-            free_struct(stc, file);
+            free_all_allocate();
             break;
         }
         if (ft_strncmp(line2[0], "F", ft_strlen(line2[0])) == 0)
@@ -270,9 +270,10 @@ int main(int ac, char **av)
 
     if (paths_check(stc) == 1)
     {
-        free_struct(stc, file);
+        free_all_allocate();
         return 1;
     }
-    free_struct(stc, file);
+    free_all_allocate();
+    while (1){};
     return 0;
 }

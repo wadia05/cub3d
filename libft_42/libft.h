@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:43:56 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/01/07 18:20:23 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/11/10 11:32:42 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define LIBFT_H
 
 # include <stdlib.h>
+# include "../track_memory/memory_tracker.h"
 # include <unistd.h>
-
+// #incl
 typedef struct s_list
 {
 	void			*content;

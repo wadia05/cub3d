@@ -113,7 +113,7 @@ int white_space(char *map)
 
 map_list_t *create_map_list(char *map)
 {
-    map_list_t *new = malloc(sizeof(map_list_t));
+    map_list_t *new = tracker_malloc(sizeof(map_list_t));
     if (new == NULL)
         return (NULL);
     trim_end(map);

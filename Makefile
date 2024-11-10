@@ -1,6 +1,7 @@
 NAME = cub3d
 HDER = mandatory/cub3d.h
 SRC = \
+	track_memory/memory_tracker.c \
 	map_parsing/parsing.c \
 	GET_NEXT_LINE_42/get_next_line.c \
 	GET_NEXT_LINE_42/get_next_line_utils.c \
