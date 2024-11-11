@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:59 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/01/14 15:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:06:53 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (ft_strdup(s2));
 	if (!s2)
 		return (ft_strdup(s1));
-	aloo = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	aloo = tracker_malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (aloo == NULL)
 		return (NULL);
 	ft_strlcpy(aloo, s1, ft_strlen(s1) + 1);

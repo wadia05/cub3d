@@ -20,21 +20,26 @@ void *tracker_malloc(size_t size)
     hd_tracker = node;
     return node->address;
 }
-void free_all_allocate()
-{
+void free_all_allocate() {
     if (hd_tracker == NULL)
         return;
     
-    tracker_t *curr = hd_tracker ;
+    tracker_t *curr = hd_tracker;
     tracker_t *next;
     
-    while (curr != NULL)
-    {
+    while (curr != NULL) {
         next = curr->next_addr;
-        free(curr->address);
+        
+        // Check if the address is already free before freeing it
+        if (curr->address != NULL) {
+            free(curr->address);
+            curr->address = NULL;
+        }
+        
         free(curr);
         curr = next;
     }
+    
     hd_tracker = NULL;
 }
 

@@ -37,21 +37,20 @@ char *join_color(char **stc)
     while (stc[i] != NULL)
     {
         temp = ft_strjoin(color, stc[i]);
-        free(color);
         color = temp;
         i++;
     }
     return color;
 }
-void free_splaited(char **splt)
-{
-    int i = 0;
-    while (splt[i] != NULL)
-    {
-        free(splt[i]);
-        i++;
-    }
-}
+// void free_splaited(char **splt)
+// {
+//     int i = 0;
+//     while (splt[i] != NULL)
+//     {
+//         free(splt[i]);
+//         i++;
+//     }
+// }
 int print_error(char *str)
 {
     write(1, str, ft_strlen(str));
@@ -71,7 +70,7 @@ int is_valid_colors(char *str_color, color_t *color_)
     if (word_count(color) != 3)
     {
         print_error("you need 3 color values R G B and the values should be between 0 and 255\n");
-        free_splaited(color);
+        // free_splaited(color);
         return 1;
     }
     color_->r = ft_atoi(color[0]);
@@ -80,10 +79,10 @@ int is_valid_colors(char *str_color, color_t *color_)
     if ((color_->r < 0 || color_->r > 255) || (color_->g < 0 || color_->g > 255) || (color_->b < 0 || color_->b > 255))
     {
         print_error("color values should be between 0 and 255\n");
-        free_splaited(color);
+        // free_splaited(color);
         return 1;
     }
-    free_splaited(color);
+    // free_splaited(color);
     return 0;
 }
 
@@ -211,6 +210,7 @@ int main(int ac, char **av)
         {
             printf("start parsing of the map\n");
             parse_map(file, stc);
+            // free_splaited(line2);
             break;
         }
         if (line[0] == '\n')
@@ -263,7 +263,7 @@ int main(int ac, char **av)
         else if (ft_strncmp(line2[0], "EA", ft_strlen(line2[0])) == 0)
             texture_data(stc, &stc->ea, line2[1], file);
 
-        free_splaited(line2);
+        // free_splaited(line2);
 
         line = get_next_line(file);
     }
