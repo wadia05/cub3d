@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/11/10 10:22:11 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:12:13 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct map_list_s
 
 typedef struct color_s
 {
+    bool lock;
     int r;
     int g;
     int b;
@@ -58,6 +59,7 @@ typedef struct color_s
 typedef struct map_s
 {
     map_list_t *map_data;
+    bool  map_str;
     char *no;
     char *so;
     char *we;
@@ -71,6 +73,14 @@ typedef struct map_s
     color_t *c_color;
 
 } map_t;
+map_list_t *add_map_list(map_list_t *head, char *map);
+int word_count(char **str);
+int validate_texture_path(char *path, char *name);
+int validate_file_extension(char *ext);
+int in_color_range(color_t *color_);
+int color_erorr(char *str);
+void free_split(char **split);
+int parse_color(char *line, color_t *color);
 void trim_end(char *str);
 void check_adjacent_positions(map_list_t *tmp, int i);
 void check_current_position(map_list_t *tmp, int i);

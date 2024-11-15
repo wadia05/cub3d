@@ -18,7 +18,10 @@ int check_frist_last(char *line)
         // write(1, "hello\n", 6);
         if (line[i] != '1'  && line[i] != ' ' && line[i] != '\t')
         { 
+            free(line);
+            free_all_allocate();
             print_error("error frist and last line should be just");
+            write (1,"2\n", 2);
             exit(1);
         }
         i++;
@@ -91,7 +94,8 @@ int map_check(map_list_t *hd)
         {
             // print_error(tmp->map);
             // write(1,"\n",1);
-            check_frist_last(tmp->map);
+            if (check_frist_last(tmp->map) == 1)
+                return 1;
             tmp = tmp->next;
             continue;
         }
@@ -143,16 +147,18 @@ int parse_map(int file, map_t *stc)
     (void)stc;
     char *line = NULL;
     line = get_next_line(file);
+
     while (line != NULL)
     {
         remove_newline(line);
         stc->map_data = add_map_list(stc->map_data, line);
         free(line);
-        line = NULL;
         line = get_next_line(file);
     }
+    free(line);
     map_list_t *tmp = stc->map_data;
     map_check(tmp);
+
     printf("map_was_good yaaaaay\n");
     tmp = stc->map_data;
     player_check(tmp);

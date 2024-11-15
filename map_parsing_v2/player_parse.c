@@ -1,0 +1,1 @@
+#include "../mandatory/cub3d.h"

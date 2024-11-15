@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:38:30 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/11/11 12:22:55 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/11/13 12:14:47 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static char	**size_aloo(char **word, const char *s, char c, int con)
 			cont++;
 			j++;
 		}
-		word[i] = (char *)tracker_malloc((cont + 1) * sizeof(char));
+		word[i] = (char *)malloc((cont + 1) * sizeof(char));
 		if (word[i] == NULL)
 		{
 			free_words(word);
@@ -105,12 +105,12 @@ char	**ft_split(const char *s, char c)
 
 	if (s == NULL)
 	{
-		tmp = (char **)tracker_malloc(sizeof(char *));
+		tmp = (char **)malloc(sizeof(char *));
 		tmp[0] = NULL;
 		return (tmp);
 	}
 	con = contword(s, c);
-	word = (char **)tracker_malloc((con + 1) * sizeof(char *));
+	word = (char **)malloc((con + 1) * sizeof(char *));
 	if (word == NULL)
 		return (NULL);
 	word = size_aloo(word, s, c, con);

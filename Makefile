@@ -2,11 +2,15 @@ NAME = cub3d
 HDER = mandatory/cub3d.h
 SRC = \
 	track_memory/memory_tracker.c \
-	map_parsing/parsing.c \
+	map_parsing_v2/parsing.c \
+	map_parsing_v2/color_parse.c\
 	GET_NEXT_LINE_42/get_next_line.c \
 	GET_NEXT_LINE_42/get_next_line_utils.c \
-	map_parsing/map_parsing.c \
-	map_parsing/player_parse.c
+	map_parsing_v2/tools.c\
+	map_parsing_v2/color_tools.c\
+	map_parsing_v2/louding_maps.c\
+	# map_parsing/map_parsing.c \
+	# map_parsing/player_parse.c
 	# mandatory/main.c
 
 CC = cc
