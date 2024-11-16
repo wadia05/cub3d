@@ -28,6 +28,7 @@ int check_frist_last(char *line)
     }
     return 0;
 }
+
 void check_current_position(map_list_t *tmp, int i)
 {
     if (tmp->map[i+1] == ' ' || tmp->map[i-1] == ' ' || tmp->map[i+1] == '\0')

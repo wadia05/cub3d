@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/11/15 11:12:13 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:23:03 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct map_s
 {
     map_list_t *map_data;
     bool  map_str;
+    bool  map_new_line;
     char *no;
     char *so;
     char *we;
@@ -73,6 +74,11 @@ typedef struct map_s
     color_t *c_color;
 
 } map_t;
+
+
+
+int player_check(map_list_t *hd);
+int parse_line_maps(map_t *stc);
 map_list_t *add_map_list(map_list_t *head, char *map);
 int word_count(char **str);
 int validate_texture_path(char *path, char *name);
@@ -82,8 +88,8 @@ int color_erorr(char *str);
 void free_split(char **split);
 int parse_color(char *line, color_t *color);
 void trim_end(char *str);
+void check_current_positions(map_list_t *tmp, int i);
 void check_adjacent_positions(map_list_t *tmp, int i);
-void check_current_position(map_list_t *tmp, int i);
 int player_check(map_list_t *hd);
 void remove_newline(char *line);
 int print_error(char *str);

@@ -92,45 +92,50 @@ int parse_texture_line(map_t *stc, char **tokens) {
     }
 
 
- int parse_line(map_t *stc, char *line) {
+int parse_line(map_t *stc, char *line) {
     int ret = 0;
     if (!stc || !line) {
         return print_error("NULL pointer in parse_line");
     }
-    if(stc->map_str == false)
+
+    remove_newline(line);
+    trim_end(line);
+
+    if ( line[0] == '\0' && line[1] == '\0' && stc->map_str == true)
     {
-        remove_newline(line);
-        trim_end(line);
+        write(1,"helooooo",9);
+        stc->map_data = add_map_list(stc->map_data, "\n");
     }
 
     char **tokens = ft_split(line, ' ');
-    if (!tokens) return print_error("Memory allocation failed");
+    if (!tokens) 
+        return print_error("Memory allocation failed");
 
     if (tokens[0]) {
-        // printf("Parsing token: %s\n", tokens[0]);  // Debug print
         if (ft_strncmp(tokens[0], "NO", 2) == 0 || ft_strncmp(tokens[0], "SO", 2) == 0 ||
             ft_strncmp(tokens[0], "WE", 2) == 0 || ft_strncmp(tokens[0], "EA", 2) == 0) {
-            if (stc->map_str == true)
-            {
-                print_error ("map is not in the end yaaaae \n");
-            }
-            ret = parse_texture_line(stc, tokens);
-            }
-            else if (ft_strncmp(tokens[0], "F", 1) == 0 || ft_strncmp(tokens[0], "C", 1) == 0) {
-                ret = parse_color_line(stc, tokens, line);
-            } else if (is_char_here(line, "01WSEN")) {
-                stc->map_str = true;
-                if (!is_char_here(line, "01WSEN \t\n"))
-                    ret = print_error("Invalid character in map");
-                // Map line handling
-                stc->map_data = add_map_list(stc->map_data,line);
+            if (stc->map_str == true) {
+                ret = print_error("Map is not at the end");
             } else {
-                ret = print_error("Invalid identifier");
+                ret = parse_texture_line(stc, tokens);
             }
+        } else if (ft_strncmp(tokens[0], "F", 1) == 0 || ft_strncmp(tokens[0], "C", 1) == 0) {
+            ret = parse_color_line(stc, tokens, line);
+        } else if (is_char_here(line, "01WSEN")) {
+            stc->map_str = true;
+            if (!is_char_here(line, "01WSEN \t")) {
+                ret = print_error("Invalid character in map");
+            } else {
+                stc->map_data = add_map_list(stc->map_data, line);
+            }
+        } else {
+            ret = print_error("Invalid identifier");
         }
-        free_split(tokens);
-        return ret;
     }
+
+    free_split(tokens);
+    return ret;
+}
 
     void close_file(int file) {
         char *line;
@@ -171,11 +176,16 @@ int main(int ac, char **av) {
     if (stc->no == NULL || stc->we == NULL || stc->so == NULL || stc->ea == NULL)
          print_error("texture missing yaaa <");
     //...............   map_parse .................//
+
+    if(parse_line_maps (stc) != 0){    return 0;}
+    
     map_list_t *current = stc->map_data;
+
     while (current != NULL) {
-        printf("Map: %s\n", current->map);
+        printf("Map: |%s|\n", current->map);
         current = current->next;
     }
+
 
     // if (parse_line_maps(stc, av[1]) != 0);
     //     return (1);
