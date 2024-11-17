@@ -3,8 +3,15 @@
 
 void free_split(char **split)
 {
-    for (int i = 0; split[i]; i++)
+    if (!split)
+        return;
+        
+    int i = 0;
+    while (split[i])
+    {
         free(split[i]);
+        i++;
+    }
     free(split);
 }
 

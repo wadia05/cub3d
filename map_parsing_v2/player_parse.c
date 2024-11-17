@@ -28,12 +28,10 @@ int find_player(map_list_t *ply)
 
         if (ply->map[i] >= 'A' && ply->map[i] <= 'Z')
         {
-            print_error(ply->map);
-            write(1, "\n", 1);
+            // print_error(ply->map);
+            // write(1, "\n", 1);
             if (is_valid_alpha(ply->map[i]) != 0)
-            {
-                exit(1);
-            }
+                free_at_exit();
             check_current_positions(ply, i);
             check_adjacent_positions(ply , i);
             ply_offset++;
@@ -41,7 +39,8 @@ int find_player(map_list_t *ply)
         else
         {
             print_error("player character wrong 'W E S N'\n");
-            exit(1);
+            free_at_exit();
+            // exit(1);
         }
         i++;
     }
@@ -58,7 +57,8 @@ int player_check(map_list_t *hd)
         if (ply_offset > 1)
         {
             print_error("too many players in map");
-            exit(1);
+            free_at_exit();
+            // exit(1);
         }
         tmp = tmp->next;
     }
@@ -66,7 +66,8 @@ int player_check(map_list_t *hd)
     if (ply_offset == 0)
     {
         print_error("no player in map\n");
-        exit(1);
+        free_at_exit();
+        // exit(1);
     }
 
     return 0;

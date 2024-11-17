@@ -11,12 +11,13 @@ SRC = \
 	map_parsing_v2/louding_maps.c\
 	map_parsing_v2/map_parsing.c\
 	map_parsing_v2/player_parse.c\
+	map_parsing_v2/free_at_exit.c\
 	# map_parsing/map_parsing.c \
 	# map_parsing/player_parse.c
 	# mandatory/main.c
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 AR = ar rcs
 OBJ = $(SRC:.c=.o)
 MLX = "./MLX42/build/libmlx42.a"

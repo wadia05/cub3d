@@ -19,6 +19,7 @@ map_list_t *create_map_list(char *map)
     new->prev = NULL;
     return (new);
 }
+
 map_list_t *add_map_list(map_list_t *head, char *map)
 {
     map_list_t *new = create_map_list(map);

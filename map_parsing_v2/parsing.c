@@ -164,7 +164,7 @@ int main(int ac, char **av) {
         // printf ("%s",line);
         if (parse_line(stc, line)) {
             free(line);
-            close(file);            // Directly close file on error
+            close_file(file);            // Directly close file on error
             free_all_allocate();     // Free all allocations on error
             // printf ("lolooooo\n");
             return 1;
@@ -190,7 +190,7 @@ int main(int ac, char **av) {
     // if (parse_line_maps(stc, av[1]) != 0);
     //     return (1);
     // Clean up and close resources after all lines are read
-    close(file);
+    close_file(file);
     free_all_allocate();
     return 0;
 }

@@ -2,9 +2,9 @@ NO test.png
 SO test.png
 
 F 20,            25    ,20 
-WE test.png
 
-C 200,  200,   20
+WE test.png
+C 200,  200,,,
 EA test.png
 
 111    
@@ -12,7 +12,7 @@ EA test.png
 101
 101
 101
- 111
+111
 111   111111       
 1111   10001
 101    11111

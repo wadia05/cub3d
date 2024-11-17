@@ -6,7 +6,7 @@
 /*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/11/16 20:23:03 by mole_pc          ###   ########.fr       */
+/*   Updated: 2024/11/17 10:06:30 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct map_s
 } map_t;
 
 
-
+void free_at_exit();
 int player_check(map_list_t *hd);
 int parse_line_maps(map_t *stc);
 map_list_t *add_map_list(map_list_t *head, char *map);
