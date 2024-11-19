@@ -1,49 +1,6 @@
 #include "cub3d.h"
 
-typedef struct ray_s
-{
-    //--------- horizontal -----------
-    int r;                  // Ray counter
-    int mx, my, mp;         // Map grid coordinates and position
-    int dof;                // Depth of field
-    float rx, ry;           // Ray position
-    float ra;               // Ray angle
-    float xo, yo;           // X and Y offsets
-    float aTan; 
 
-    //--------- vertitcal -----------
-    float vtan;
-    float distH;
-    float xH;
-    float yH;
-    float distV;
-    float dist;
-    float xV;
-    float yV;
-
-
-} ray_t;
-
-typedef struct cub3d_s
-{
-    float x;         // Player's x-coordinate
-    float y;         // Player's y-coordinate
-    float xdx;       // Player's direction vector x-component
-    float ydy;       // Player's direction vector y-component
-    float angle;     // Player's current angle
-
-    int map[8][8];   // 2D map (walls and empty spaces)
-    int map_x;       // Number of columns in the map
-    int map_y;       // Number of rows in the map
-    int map_unit;    // Size of each square in the map (e.g., 64)
-
-    float pa;
-    int fov;         // Field of view (e.g., 60 degrees)
-    int num_rays;    // Number of rays to cast (e.g., 60)
-    ray_t *ray;
-    mlx_t *win;      // MiniLibX window
-    mlx_image_t *img; // MiniLibX image to draw on
-} cub3d_t;
 
 float dist(float ax, float ay, float bx, float by){
     return (sqrt ((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
@@ -239,10 +196,10 @@ int draw_plyr(mlx_image_t *img, int x, int y, float angle)
     int j = 0;
     
     // Draw 4x4 pixel square for the player
-    while (i < 4)
+    while (i < PLAYER_SIZE)
     {
         j = 0;
-        while (j < 4)
+        while (j < PLAYER_SIZE)
         {
             mlx_put_pixel(img, x + i, y + j, 0x00FF00FF); // Green color
             j++;
@@ -254,11 +211,11 @@ int draw_plyr(mlx_image_t *img, int x, int y, float angle)
     int line_length = 20;
 
     // Calculate the end point of the direction line
-    int x_end = x + 2 + (int)(line_length * cos(angle)); // x + 2 to start from the center of the player
-    int y_end = y + 2 + (int)(line_length * sin(angle)); // y + 2 to start from the center of the player
+    int x_end = x + 4 + (int)(line_length * cos(angle)); // x + 4 to start from the center of the player
+    int y_end = y + 4 + (int)(line_length * sin(angle)); // y + 4 to start from the center of the player
 
     // Draw the direction line (white color)
-    draw_line(img, x + 2, y + 2, x_end, y_end, 0xFFFFFFFF);
+    draw_line(img, x + 4, y + 4, x_end, y_end, 0xFFFFFFFF);
 
     return 0;
 }
@@ -294,12 +251,41 @@ int draw(cub3d_t *cub3d)
     draw_plyr(cub3d->img, cub3d->x, cub3d->y, cub3d->angle);
     return (0);
 }
+int check_mov(int x, int y, cub3d_t *cub)
+{
+    int i;
+    int j;
 
+    int map_row;
+    int map_col;
+
+    i = 0;
+    while(i < PLAYER_SIZE) 
+    {
+        j = 0;
+        while(j < PLAYER_SIZE) 
+        {
+            map_row = (x - PLAYER_SIZE/2 + i) / cub->map_unit;
+            map_col = (y - PLAYER_SIZE/2 + j) / cub->map_unit;
+            if (map_row >= 0 && map_row < 16 && map_col >= 0 && map_col < 16) 
+            {
+                if (cub->map[map_row][map_col] == 1) 
+                    return (1);
+            }
+            j++;
+        }
+        i++;
+    }
+    return 0;
+}
 void ft_hook(void* param)
 {
     cub3d_t* cub3d = param;
     float speed = 2.0f;  // Player movement speed
     float rotation_speed = 0.05f;  // Player rotation speed
+    int check;
+    float x = 0.0;
+    float y = 0.0;
 
     // Close window if escape key is pressed
     if (mlx_is_key_down(cub3d->win, MLX_KEY_ESCAPE))
@@ -308,16 +294,16 @@ void ft_hook(void* param)
     // Move forward
     if (mlx_is_key_down(cub3d->win, MLX_KEY_UP))
     {
-        cub3d->x += cos(cub3d->angle) * speed;
-        cub3d->y += sin(cub3d->angle) * speed;
-		printf("x :%f y :%f angle :%f\n", cub3d->x, cub3d->y,cub3d->angle);
+        x += cos(cub3d->angle) * speed;
+        y += sin(cub3d->angle) * speed;
+		printf("x :%f y :%f angle :%f\n", x, y,cub3d->angle);
     }
 
     // Move backward
     if (mlx_is_key_down(cub3d->win, MLX_KEY_DOWN))
     {
-        cub3d->x -= cos(cub3d->angle) * speed;
-        cub3d->y -= sin(cub3d->angle) * speed;
+        x -= cos(cub3d->angle) * speed;
+        y -= sin(cub3d->angle) * speed;
 
     }
     // Rotate left (counter-clockwise)
@@ -345,6 +331,12 @@ void ft_hook(void* param)
     }
 
     // Redraw the scene after movement/rotation
+    check = check_mov(x , y, cub3d);
+    if(check == 0)
+    {
+        cub3d->x = x;
+        cub3d->y = y;
+    }
     draw(cub3d);
     draw_rays(cub3d);
 }

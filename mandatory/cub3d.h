@@ -30,6 +30,8 @@
 # define GREEN "\033[1;32m"
 # define YELLOW "\033[1;33m"
 # define RESET "\033[0m"
+# define PLAYER_SIZE 8
+
 
 # define WIDTH 1024
 # define HEIGHT 512
@@ -37,6 +39,51 @@
 # define P1 PI/2
 # define P2 3*PI/2
 # define DR 0.0174533
+
+typedef struct ray_s
+{
+    //--------- horizontal -----------
+    int r;                  // Ray counter
+    int mx, my, mp;         // Map grid coordinates and position
+    int dof;                // Depth of field
+    float rx, ry;           // Ray position
+    float ra;               // Ray angle
+    float xo, yo;           // X and Y offsets
+    float aTan; 
+
+    //--------- vertitcal -----------
+    float vtan;
+    float distH;
+    float xH;
+    float yH;
+    float distV;
+    float dist;
+    float xV;
+    float yV;
+
+
+} ray_t;
+
+typedef struct cub3d_s
+{
+    float x;         // Player's x-coordinate
+    float y;         // Player's y-coordinate
+    float xdx;       // Player's direction vector x-component
+    float ydy;       // Player's direction vector y-component
+    float angle;     // Player's current angle
+
+    int map[8][8];   // 2D map (walls and empty spaces)
+    int map_x;       // Number of columns in the map
+    int map_y;       // Number of rows in the map
+    int map_unit;    // Size of each square in the map (e.g., 64)
+
+    float pa;
+    int fov;         // Field of view (e.g., 60 degrees)
+    int num_rays;    // Number of rays to cast (e.g., 60)
+    ray_t *ray;
+    mlx_t *win;      // MiniLibX window
+    mlx_image_t *img; // MiniLibX image to draw on
+} cub3d_t;
 
 typedef struct map_list_s
 {
