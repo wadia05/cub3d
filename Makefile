@@ -1,53 +1,30 @@
 NAME = cub3d
 HDER = mandatory/cub3d.h
-SRC = \
-	track_memory/memory_tracker.c \
-	map_parsing_v2/parsing.c \
-	map_parsing_v2/color_parse.c\
-	GET_NEXT_LINE_42/get_next_line.c \
-	GET_NEXT_LINE_42/get_next_line_utils.c \
-	map_parsing_v2/tools.c\
-	map_parsing_v2/color_tools.c\
-	map_parsing_v2/louding_maps.c\
-	map_parsing_v2/map_parsing.c\
-	map_parsing_v2/player_parse.c\
-	map_parsing_v2/free_at_exit.c\
-	mandatory/main.c
-	# map_parsing/map_parsing.c \
-	# map_parsing/player_parse.c
-
+SRC = mandatory/main.c
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-AR = ar rcs
+CFLAGS = -Wall -Wextra -Werror 
+# AR = ar rcs
 OBJ = $(SRC:.c=.o)
-MLX = "./MLX42/build/libmlx42.a"
-LIBFT_DIR := ./libft_42
-LIBFT := $(LIBFT_DIR)/libft.a
+MLX = "./includes/MLX42/libmlx42.a"
+# LIBFT_DIR := ./libft_42
+# LIBFT := $(LIBFT_DIR)/libft.a
 
-# linux
-# LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
-#MAC
-LDFLAGS = -O3 -Iinclude  -L"/Users/abenchel/.brew/"
+LDFLAGS = -O3 -Iinclude  -lglfw -L"/Users/abenchel/.brew/opt/glfw/lib"
 FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(LIBFT) $(NAME)
 
-$(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR)
-
-$(NAME): $(OBJ) $(HDER) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) $(MLX) $(LIBFT) $(LDFLAGS) $(FRAMEWORKS) -o $(NAME)
+$(NAME): $(OBJ) $(HDER) 
+	$(CC) $(CFLAGS) $(OBJ) $(MLX) $(LDFLAGS) $(FRAMEWORKS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -Iinclude -c $< -o $@
 
 clean:
-	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -f $(OBJ)
 
 fclean: clean
-	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME) $(NAME_BONUS)
+	rm -f $(NAME)
 
 re: fclean all
 

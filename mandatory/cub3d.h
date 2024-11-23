@@ -13,8 +13,12 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-// # include "../MLX42/include/MLX42/MLX42.h"
-# include "../MLX42/include/MLX42/MLX42.h"
+#include "/Users/abenchel/Desktop/cub3d/includes/MLX42/MLX42.h"
+// #include "/Users/abenchel/Desktop/cub3d/includes/MLX42/MLX42_Int.h"
+#include "/Users/abenchel/Desktop/cub3d/includes/MLX42/MLX42_Input.h"
+// # include "../includes/MLX42/MLX42_Input.h"
+// # include "../includes/MLX42/MLX42_Int.h"
+// # include "../includes/MLX42/MLX42.h"
 # include "../GET_NEXT_LINE_42/get_next_line.h"
 #include "../track_memory/memory_tracker.h"
 # include "../libft_42/libft.h"
@@ -39,6 +43,13 @@
 # define P1 PI/2
 # define P2 3*PI/2
 # define DR 0.0174533
+
+typedef struct cordwal
+{
+    float x;
+    float y;
+    float distance;
+}cordwal_t;
 
 typedef struct ray_s
 {
@@ -70,7 +81,8 @@ typedef struct cub3d_s
     float y;         // Player's y-coordinate
     float xdx;       // Player's direction vector x-component
     float ydy;       // Player's direction vector y-component
-    float angle;     // Player's current angle
+    float angle;    // Player's current angle
+    int wall[3][1000];
 
     int map[8][8];   // 2D map (walls and empty spaces)
     int map_x;       // Number of columns in the map
