@@ -173,6 +173,10 @@ float dist(float ax, float ay, float bx, float by){
 //     }
 // }
 
+double dist(float ax, float ay, float bx, float by){
+    return (sqrt ((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
+}
+
 double casthorizontal_ray(cub3d_t *cub)
 {
     double ray_angle = cub->angle;
@@ -191,6 +195,29 @@ double casthorizontal_ray(cub3d_t *cub)
 		else 
 			y_step = -cub->map_unit;
 		x_step = y_step / tang(ray_angle);
+		y += y_step;
+		x += x_step;
+	}
+	return dist(cub->x, cub->y, x, y);
+}
+double castvertical_ray(cub3d_t *cub)
+{
+	double ray_angle = cub->angle;
+	int is_ray_facing_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
+	int is_ray_facing_left = !is_ray_facing_right;
+
+	double y, x; // First horizontal intersectionhh 
+	double y_step, x_step;
+	x = cub->x - (int)(cub->x/ cub->map_unit) * cub->map_unit; 
+	y = x * tang(ray_angle);
+
+	while(cub->map[ (int)(x / cub->map_unit)][(int)(y / cub->map_unit)] != 1)
+	{
+		if(is_ray_facing_right)
+			x_step = cub->map_unit;
+		else 
+			x_step = -cub->map_unit;
+		y_step = x_step * tang(ray_angle);
 		y += y_step;
 		x += x_step;
 	}
