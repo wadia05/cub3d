@@ -154,9 +154,37 @@ float dist(float ax, float ay, float bx, float by){
 //     }
 //     return 0;
 // }
-int **cordonne_wall(cub3d_t *cub)
+// int **cordonne_wall(cub3d_t *cub)
+// {
+//     float x = cub->x;
+//     float y = cub->y;
+//     float x_new = x + 32;
+//     float x_new = x + 32;
+
+
+//     int **cor = malloc((sizeof *) sizeof(int) * 1000)
+//     if(!cor)
+//     {
+//         return NULL;
+//     }
+//     while(cub->map[(int)(x / 64)][(int)(y / 64)] == 0)
+//     {
+//         x +=
+//     }
+// }
+
+double casthorizontal_ray(cub3d_t *cub)
 {
-    float x = 
+    double ray_angle = cub->angle;
+	int is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
+    int is_ray_facing_up = !is_ray_facing_down;
+
+    double y, x; // First horizontal intersectionhh 
+    double y_step, x_step;
+	y = cub->y - (int)(cub->y/ cub->map_unit) * cub->map_unit; 
+	x = y / tang(ray_angle);
+
+	while()
 }
 int draw_moraba3(int x, int y, int color, cub3d_t *cub)
 {
@@ -337,6 +365,7 @@ void ft_hook(void* param)
         x += cos(cub3d->angle) * speed;
         y += sin(cub3d->angle) * speed;
 		printf("x :%f y :%f angle :%f\n", x, y,cub3d->angle);
+		// printf("meeeeee%f\n", cub3d->y - (int)(cub3d->y / cub3d->map_unit) * cub3d->map_unit);
     }
     if (mlx_is_key_down(cub3d->win, MLX_KEY_S))
     {
