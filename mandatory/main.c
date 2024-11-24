@@ -184,7 +184,17 @@ double casthorizontal_ray(cub3d_t *cub)
 	y = cub->y - (int)(cub->y/ cub->map_unit) * cub->map_unit; 
 	x = y / tang(ray_angle);
 
-	while()
+	while(cub->map[ (int)(x / cub->map_unit)][(int)(y / cub->map_unit)] != 1)
+	{
+		if(is_ray_facing_down)
+			y_step = cub->map_unit;
+		else 
+			y_step = -cub->map_unit;
+		x_step = y_step / tang(ray_angle);
+		y += y_step;
+		x += x_step;
+	}
+	return dist(cub->x, cub->y, x, y);
 }
 int draw_moraba3(int x, int y, int color, cub3d_t *cub)
 {
