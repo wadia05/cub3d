@@ -2,9 +2,6 @@
 
 
 
-float dist(float ax, float ay, float bx, float by){
-    return (sqrt ((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
-}
 
 // int draw_rays(cub3d_t *cub)
 // {
@@ -180,49 +177,227 @@ double dist(float ax, float ay, float bx, float by){
 double casthorizontal_ray(cub3d_t *cub)
 {
     double ray_angle = cub->angle;
-	int is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
-    int is_ray_facing_up = !is_ray_facing_down;
+    int is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
+    double y, x;
+    double y_step = 0;
+    double x_step = 0;
 
-    double y, x; // First horizontal intersectionhh 
-    double y_step, x_step;
-	y = cub->y - (int)(cub->y/ cub->map_unit) * cub->map_unit; 
-	x = y / tang(ray_angle);
+    // Ensure starting position is correct
+    y = cub->y - (int)(cub->y / cub->map_unit) * cub->map_unit;
+    x = cub->x;
 
-	while(cub->map[ (int)(x / cub->map_unit)][(int)(y / cub->map_unit)] != 1)
-	{
-		if(is_ray_facing_down)
-			y_step = cub->map_unit;
-		else 
-			y_step = -cub->map_unit;
-		x_step = y_step / tang(ray_angle);
-		y += y_step;
-		x += x_step;
-	}
-	return dist(cub->x, cub->y, x, y);
+    // Handle special cases for ray angles that are aligned to axis (0, PI/2, PI, 3PI/2)
+    if (ray_angle == 0 || ray_angle == PI) 
+    {
+        y = cub->y;  // Ray is purely horizontal
+        if (ray_angle == 0) {
+            x_step = cub->map_unit;  // Moving right
+        } else {
+            x_step = -cub->map_unit; // Moving left
+        }
+        y_step = 0;  // No vertical movement
+    } 
+    else if (ray_angle == P1 || ray_angle == 3 * P1) 
+    {
+        x = cub->x;  // Ray is purely vertical
+        if (ray_angle == P1) {
+            y_step = -cub->map_unit; // Moving up
+        } else {
+            y_step = cub->map_unit; // Moving down
+        }
+        x_step = 0;  // No horizontal movement
+    } 
+    else 
+    {
+        // General case for non-aligned angles
+        if (ray_angle < PI / 2 || (ray_angle > PI && ray_angle < 3 * PI / 2)) {
+            // If ray is facing down (positive y direction), set y_step accordingly
+            y_step = is_ray_facing_down ? cub->map_unit : -cub->map_unit;
+        }
+
+        // Prevent issues with tan(ray_angle) being undefined for vertical angles
+        if (fabs(cos(ray_angle)) < 0.0001) {
+            // Angle is close to 90 or 270 degrees, avoid division by zero
+            x_step = 0;
+        } else {
+            // General case, calculate x_step based on y_step and the tangent of the angle
+            x_step = y_step / tan(ray_angle);
+        }
+    }
+
+    // Cast the ray while it's not hitting a wall (map value is not 1)
+    while (cub->map[(int)((x) / cub->map_unit)][(int)((y) / cub->map_unit)] != 1) 
+    {
+        y += y_step;
+        x += x_step;
+
+        // Ensure we don't end up moving outside the map bounds or encountering invalid grid cells
+        if (x < 0 || x >= 512 || y < 0 || y >= 512) {
+            break;  // Ray has gone out of bounds
+        }
+    }
+
+    // Store the result of the raycast
+    cub->ray->xH = x;
+    cub->ray->yH = y;
+    cub->ray->distH = dist(cub->x, cub->y, x, y);  // Calculate the distance from the player to the hit point
+
+    return cub->ray->distH;
 }
+
+
+// double casthorizontal_ray(cub3d_t *cub)
+// {
+//     double ray_angle = cub->angle;
+// 	int is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
+//     double	y;
+// 	double	x;
+//     y = cub->y - (int)(cub->y / cub->map_unit) * cub->map_unit;
+// 	x = cub->x;
+//     double y_step = 0;
+// 	double x_step = 0;
+// 	if (ray_angle == 0 || ray_angle == PI) 
+// 	{
+// 		y = cub->y;
+// 		if (ray_angle == 0)
+// 		    x_step = cub->map_unit;
+// 		else
+// 		    x_step = -cub->map_unit;
+//     } 
+// 	else if (ray_angle == P1 || ray_angle == 3 * P1) 
+// 	{
+//         if (ray_angle == P1)
+//             y_step = -cub->map_unit;
+//         else
+//             y_step = cub->map_unit;
+//     } 
+// 	else 
+// 	{
+//         x = y / tan(ray_angle);
+//         if (is_ray_facing_down)
+//             y_step = cub->map_unit;
+//         else
+//             y_step = -cub->map_unit;
+//         x_step = y_step / tan(ray_angle);
+//     }
+// 	while(cub->map[ (int)((cub->x - x) / cub->map_unit)][(int)((cub->y - y) / cub->map_unit)] != 1)
+// 	{
+// 		y += y_step;
+// 		x += x_step;
+// 	}
+// 	cub->ray->xH = x;
+// 	cub->ray->yH = y;
+// 	cub->ray->distH = dist(cub->x, cub->y, x, y);
+// 	return (cub->ray->distH);
+// }
 double castvertical_ray(cub3d_t *cub)
 {
 	double ray_angle = cub->angle;
-	int is_ray_facing_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
-	int is_ray_facing_left = !is_ray_facing_right;
-
-	double y, x; // First horizontal intersectionhh 
-	double y_step, x_step;
+	int is_ray_facing_right = ray_angle < P1 || ray_angle > 3 * P1;
+	double	y;
+	double	x;
 	x = cub->x - (int)(cub->x/ cub->map_unit) * cub->map_unit; 
-	y = x * tang(ray_angle);
+	// y = cub->y;
+	y = x * tan(ray_angle);
+	double y_step = 0;
+	double x_step = 0;
 
-	while(cub->map[ (int)(x / cub->map_unit)][(int)(y / cub->map_unit)] != 1)
+	if (ray_angle == 0 || ray_angle == PI) 
+    {
+        if (ray_angle == 0)
+            x_step = cub->map_unit;
+        else
+            x_step = -cub->map_unit;
+    } 
+    else if (ray_angle == P1 || ray_angle == 3 * P1) 
+    {
+        x = cub->x;
+        if (ray_angle == P1)
+            y_step = -cub->map_unit;
+        else
+            y_step = cub->map_unit;
+    } 
+    else 
+    {
+        if (is_ray_facing_right)
+            x_step = cub->map_unit;
+        else
+            x_step = -cub->map_unit;
+        y_step = x_step * tan(ray_angle);
+    }
+	while(cub->map[(int)((x) / cub->map_unit)][(int)((y) / cub->map_unit)] != 1)
 	{
-		if(is_ray_facing_right)
-			x_step = cub->map_unit;
-		else 
-			x_step = -cub->map_unit;
-		y_step = x_step * tang(ray_angle);
+
+		// y_step = x_step * tan(ray_angle);
 		y += y_step;
 		x += x_step;
 	}
-	return dist(cub->x, cub->y, x, y);
+	cub->ray->xV = x;
+	cub->ray->yV = y;
+	cub->ray->distV = dist(cub->x, cub->y, x, y);
+	return (cub->ray->distV);
 }
+double cast_ray(cub3d_t *cub)
+{
+	double distH = casthorizontal_ray(cub);
+	// printf("ddcdc\n");
+	// printf("%f", cub->ray->xV);
+	double distV = castvertical_ray(cub);
+	if (distH < distV)
+	{
+		cub->ray->dist = distH;
+		cub->ray->rx = cub->ray->xH;
+		cub->ray->ry = cub->ray->yH;
+		cub->ray->is_hori = 1;
+	}
+	else
+	{
+		cub->ray->dist = distV;
+		cub->ray->rx = cub->ray->xV;
+		cub->ray->ry = cub->ray->yV;
+		cub->ray->is_hori = 0;
+	}
+	return (cub->ray->dist);
+}
+void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color)
+{
+    int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+    int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
+    int err = dx + dy, e2;
+
+    while (1)
+    {
+        mlx_put_pixel(img, x0, y0, color);
+        if (x0 == x1 && y0 == y1) break;
+        e2 = 2 * err;
+        if (e2 >= dy) { err += dy; x0 += sx; }
+        if (e2 <= dx) { err += dx; y0 += sy; }
+    }
+}
+void draw_rays(cub3d_t *cub)
+{
+	int i = -1;
+	float start_angle = cub->angle - (DR*30);
+	if (start_angle < 0) 
+		start_angle += 2 * PI;
+	if (start_angle > 2 * PI)
+		start_angle -= 2 * PI;
+	while (++i < cub->num_rays)
+	{
+		cast_ray(cub);
+		// printf("ssscs\n");
+		// printf("check %f\n" , cub->ray->distH);
+
+		draw_line(cub->img, (int)cub->x + 2, (int)cub->y + 2, (int)cub->ray->rx, (int)cub->ray->ry, 0xFFFF00FF);
+		// start_angle += DR;
+		if (start_angle < 0)
+			start_angle += 2 * PI; 
+		if (start_angle > 2 * PI)
+			start_angle -= 2 * PI;
+	}
+	return ;
+}
+
 int draw_moraba3(int x, int y, int color, cub3d_t *cub)
 {
     int i = 0;
@@ -242,21 +417,6 @@ int draw_moraba3(int x, int y, int color, cub3d_t *cub)
         i++;
     }
     return 0;
-}
-void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color)
-{
-    int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
-    int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
-    int err = dx + dy, e2;
-
-    while (1)
-    {
-        mlx_put_pixel(img, x0, y0, color);
-        if (x0 == x1 && y0 == y1) break;
-        e2 = 2 * err;
-        if (e2 >= dy) { err += dy; x0 += sx; }
-        if (e2 <= dx) { err += dx; y0 += sy; }
-    }
 }
 
 // void	draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color)
@@ -401,7 +561,7 @@ void ft_hook(void* param)
     {
         x += cos(cub3d->angle) * speed;
         y += sin(cub3d->angle) * speed;
-		printf("x :%f y :%f angle :%f\n", x, y,cub3d->angle);
+		// printf("x :%f y :%f angle :%f check %f\n", x, y,cub3d->angle, cub3d->ray->distH);
 		// printf("meeeeee%f\n", cub3d->y - (int)(cub3d->y / cub3d->map_unit) * cub3d->map_unit);
     }
     if (mlx_is_key_down(cub3d->win, MLX_KEY_S))
@@ -455,7 +615,7 @@ void ft_hook(void* param)
         cub3d->y = y;
     }
     draw(cub3d);
-    // draw_rays(cub3d);
+    draw_rays(cub3d);
 }
 
 int main()
@@ -465,12 +625,15 @@ int main()
     cub3d = malloc(sizeof(cub3d_t));
     if (cub3d == NULL)
         return (1);
-
+	cub3d->ray = malloc(sizeof(ray_t));
+	if (!cub3d->ray)
+		return (1);
     cub3d->map_unit = 64;
     cub3d->map_x = 8;
     cub3d->map_y = 8;
     cub3d->num_rays = 60;
     cub3d->fov = 60;
+	cub3d->num_rays = 1000;
 
 
     // Initialize map

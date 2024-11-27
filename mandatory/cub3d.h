@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/11/24 20:32:14 by abenchel         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:08:54 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct ray_s
     float dist;
     float xV;
     float yV;
+	int is_hori;
 
 
 } ray_t;
@@ -92,7 +93,7 @@ typedef struct cub3d_s
     float pa;
     int fov;         // Field of view (e.g., 60 degrees)
     int num_rays;    // Number of rays to cast (e.g., 60)
-    ray_t ray;
+    ray_t *ray;
     mlx_t *win;      // MiniLibX window
     mlx_image_t *img; // MiniLibX image to draw on
 } cub3d_t;

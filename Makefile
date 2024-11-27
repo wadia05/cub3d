@@ -2,7 +2,7 @@ NAME = cub3d
 HDER = mandatory/cub3d.h
 SRC = mandatory/main.c
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 # AR = ar rcs
 OBJ = $(SRC:.c=.o)
 MLX = "./includes/MLX42/libmlx42.a"
