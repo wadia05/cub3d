@@ -1,6 +1,6 @@
 NAME = cub3d
 HDER = mandatory/cub3d.h
-SRC = mandatory/main.c
+SRC = mandatory/main.c mandatory/draw_rays.c
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 # AR = ar rcs

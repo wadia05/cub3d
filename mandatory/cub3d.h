@@ -42,7 +42,9 @@
 # define PI 3.1415926535
 # define P1 PI/2
 # define P2 3*PI/2
-# define DR 0.0174533
+// # define DR 0.0174533
+# define DR 0.001047198
+
 
 typedef struct cordwal
 {
@@ -135,7 +137,10 @@ typedef struct map_s
 
 } map_t;
 
-
+double dist(float ax, float ay, float bx, float by);
+int init_ray(cub3d_t *cub);
+int draw_moraba3(int x, int y, int color, cub3d_t *cub);
+int draw_rays(cub3d_t *cub);
 void free_at_exit();
 int player_check(map_list_t *hd);
 int parse_line_maps(map_t *stc);
