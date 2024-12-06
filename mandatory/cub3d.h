@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/11/24 22:08:54 by abenchel         ###   ########.fr       */
+/*   Updated: 2024/12/07 00:21:33 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct cub3d_s
     float angle;    // Player's current angle
     int wall[3][1000];
 
-    int map[8][8];   // 2D map (walls and empty spaces)
+    int **map;   // 2D map (walls and empty spaces)
     int map_x;       // Number of columns in the map
     int map_y;       // Number of rows in the map
     int map_unit;    // Size of each square in the map (e.g., 64)
@@ -105,6 +105,8 @@ typedef struct map_list_s
     char *map;
     int length;
     int ws;
+	int width_x;
+	int high_y;
     struct map_list_s *next;
     struct map_list_s *prev;
 } map_list_t;
@@ -137,6 +139,8 @@ typedef struct map_s
 
 } map_t;
 
+void fill_maps(map_t *stc);
+map_t *parsing_first(int ac, char **av);
 double dist(float ax, float ay, float bx, float by);
 int init_ray(cub3d_t *cub);
 int draw_moraba3(int x, int y, int color, cub3d_t *cub);

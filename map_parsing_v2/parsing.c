@@ -145,6 +145,29 @@ int parse_line(map_t *stc, char *line) {
         close(file);
     }
 
+
+
+
+void fill_maps(map_t *stc)
+	{
+		map_list_t *current = stc->map_data;
+		int y_find = 0;
+		int x_find = 0;
+		while (current != NULL) {
+			printf("Map: |%s|\n", current->map);
+			printf("len = %d\n", current->length);
+			printf("ws = %d\n", current->ws);
+			if (current->length > x_find)
+				x_find = current->length;
+			y_find++;
+			current = current->next;
+		}
+
+		stc->map_data->width_x = x_find;
+		stc->map_data->high_y = y_find;       
+		return ;
+	}
+
 int main(int ac, char **av) {
     if (ac != 2) return print_error("Usage: ./cub3D map.cub");
 
@@ -194,4 +217,3 @@ int main(int ac, char **av) {
     free_all_allocate();
     return 0;
 }
-
