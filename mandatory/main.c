@@ -96,7 +96,6 @@ double cast_ray(cub3d_t *cub , double start_angle)
 		return (castvertical_ray(cub, start_angle));
 	else if(start_angle == P1 || start_angle == 3 * P1)
 		return (casthorizontal_ray(cub ,start_angle));
-	printf("ssssss\n");
 	double distH = casthorizontal_ray(cub ,start_angle);
 	double distV = castvertical_ray(cub, start_angle);
 	if (distH < distV)
@@ -335,17 +334,7 @@ int draw_plyr(mlx_image_t *img, int x, int y, float angle)
         i++;
     }
 
-    // Set the length of the direction line
     int line_length = 20;
-    // angle = angle - 0.25;
-    // if (angle < 0)
-    //         angle += 2 * PI;
-
-    // Calculate the end point of the direction line
-    // int x_end = x + 4 + (int)(line_length * cos(angle )); // x + 4 to start from the center of the player
-    // int y_end = y + 4 + (int)(line_length * sin(angle )); // y + 4 to start from the center of the player
-
-    // Draw the direction line (white color)
     for (int i = 0; i < line_length; i++) {
         int rotated_x = x + (  i) * cos((angle ));
         int rotated_y = y + (  i) * sin((angle ) );
@@ -387,6 +376,7 @@ int draw(cub3d_t *cub3d)
     draw_plyr(cub3d->img, cub3d->x, cub3d->y, cub3d->angle);
     return (0);
 }
+
 int check_mov(int x, int y, cub3d_t *cub)
 {
     int i;
@@ -521,7 +511,7 @@ int main()
     };
     cub3d->x = 160.0;
     cub3d->y = 160.0;
-    cub3d->angle = 0;
+    cub3d->angle = 0.0;
     cub3d->pa = 0.0;
     cub3d->xdx = cos(cub3d->angle) * 5;
     cub3d->ydy = sin(cub3d->angle) * 5;

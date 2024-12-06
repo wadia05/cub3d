@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:15:21 by abenchel          #+#    #+#             */
-/*   Updated: 2024/11/28 16:15:23 by abenchel         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:33:26 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int draw_rays(cub3d_t *cub)
     rays->xV = cub->x;
     rays->yV = cub->y;
 
-    float start_angle = cub->angle - (30 * DR);
+    float start_angle = cub->angle - (PI / 6);
     if (start_angle < 0) start_angle += 2 * PI;
     if (start_angle > 2 * PI) start_angle -= 2 * PI;
 

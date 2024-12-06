@@ -19,7 +19,7 @@ int check_frist_last(char *line)
         if (line[i] != '1'  && line[i] != ' ' && line[i] != '\t')
         { 
             free(line);
-            free_all_allocate();
+            free_all_axllocate();
             print_error("error frist and last line should be just");
             write (1,"2\n", 2);
             exit(1);
