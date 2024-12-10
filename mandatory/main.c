@@ -37,7 +37,7 @@ double casthorizontal_ray(cub3d_t *cub, double start_angle)
 	}
 	x_step = cub->map_unit / tan(ray_angle);
 	x = cub->x + (cub->y - y) / tan(ray_angle);
-	while(cub->map[(int)(x / cub->map_unit)][(int)(y / cub->map_unit)] == 0)
+	while(cub->map[(int)(x / cub->map_unit)][(int)(y / cub->map_unit)] == '0')
 	{
 		x += x_step;
 		y += y_step;
@@ -74,7 +74,7 @@ double	castvertical_ray(cub3d_t *cub, double start_angle)
 	y_step = x_step * tan(ray_angle);
 	int map_x = (int)(x / cub->map_unit);
 	int map_y = (int)(y / cub->map_unit);
-	while(cub->map[map_x][map_y] != 1)
+	while(cub->map[map_x][map_y] != '1')
 	{
 		cub->ray->rx = x;
 		cub->ray->ry = y;
@@ -319,6 +319,7 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color)
 // }
 int draw_plyr(mlx_image_t *img, int x, int y, float angle)
 {
+	// int player_size = 3;
     int i = - PLAYER_SIZE / 2 ;
     int j = - PLAYER_SIZE / 2 ;
     
@@ -361,10 +362,10 @@ int draw(cub3d_t *cub3d)
         x = 0;
         while (x < cub3d->map_x)
         {
-            if(cub3d->map[y][x] == 1)
-                draw_moraba3(x * cub3d->map_unit + 2, y * cub3d->map_unit, 0x990022FF, cub3d);
-            else
-                draw_moraba3(x * cub3d->map_unit, y * cub3d->map_unit, 0x002d44FF, cub3d);
+            if(cub3d->map[y][x] == '1')
+                draw_moraba3(x * cub3d->map_unit, y * cub3d->map_unit, 0xFF0000FF, cub3d);
+            if(cub3d->map[y][x] == '0')
+				draw_moraba3(x * cub3d->map_unit, y * cub3d->map_unit, 0x002d44FF, cub3d);
             x++;
         }
         y++;
@@ -393,7 +394,7 @@ int check_mov(int x, int y, cub3d_t *cub)
             map_col = (x  + j) / cub->map_unit;
             if (map_row >= 0 && map_row < cub->map_y  && map_col >= 0 && map_col < cub->map_x) 
             {
-                if (cub->map[map_row][map_col] == 1) 
+                if (cub->map[map_row][map_col] == '1') 
                     return (1);
             }
             j++;
@@ -478,109 +479,81 @@ void ft_hook(void* param)
     draw_rays(cub3d);
 }
 
+void init_player(cub3d_t *cub)
+{
+	int y;
+	int x;
+	y = 0;	
+	while (y < cub->map_y) 
+	{
+		x = 0;
+	    while (x < cub->map_x)
+		{
+			if(cub->map[y][x] != '0' && cub->map[y][x] != '1')
+			{
+		        if (cub->map[y][x] == 'W') 
+		            cub->angle = 0.0;
+				else if (cub->map[y][x] == 'N')
+					cub->angle = P1;
+				else if (cub->map[y][x] == 'S')
+					cub->angle = 3 * P1;
+				else if (cub->map[y][x] == 'E')
+					cub->angle = PI;
+				cub->x = x * cub->map_unit + cub->map_unit / 2;
+		        cub->y = y * cub->map_unit + cub->map_unit / 2;
+				cub->map[y][x] = '0';
+			}
+	        x++;
+	    }
+		y++;
+	}
+	return ;
+}
 void main2(map_list_t *stc)
 {
 	cub3d_t *cub3d = malloc(sizeof(cub3d_t));
-if (!cub3d)
-    return;
+	if (!cub3d)
+	    return;
 
-cub3d->ray = malloc(sizeof(ray_t));
-if (!cub3d->ray)
-    return;
-
-cub3d->map_unit = WIDTH / stc->width_x;
-cub3d->map_x = stc->width_x;
-cub3d->map_y = stc->high_y;
-cub3d->fov = 60;
-
-// Initialize map
-map_list_t *current = stc;
-cub3d->map = malloc(sizeof(char *) * stc->high_y);
-if (!cub3d->map)
-    return;
-
-for (int i = 0; i < stc->high_y; i++)
-{
-    cub3d->map[i] = malloc(sizeof(char) * (stc->width_x + 1)); // +1 for null terminator
-    if (!cub3d->map[i])
-        return;
-    ft_memset((void *)cub3d->map[i], 0, stc->width_x + 1); // Initialize including null terminator
-}
-
-int j = 0;
-while (current)
-{
-    for (int i = 0; i < stc->width_x && current->map[i]; i++)
-    {
-        cub3d->map[j][i] = current->map[i];
-    }
-    j++;
-    current = current->next;
-}
+	cub3d->ray = malloc(sizeof(ray_t));
+	if (!cub3d->ray)
+	    return;
+	if (stc->width_x > stc->high_y)
+		cub3d->map_unit = HEIGHT / stc->width_x;
+	else
+		cub3d->map_unit = HEIGHT / stc->high_y;
 	cub3d->map_x = stc->width_x;
 	cub3d->map_y = stc->high_y;
+	cub3d->fov = 60;
 
-// Debugging to ensure initialization is correct
-// for (int i = 0; i < stc->high_y; i++)
-// {
-//     printf("Row %d: %s\n", i, cub3d->map[i]);
-// }
+	// Initialize map
+	map_list_t *current = stc;
+	cub3d->map = malloc(sizeof(char *) * stc->high_y);
+	if (!cub3d->map)
+	    return;
 
-// Example to verify values
+	for (int i = 0; i < stc->high_y; i++)
+	{
+	    cub3d->map[i] = malloc(sizeof(char) * (stc->width_x + 1)); // +1 for null terminator
+	    if (!cub3d->map[i])
+	        return;
+	    ft_memset((void *)cub3d->map[i], 0, stc->width_x + 1); // Initialize including null terminator
+	}
 
-
-    // cub3d_t *cub3d = malloc(sizeof(cub3d_t));
-	// if (!cub3d)
-	// 	return ;
-	// cub3d->ray = malloc(sizeof(ray_t));
-	// if (!cub3d->ray)
-	// 	return ;
-    // cub3d->map_unit = WIDTH / stc->width_x;
-    // cub3d->map_x = stc->width_x;
-    // cub3d->map_y = stc->high_y;
-    // cub3d->fov = 60;
-
-    // // Initialize map
-	// map_list_t *current = stc;
-	// cub3d->map = malloc(sizeof(char *) * stc->high_y);
-	// if (!cub3d->map)
-	// return ;
-	// for (int i = 0; i < stc->high_y; i++)
-	// {
-	// 	cub3d->map[i] = malloc(sizeof(char) * (stc->width_x + 1));
-	// 	if (!cub3d->map[i])
-	// 		return ;
-	// }	
-	// int i = 0;
-	// while(cub3d->map[i])
-	// {
-	// 	ft_memset((void *)cub3d->map[i], 0, stc->width_x);
-	// 	i++;
-	// }
-	// int j = 0;
-	// while (current)
-	// {
-	// 	int i = 0;
-	// 	while (current->map[i])
-	// 	{
-	// 		cub3d->map[j][i] = current->map[i];
-	// 		i++;
-	// 	}
-	// 	j++;
-	// 	current = current->next;
-	// }
-
-	// printf("%c\n" , cub3d->map[1][0]);
-	// exit(1);
-    cub3d->x = 160.0;
-    cub3d->y = 160.0;
-    cub3d->angle = 0.0;
+	int j = 0;
+	while (current)
+	{
+	    for (int i = 0; i < stc->width_x && current->map[i]; i++)
+	    {
+	        cub3d->map[j][i] = current->map[i];
+	    }
+	    j++;
+	    current = current->next;
+	}
+	init_player(cub3d);
     cub3d->pa = 0.0;
     cub3d->xdx = cos(cub3d->angle) * 5;
     cub3d->ydy = sin(cub3d->angle) * 5;
-
-    // Copy the initial map to cub3d->map
-
 
     cub3d->win = mlx_init(WIDTH, HEIGHT, "cub3d", false);
     if (!cub3d->win)

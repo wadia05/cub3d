@@ -203,7 +203,7 @@ int main(int ac, char **av) {
     
     fill_maps(stc);
 	main2(stc->map_data);
-    close_file(file);
+    // close_file(file);
     // free_all_allocate();
     return 0;
 }

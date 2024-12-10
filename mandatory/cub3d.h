@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/07 05:07:00 by abenchel         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:41:00 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define GREEN "\033[1;32m"
 # define YELLOW "\033[1;33m"
 # define RESET "\033[0m"
-# define PLAYER_SIZE 8
+# define PLAYER_SIZE 2
 
 
 # define WIDTH 1024
