@@ -34,7 +34,6 @@ int validate_file_extension(char *ext)
 int word_count(char **str)
 {
     int i = 0;
-        printf("hello");
     while (str[i] != NULL)
     {
         i++;

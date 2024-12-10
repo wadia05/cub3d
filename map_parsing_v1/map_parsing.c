@@ -66,7 +66,6 @@ int check_zero(map_list_t *hd)
         {
             if (tmp->map[i] != '1' && tmp->map[i] != '0')
             {
-                printf("hello %c", tmp->map[i]);
                 print_error("map number not valid\n");
                 exit(1);
             }

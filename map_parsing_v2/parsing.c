@@ -103,7 +103,6 @@ int parse_line(map_t *stc, char *line) {
 
     if ( line[0] == '\0' && line[1] == '\0' && stc->map_str == true)
     {
-        write(1,"helooooo",9);
         stc->map_data = add_map_list(stc->map_data, "\n");
     }
 
@@ -162,9 +161,9 @@ void fill_maps(map_t *stc)
 			y_find++;
 			current = current->next;
 		}
-
 		stc->map_data->width_x = x_find;
 		stc->map_data->high_y = y_find;       
+
 		return ;
 	}
 
@@ -202,18 +201,9 @@ int main(int ac, char **av) {
 
     if(parse_line_maps (stc) != 0){    return 0;}
     
-    map_list_t *current = stc->map_data;
-
-    while (current != NULL) {
-        printf("Map: |%s|\n", current->map);
-        current = current->next;
-    }
-
-
-    // if (parse_line_maps(stc, av[1]) != 0);
-    //     return (1);
-    // Clean up and close resources after all lines are read
+    fill_maps(stc);
+	main2(stc->map_data);
     close_file(file);
-    free_all_allocate();
+    // free_all_allocate();
     return 0;
 }

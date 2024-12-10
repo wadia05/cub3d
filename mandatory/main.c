@@ -33,7 +33,7 @@ double casthorizontal_ray(cub3d_t *cub, double start_angle)
 	else
 	{
 		y_step = cub->map_unit;
-		y = floor(cub->y / cub->map_unit) * cub->map_unit + 64;
+		y = floor(cub->y / cub->map_unit) * cub->map_unit + cub->map_unit;
 	}
 	x_step = cub->map_unit / tan(ray_angle);
 	x = cub->x + (cub->y - y) / tan(ray_angle);
@@ -362,9 +362,7 @@ int draw(cub3d_t *cub3d)
         while (x < cub3d->map_x)
         {
             if(cub3d->map[y][x] == 1)
-            {
                 draw_moraba3(x * cub3d->map_unit + 2, y * cub3d->map_unit, 0x990022FF, cub3d);
-            }
             else
                 draw_moraba3(x * cub3d->map_unit, y * cub3d->map_unit, 0x002d44FF, cub3d);
             x++;
@@ -393,7 +391,7 @@ int check_mov(int x, int y, cub3d_t *cub)
         {
             map_row = (y  + i) / cub->map_unit;
             map_col = (x  + j) / cub->map_unit;
-            if (map_row >= 0 && map_row < 16 && map_col >= 0 && map_col < 16) 
+            if (map_row >= 0 && map_row < cub->map_y  && map_col >= 0 && map_col < cub->map_x) 
             {
                 if (cub->map[map_row][map_col] == 1) 
                     return (1);
@@ -480,79 +478,140 @@ void ft_hook(void* param)
     draw_rays(cub3d);
 }
 
-// int main(int ac, char **av)
+void main2(map_list_t *stc)
+{
+	cub3d_t *cub3d = malloc(sizeof(cub3d_t));
+if (!cub3d)
+    return;
+
+cub3d->ray = malloc(sizeof(ray_t));
+if (!cub3d->ray)
+    return;
+
+cub3d->map_unit = WIDTH / stc->width_x;
+cub3d->map_x = stc->width_x;
+cub3d->map_y = stc->high_y;
+cub3d->fov = 60;
+
+// Initialize map
+map_list_t *current = stc;
+cub3d->map = malloc(sizeof(char *) * stc->high_y);
+if (!cub3d->map)
+    return;
+
+for (int i = 0; i < stc->high_y; i++)
+{
+    cub3d->map[i] = malloc(sizeof(char) * (stc->width_x + 1)); // +1 for null terminator
+    if (!cub3d->map[i])
+        return;
+    ft_memset((void *)cub3d->map[i], 0, stc->width_x + 1); // Initialize including null terminator
+}
+
+int j = 0;
+while (current)
+{
+    for (int i = 0; i < stc->width_x && current->map[i]; i++)
+    {
+        cub3d->map[j][i] = current->map[i];
+    }
+    j++;
+    current = current->next;
+}
+	cub3d->map_x = stc->width_x;
+	cub3d->map_y = stc->high_y;
+
+// Debugging to ensure initialization is correct
+// for (int i = 0; i < stc->high_y; i++)
 // {
-// 	map_t *stc = parsing_first(ac, av);
-//     cub3d_t *cub3d = malloc(sizeof(cub3d_t));
-// 	if (!cub3d)
-// 		return 1;
-
-// 	cub3d->ray = malloc(sizeof(ray_t));
-// 	if (!cub3d->ray)
-// 		return (1);
-// 	exit(1);
-//     cub3d->map_unit = 64;
-//     cub3d->map_x = 8;
-//     cub3d->map_y = 8;
-//     cub3d->num_rays = 60;
-//     // cub3d->fov = 60;
-// 	cub3d->num_rays = 1000;
-
-
-//     // Initialize map
-//     int initial_map[8][8] = {
-//         {1,1,1,1,1,1,1,1},
-//         {1,0,0,0,1,0,0,1},
-//         {1,0,0,0,1,0,0,1},
-//         {1,0,0,0,1,0,0,1},
-//         {1,0,0,1,0,0,0,1},
-//         {1,0,1,1,1,1,1,1},
-//         {1,0,0,0,0,0,0,1},
-//         {1,1,1,1,1,1,1,1}
-//     };
-//     cub3d->x = 160.0;
-//     cub3d->y = 160.0;
-//     cub3d->angle = 0.0;
-//     cub3d->pa = 0.0;
-//     cub3d->xdx = cos(cub3d->angle) * 5;
-//     cub3d->ydy = sin(cub3d->angle) * 5;
-
-//     // Copy the initial map to cub3d->map
-//     for (int i = 0; i < 8; i++)
-//         for (int j = 0; j < 8; j++)
-//             cub3d->map[i][j] = initial_map[i][j];
-
-
-//     cub3d->win = mlx_init(WIDTH, HEIGHT, "cub3d", false);
-//     if (!cub3d->win)
-//     {
-//         free(cub3d);
-//         return (1);
-//     }
-
-//     cub3d->img = mlx_new_image(cub3d->win, WIDTH, HEIGHT);
-//     if (!cub3d->img)
-//     {
-//         mlx_terminate(cub3d->win);
-//         free(cub3d);
-//         return (1);
-//     }
-
-//     if (mlx_image_to_window(cub3d->win, cub3d->img, 0, 0) < 0)
-//     {
-//         mlx_delete_image(cub3d->win, cub3d->img);
-//         mlx_terminate(cub3d->win);
-//         free(cub3d);
-//         return (1);
-//     }
-
-//     mlx_loop_hook(cub3d->win, ft_hook, cub3d);
-//     mlx_loop(cub3d->win);
-
-//     // Cleanup
-//     mlx_delete_image(cub3d->win, cub3d->img);
-//     mlx_terminate(cub3d->win);
-//     free(cub3d);
-
-//     return (0);
+//     printf("Row %d: %s\n", i, cub3d->map[i]);
 // }
+
+// Example to verify values
+
+
+    // cub3d_t *cub3d = malloc(sizeof(cub3d_t));
+	// if (!cub3d)
+	// 	return ;
+	// cub3d->ray = malloc(sizeof(ray_t));
+	// if (!cub3d->ray)
+	// 	return ;
+    // cub3d->map_unit = WIDTH / stc->width_x;
+    // cub3d->map_x = stc->width_x;
+    // cub3d->map_y = stc->high_y;
+    // cub3d->fov = 60;
+
+    // // Initialize map
+	// map_list_t *current = stc;
+	// cub3d->map = malloc(sizeof(char *) * stc->high_y);
+	// if (!cub3d->map)
+	// return ;
+	// for (int i = 0; i < stc->high_y; i++)
+	// {
+	// 	cub3d->map[i] = malloc(sizeof(char) * (stc->width_x + 1));
+	// 	if (!cub3d->map[i])
+	// 		return ;
+	// }	
+	// int i = 0;
+	// while(cub3d->map[i])
+	// {
+	// 	ft_memset((void *)cub3d->map[i], 0, stc->width_x);
+	// 	i++;
+	// }
+	// int j = 0;
+	// while (current)
+	// {
+	// 	int i = 0;
+	// 	while (current->map[i])
+	// 	{
+	// 		cub3d->map[j][i] = current->map[i];
+	// 		i++;
+	// 	}
+	// 	j++;
+	// 	current = current->next;
+	// }
+
+	// printf("%c\n" , cub3d->map[1][0]);
+	// exit(1);
+    cub3d->x = 160.0;
+    cub3d->y = 160.0;
+    cub3d->angle = 0.0;
+    cub3d->pa = 0.0;
+    cub3d->xdx = cos(cub3d->angle) * 5;
+    cub3d->ydy = sin(cub3d->angle) * 5;
+
+    // Copy the initial map to cub3d->map
+
+
+    cub3d->win = mlx_init(WIDTH, HEIGHT, "cub3d", false);
+    if (!cub3d->win)
+    {
+        free(cub3d);
+        return ;
+    }
+
+    cub3d->img = mlx_new_image(cub3d->win, WIDTH, HEIGHT);
+    if (!cub3d->img)
+    {
+        mlx_terminate(cub3d->win);
+        free(cub3d);
+        return ;
+    }
+
+    if (mlx_image_to_window(cub3d->win, cub3d->img, 0, 0) < 0)
+    {
+        mlx_delete_image(cub3d->win, cub3d->img);
+        mlx_terminate(cub3d->win);
+        free(cub3d);
+        return ;
+    }
+
+    mlx_loop_hook(cub3d->win, ft_hook, cub3d);
+    mlx_loop(cub3d->win);
+
+    // Cleanup
+    mlx_delete_image(cub3d->win, cub3d->img);
+    mlx_terminate(cub3d->win);
+    free(cub3d);
+
+    return ;
+}

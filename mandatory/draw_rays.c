@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:15:21 by abenchel          #+#    #+#             */
-/*   Updated: 2024/12/05 15:33:26 by abenchel         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:38:24 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int draw_moraba3(int x, int y, int color, cub3d_t *cub)
     int j;
     
     // Reduce the size of each cube by 1 pixel to create a gap
-    int cube_size = cub->map_unit;
+    int cube_size = 15;
     
     while (i < cube_size)
     {
@@ -37,7 +37,6 @@ void handle_horizontal_ray(cub3d_t *cub, double start_angle, ray_t *rays)
 {
     rays->dof = 0;
     rays->aTan = -1.0 / tan(start_angle);
-	printf("%f\n",rays->aTan);
     // Handle horizontal lines
     if (start_angle > PI)
 	{
@@ -141,15 +140,14 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
         rays->rx = rays->xH;
         rays->ry = rays->yH;
         rays->dist = distH;
-        draw_line(cub->img, (int)cub->x , (int)cub->y , (int)rays->rx, (int)rays->ry, 0xFFFF00FF);
     }
 	else
 	{
         rays->rx = rays->xV;
         rays->ry = rays->yV;
         rays->dist = distV;
-        draw_line(cub->img, (int)cub->x , (int)cub->y , (int)rays->rx, (int)rays->ry, 0xFF4500FF);
     }
+    draw_line(cub->img, (int)cub->x , (int)cub->y , (int)rays->rx, (int)rays->ry, 0xFFFF00FF);
 }
 
 // Function to draw all rays
