@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/11/17 10:06:30 by mole_pc          ###   ########.fr       */
+/*   Updated: 2024/12/11 10:34:11 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct map_s
 
     color_t *f_color;
     color_t *c_color;
+    tracker_t *free_head;
 
 } map_t;
 
@@ -79,7 +80,7 @@ typedef struct map_s
 void free_at_exit();
 int player_check(map_list_t *hd);
 int parse_line_maps(map_t *stc);
-map_list_t *add_map_list(map_list_t *head, char *map);
+map_list_t	*add_map_list(map_list_t *head, char *map, map_t *stc);
 int word_count(char **str);
 int validate_texture_path(char *path, char *name);
 int validate_file_extension(char *ext);
@@ -96,7 +97,8 @@ int print_error(char *str);
 void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color);
 char	**ft_split(const char *s, char c);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strdup(const char *s1);
+char	*ft_strdup_v2(const char *s1,tracker_t *free_head);
+char	*ft_strjoin_v2(char const *s1, char const *s2, tracker_t *free_head);
 size_t	ft_strlen(const char *s);
 int parse_map(int file, map_t *stc);
 // int draw_plyr(mlx_image_t *img, int x, int y, float angle);

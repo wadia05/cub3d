@@ -9,7 +9,7 @@ typedef struct tracker_s
     struct tracker_s *next_addr;
 } tracker_t;
 
-void *tracker_malloc(size_t size);
-void free_all_allocate();
+void *tracker_malloc(size_t size, tracker_t **hd_tracker) ;
+void free_all_allocate(tracker_t **hd_tracker);
 
 #endif

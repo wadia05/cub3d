@@ -1,30 +1,31 @@
 #include "memory_tracker.h"
 
-static tracker_t *hd_tracker = NULL; 
 
-void *tracker_malloc(size_t size)
+void *tracker_malloc(size_t size, tracker_t **hd_tracker) 
 {
     void *address_data = malloc(size);
     if (address_data == NULL)
         return NULL;
     
-    tracker_t *node = malloc (sizeof(tracker_t));
-    if(node == NULL)
-    {
+    tracker_t *node = malloc(sizeof(tracker_t));
+    if (node == NULL) {
         free(address_data);
         return NULL;
     }
 
     node->address = address_data;
-    node->next_addr = hd_tracker;
-    hd_tracker = node;
+    node->next_addr = *hd_tracker;
+    *hd_tracker = node;
     return node->address;
 }
-void free_all_allocate() {
-    if (hd_tracker == NULL)
+
+// Function to free all allocated memory
+void free_all_allocate(tracker_t **hd_tracker) 
+{
+    if (*hd_tracker == NULL)
         return;
     
-    tracker_t *curr = hd_tracker;
+    tracker_t *curr = *hd_tracker;
     tracker_t *next;
     
     while (curr != NULL) {
@@ -40,7 +41,7 @@ void free_all_allocate() {
         curr = next;
     }
     
-    hd_tracker = NULL;
+    *hd_tracker = NULL;
 }
 
 
