@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:55 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 10:33:00 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/11 10:58:21 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ map_list_t	*create_map_list(char *map, tracker_t *free_head)
 	if (new == NULL)
 		return (NULL);
 	trim_end(map);
-	new->map = ft_strdup_v2(map,free_head);
+	new->map = ft_strdup_v2(map, free_head);
 	new->length = ft_strlen(map);
 	new->ws = white_space(map);
 	new->next = NULL;

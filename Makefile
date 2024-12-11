@@ -10,6 +10,7 @@ SRC = \
 	map_parsing_v2/color_tools.c\
 	map_parsing_v2/louding_maps.c\
 	map_parsing_v2/map_parsing.c\
+	map_parsing_v2/map_parsing_p2.c\
 	map_parsing_v2/player_parse.c\
 	map_parsing_v2/free_at_exit.c\
 	# map_parsing/map_parsing.c \

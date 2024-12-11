@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:24 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 09:29:05 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:22:34 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,23 @@ int	is_valid_alpha(char alpha)
 	}
 }
 
-int	find_player(map_list_t *ply)
+int	validate_player_character(char player_char, map_t *stc)
+{
+	if (player_char >= 'A' && player_char <= 'Z')
+	{
+		if (is_valid_alpha(player_char) != 0)
+		{
+			free_at_exit(stc);
+			return (0);
+		}
+		return (1);
+	}
+	print_error("player character wrong 'W E S N'\n");
+	free_at_exit(stc);
+	return (0);
+}
+
+int	find_player(map_list_t *ply, map_t *stc)
 {
 	int	i;
 	int	ply_offset;
@@ -38,25 +54,18 @@ int	find_player(map_list_t *ply)
 			i++;
 			continue ;
 		}
-		if (ply->map[i] >= 'A' && ply->map[i] <= 'Z')
+		if (validate_player_character(ply->map[i], stc))
 		{
-			if (is_valid_alpha(ply->map[i]) != 0)
-				free_at_exit();
-			check_current_positions(ply, i);
-			check_adjacent_positions(ply, i);
+			check_current_positions(ply, i, stc);
+			check_adjacent_positions(ply, i, stc);
 			ply_offset++;
-		}
-		else
-		{
-			print_error("player character wrong 'W E S N'\n");
-			free_at_exit();
 		}
 		i++;
 	}
 	return (ply_offset);
 }
 
-int	player_check(map_list_t *hd)
+int	player_check(map_list_t *hd, map_t *stc)
 {
 	map_list_t	*tmp;
 	int			ply_offset;
@@ -65,18 +74,18 @@ int	player_check(map_list_t *hd)
 	ply_offset = 0;
 	while (tmp != NULL)
 	{
-		ply_offset += find_player(tmp);
+		ply_offset += find_player(tmp, stc);
 		if (ply_offset > 1)
 		{
 			print_error("too many players in map");
-			free_at_exit();
+			free_at_exit(stc);
 		}
 		tmp = tmp->next;
 	}
 	if (ply_offset == 0)
 	{
 		print_error("no player in map\n");
-		free_at_exit();
+		free_at_exit(stc);
 	}
 	return (0);
 }
