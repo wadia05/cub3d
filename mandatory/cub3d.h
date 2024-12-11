@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 11:26:21 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:54:59 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ typedef struct map_s
 }						map_t;
 
 void					free_at_exit(map_t *hd);
+map_t	*init_map_structure(tracker_t *free_hd);
+int	parse_line(map_t *stc, char *line);
+void	close_file(int file);
 int						check_zero(map_list_t *tmp, map_t *stc);
 int						parse_line_maps(map_t *stc);
 map_list_t				*add_map_list(map_list_t *head, char *map, map_t *stc);

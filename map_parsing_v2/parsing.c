@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:33 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 10:38:43 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:00:38 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,69 +173,11 @@ void	close_file(int file)
 {
 	char	*line;
 
-	while ((line = get_next_line(file)) != NULL)
+	line = get_next_line(file);
+	while (line != NULL)
 	{
 		free(line);
+		line = get_next_line(file);
 	}
 	close(file);
-}
-
-int	main(int ac, char **av)
-{
-	map_t		*stc;
-	int			file;
-	char		*line;
-	map_list_t	*current;
-	tracker_t	*free_head;
-
-	if (ac != 2)
-		return (print_error("Usage: ./cub3D map.cub"));
-	if (validate_file_extension(av[1]))
-		return (1);
-	free_head = 0;
-	stc = init_map_structure(free_head);
-	stc->free_head = free_head;
-	if (!stc)
-		return (print_error("Memory allocation failed"));
-	file = open(av[1], O_RDONLY);
-	if (file == -1)
-	{
-		free_all_allocate(&free_head);
-		return (print_error("Cannot open map file"));
-	}
-	while ((line = get_next_line(file)) != NULL)
-	{
-		// printf ("%s",line);
-		if (parse_line(stc, line))
-		{
-			free(line);
-			close_file(file);              // Directly close file on error
-			free_all_allocate(&free_head); // Free all allocations on error
-			// printf ("lolooooo\n");
-			return (1);
-		}
-		free(line);
-	}
-	if (stc->c_color->lock != true || stc->f_color->lock != true)
-		print_error("color missing yaaa <");
-	if (stc->no == NULL || stc->we == NULL || stc->so == NULL
-		|| stc->ea == NULL)
-		print_error("texture missing yaaa <");
-	//...............   map_parse .................//
-	if (parse_line_maps(stc) != 0)
-	{
-		return (0);
-	}
-	current = stc->map_data;
-	while (current != NULL)
-	{
-		printf("Map: |%s|\n", current->map);
-		current = current->next;
-	}
-	// if (parse_line_maps(stc, av[1]) != 0);
-	//     return (1);
-	// Clean up and close resources after all lines are read
-	close_file(file);
-	free_all_allocate(&free_head);
-	return (0);
 }

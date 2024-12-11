@@ -1,57 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/11 12:56:56 by wait-bab          #+#    #+#             */
+/*   Updated: 2024/12/11 12:59:10 by wait-bab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../mandatory/cub3d.h"
 
-// Function 1: Validate initial arguments and file
-int	validate_input_args(int ac, char **av)
+int	initialize_and_validate(int ac, char **av, map_t **stc,
+		tracker_t **free_head)
 {
 	if (ac != 2)
-	{
-		print_error("Usage: ./cub3D map.cub");
-		return (1);
-	}
+		return (print_error("Usage: ./cub3D map.cub"));
 	if (validate_file_extension(av[1]))
-	{
 		return (1);
-	}
+	*free_head = NULL;
+	*stc = init_map_structure(*free_head);
+	(*stc)->free_head = *free_head;
+	if (!*stc)
+		return (print_error("Memory allocation failed"));
 	return (0);
 }
 
-// Function 2: Initialize map structure and allocate resources
-map_t	*setup_map_structure(tracker_t **free_head)
+int	process_map_file(map_t *stc, char *filename, tracker_t **free_head)
 {
-	map_t	*stc;
-
-	*free_head = NULL;
-	stc = init_map_structure(*free_head);
-	if (!stc)
-	{
-		print_error("Memory allocation failed");
-		return (NULL);
-	}
-	stc->free_head = *free_head;
-	return (stc);
-}
-
-// Function 3: Open map file and handle errors
-int	open_map_file(const char *filename, tracker_t **free_head)
-{
-	int	file;
+	int		file;
+	char	*line;
 
 	file = open(filename, O_RDONLY);
 	if (file == -1)
 	{
 		free_all_allocate(free_head);
-		print_error("Cannot open map file");
-		return (-1);
+		return (print_error("Cannot open map file"));
 	}
-	return (file);
-}
-
-// Function 4: Parse map file contents
-int	parse_map_file_contents(map_t *stc, int file, tracker_t **free_head)
-{
-	char	*line;
-
-	while ((line = get_next_line(file)) != NULL)
+	line = get_next_line(file);
+	while (line != NULL)
 	{
 		if (parse_line(stc, line))
 		{
@@ -61,56 +49,63 @@ int	parse_map_file_contents(map_t *stc, int file, tracker_t **free_head)
 			return (1);
 		}
 		free(line);
+		line = get_next_line(file);
 	}
-	// Validate colors and textures
-	if (stc->c_color->lock != true || stc->f_color->lock != true)
-	{
-		print_error("color missing yaaa <");
-		return (1);
-	}
-	if (stc->no == NULL || stc->we == NULL || stc->so == NULL
-		|| stc->ea == NULL)
-	{
-		print_error("texture missing yaaa <");
-		return (1);
-	}
+	close_file(file);
 	return (0);
 }
 
-// Function 5: Main function using the above helper functions
+int	validate_map_config(map_t *stc)
+{
+	if (stc->c_color->lock != true || stc->f_color->lock != true)
+		return (print_error("Color missing"));
+	if (stc->no == NULL || stc->we == NULL || stc->so == NULL
+		|| stc->ea == NULL)
+		return (print_error("Texture missing"));
+	return (0);
+}
+
+void	print_map_data(map_list_t *current)
+{
+	while (current != NULL)
+	{
+		printf("Map: |%s|\n", current->map);
+		current = current->next;
+	}
+}
+
 int	main(int ac, char **av)
 {
-	map_t *stc;
-	int file;
-	tracker_t *free_head;
-	map_list_t *current;
+	map_t		*stc;
+	tracker_t	*free_head;
+	int			init_result;
+	int			file_process_result;
+	int			config_validation_result;
 
-	if (validate_input_args(ac, av))
-		return (1);
-	stc = setup_map_structure(&free_head);
-	if (!stc)
-		return (1);
-	file = open_map_file(av[1], &free_head);
-	if (file == -1)
-		return (1);
-	if (parse_map_file_contents(stc, file, &free_head))
-		return (1);
-
+	// Initialize and validate input
+	init_result = initialize_and_validate(ac, av, &stc, &free_head);
+	if (init_result != 0)
+		return (init_result);
+	// Process map file
+	file_process_result = process_map_file(stc, av[1], &free_head);
+	if (file_process_result != 0)
+		return (file_process_result);
+	// Validate map configuration
+	config_validation_result = validate_map_config(stc);
+	if (config_validation_result != 0)
+	{
+		free_all_allocate(&free_head);
+		return (config_validation_result);
+	}
+	// Parse map lines
 	if (parse_line_maps(stc) != 0)
 	{
-		close_file(file);
 		free_all_allocate(&free_head);
-		return (1);
+		return (0);
 	}
-
-	// current = stc->map_data;
-	// while (current != NULL)
-	// {
-	// 	printf("Map: |%s|\n", current->map);
-	// 	current = current->next;
-	// }
-	close_file(file);
+	// Debug: print map data (optional)
+	print_map_data(stc->map_data);
+	// Clean up resources
 	free_all_allocate(&free_head);
-
 	return (0);
 }

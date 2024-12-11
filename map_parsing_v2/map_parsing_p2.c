@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 11:23:55 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 12:19:30 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:02:08 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	check_adjacent_positions(map_list_t *tmp, int i, map_t *stc)
 
 int	check_zero(map_list_t *tmp, map_t *stc)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!tmp || !tmp->map)
