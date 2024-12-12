@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/10 18:41:00 by abenchel         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:40:08 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ typedef struct cub3d_s
     int map_y;       // Number of rows in the map
     int map_unit;    // Size of each square in the map (e.g., 64)
     float pa;
-    int fov;         // Field of view (e.g., 60 degrees)
+    int fov;
+	int ray_dof_max;         // Field of view (e.g., 60 degrees)
     int num_rays;    // Number of rays to cast (e.g., 60)
     ray_t *ray;
     mlx_t *win;      // MiniLibX window

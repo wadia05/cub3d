@@ -489,7 +489,7 @@ void init_player(cub3d_t *cub)
 		x = 0;
 	    while (x < cub->map_x)
 		{
-			if(cub->map[y][x] != '0' && cub->map[y][x] != '1')
+			if(cub->map[y][x] != '0' && cub->map[y][x] != '1' && cub->map[y][x] != ' ' && cub->map[y][x] != '	')
 			{
 		        if (cub->map[y][x] == 'W') 
 		            cub->angle = 0.0;
@@ -509,6 +509,7 @@ void init_player(cub3d_t *cub)
 	}
 	return ;
 }
+
 void main2(map_list_t *stc)
 {
 	cub3d_t *cub3d = malloc(sizeof(cub3d_t));
@@ -519,9 +520,16 @@ void main2(map_list_t *stc)
 	if (!cub3d->ray)
 	    return;
 	if (stc->width_x > stc->high_y)
+	{
 		cub3d->map_unit = HEIGHT / stc->width_x;
+		stc->ws = stc->width_x;
+	}
 	else
+	{
 		cub3d->map_unit = HEIGHT / stc->high_y;
+		stc->ws = stc->high_y;
+	}
+	cub3d->ray_dof_max = stc->ws;
 	cub3d->map_x = stc->width_x;
 	cub3d->map_y = stc->high_y;
 	cub3d->fov = 60;
@@ -551,6 +559,7 @@ void main2(map_list_t *stc)
 	    current = current->next;
 	}
 	init_player(cub3d);
+	cub3d->num_rays = 1000;
     cub3d->pa = 0.0;
     cub3d->xdx = cos(cub3d->angle) * 5;
     cub3d->ydy = sin(cub3d->angle) * 5;
