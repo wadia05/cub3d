@@ -487,9 +487,9 @@ void init_player(cub3d_t *cub)
 	while (y < cub->map_y) 
 	{
 		x = 0;
-	    while (x < cub->map_x)
+	    while (x < cub->map_x && cub->map[y][x])
 		{
-			if(cub->map[y][x] != '0' && cub->map[y][x] != '1' && cub->map[y][x] != ' ' && cub->map[y][x] != '	')
+			if(cub->map[y][x] != '0' && cub->map[y][x] != '1' && cub->map[y][x] != ' ' && cub->map[y][x] != '\t')
 			{
 		        if (cub->map[y][x] == 'W') 
 		            cub->angle = 0.0;
@@ -501,6 +501,7 @@ void init_player(cub3d_t *cub)
 					cub->angle = PI;
 				cub->x = x * cub->map_unit + cub->map_unit / 2;
 		        cub->y = y * cub->map_unit + cub->map_unit / 2;
+				printf("x =%d y = %d\n", x, y);
 				cub->map[y][x] = '0';
 			}
 	        x++;

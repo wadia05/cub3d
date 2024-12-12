@@ -35,11 +35,8 @@ int draw_moraba3(int x, int y, int color, cub3d_t *cub)
 
 void handle_horizontal_ray(cub3d_t *cub, double start_angle, ray_t *rays)
 {
-	printf("sscscs\n");
-
     rays->dof = 0;
     rays->aTan = -1.0 / tan(start_angle);
-	printf("%f\n",rays->aTan);
     // Handle horizontal lines
     if (start_angle > PI)
 	{
