@@ -5,7 +5,7 @@
 int init_ray(cub3d_t *cub) 
 {
     free(cub->ray);  // Free previous ray if exists
-    cub->ray = malloc(sizeof(ray_t));
+    cub->ray = malloc(sizeof(ray_t) * 1000);
     if (cub->ray == NULL) {
         return 1;  // Memory allocation failure
     }
@@ -501,7 +501,7 @@ void init_player(cub3d_t *cub)
 					cub->angle = PI;
 				cub->x = x * cub->map_unit + cub->map_unit / 2;
 		        cub->y = y * cub->map_unit + cub->map_unit / 2;
-				printf("x =%d y = %d\n", x, y);
+				// printf("x =%d y = %d\n", x, y);
 				cub->map[y][x] = '0';
 			}
 	        x++;
