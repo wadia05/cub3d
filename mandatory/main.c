@@ -348,8 +348,8 @@ int draw_plyr(mlx_image_t *img, int x, int y, float angle)
 
 int draw(cub3d_t *cub3d)
 {
-    int x;
-    int y = 0;
+    // int x;
+    // int y = 0;
     
     // Clear the image
     for (int i = 0; i < WIDTH; i++)
@@ -357,19 +357,19 @@ int draw(cub3d_t *cub3d)
             mlx_put_pixel(cub3d->img, i, j, 0x000000FF);
     
     // Draw map
-    while (y < cub3d->map_y)
-    {
-        x = 0;
-        while (x < cub3d->map_x)
-        {
-            if(cub3d->map[y][x] == '1')
-                draw_moraba3(x * cub3d->map_unit, y * cub3d->map_unit, 0xFF0000FF, cub3d);
-            if(cub3d->map[y][x] == '0')
-				draw_moraba3(x * cub3d->map_unit, y * cub3d->map_unit, 0x002d44FF, cub3d);
-            x++;
-        }
-        y++;
-    }
+    // while (y < cub3d->map_y)
+    // {
+    //     x = 0;
+    //     while (x < cub3d->map_x)
+    //     {
+    //         if(cub3d->map[y][x] == '1')
+    //             draw_moraba3(x * cub3d->map_unit, y * cub3d->map_unit, 0xFF0000FF, cub3d);
+    //         if(cub3d->map[y][x] == '0')
+	// 			draw_moraba3(x * cub3d->map_unit, y * cub3d->map_unit, 0x002d44FF, cub3d);
+    //         x++;
+    //     }
+    //     y++;
+    // }
     
     // Draw player
     draw_plyr(cub3d->img, cub3d->x, cub3d->y, cub3d->angle);

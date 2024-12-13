@@ -130,18 +130,7 @@ void handle_vertical_ray(cub3d_t *cub, double start_angle, ray_t *rays)
 }
 
 // Helper function to draw a ray
-void	draw_wall(cub3d_t *cub, float dist)
-{
-	int i = 0;
-	float dist_project_plane = (500/ 2) / tan((PI / 6));
-	float wall_strip_height = 0;
-	wall_strip_height = (cub->map_unit / dist) * dist_project_plane;
-	while(i < cub->num_rays)
-	{
-		draw_line(cub->img, i, (HEIGHT / 2) - (wall_strip_height / 2), i, (HEIGHT / 2) + (wall_strip_height / 2), 0x00FF00FF);
-		i++;
-	}
-}
+
 
 // }
 void draw_ray(cub3d_t *cub, ray_t *rays)
@@ -167,34 +156,63 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
 }
 
 // Function to draw all rays
+void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index)
+{
+    // Projection plane calculations
+    float fov = PI / 3;  // 60-degree field of view
+    float dist_project_plane = (WIDTH / 2) / tan(fov / 2);
+
+    // Calculate wall strip height based on ray distance
+    float wall_strip_height = (cub->map_unit / ray->dist) * dist_project_plane;
+
+    // Calculate the starting and ending y-coordinates of the wall strip
+    int wall_top = (HEIGHT / 2) - (wall_strip_height / 2);
+    int wall_bottom = (HEIGHT / 2) + (wall_strip_height / 2);
+
+    // Clamp wall_top and wall_bottom to stay within the screen bounds
+    wall_top = fmax(0, wall_top);
+    wall_bottom = fmin(wall_bottom, HEIGHT - 1);
+
+    // Choose wall color based on horizontal or vertical hit
+    uint32_t wall_color = ray->dist == ray->distH ? 0x00FF00FF : 0xFF4500FF;
+
+    // Draw the wall strip pixel by pixel
+    for (int y = wall_top; y <= wall_bottom; y++) {
+        mlx_put_pixel(cub->img, ray_index, y, wall_color);
+    }
+}
+
 int draw_rays(cub3d_t *cub) 
 {
     if (init_ray(cub)) return 1;  // Initialize ray (malloc failure check)
+    
     ray_t *rays = cub->ray;
-    rays->distH = 10000000;
-    rays->distV = 10000000;
-    rays->xH = cub->x;
-    rays->yH = cub->y;
-    rays->xV = cub->x;
-    rays->yV = cub->y;
-
     float start_angle = cub->angle - (PI / 6);
+
+    // Normalize start_angle
     if (start_angle < 0) start_angle += 2 * PI;
     if (start_angle > 2 * PI) start_angle -= 2 * PI;
 
     for (int i = 0; i < cub->num_rays; i++)
-	{
+    {
+        // Store the current ray's angle
+
         handle_horizontal_ray(cub, start_angle, &rays[i]);
         handle_vertical_ray(cub, start_angle, &rays[i]);
         draw_ray(cub, &rays[i]);
-		// printf("ray[%d] = %f\n",i , rays[i].dist);
 
         start_angle += DR;
         if (start_angle < 0) start_angle += 2 * PI;
         if (start_angle > 2 * PI) start_angle -= 2 * PI;
     }
-	for (int i = 0; i < cub->num_rays; i++)
-		draw_wall(cub, rays[i].dist);
+	start_angle = cub->angle - (PI / 6);
+    // Draw walls using the improved draw_wall function
+    for (int i = 0; i < cub->num_rays; i++)
+	{
+        draw_wall(cub, &rays[i], i);
+		start_angle =+ DR;
+	}
+
     return 0;
 }
 
