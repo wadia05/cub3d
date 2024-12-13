@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:56:56 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 12:59:10 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/13 21:49:52 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,34 @@ int	validate_map_config(map_t *stc)
 	return (0);
 }
 
-void	print_map_data(map_list_t *current)
-{
-	while (current != NULL)
+// void	print_map_data(map_list_t *current)
+// {
+// 	while (current != NULL)
+// 	{
+// 		printf("Map: |%s|\n", current->map);
+// 		current = current->next;
+// 	}
+// }
+void fill_maps(map_t *stc)
 	{
-		printf("Map: |%s|\n", current->map);
-		current = current->next;
-	}
-}
+		map_list_t *current = stc->map_data;
+		int y_find = 0;
+		int x_find = 0;
+		while (current != NULL) {
+			// printf("Map: |%s|\n", current->map);
+			// printf("len = %d\n", current->length);
+			// printf("ws = %d\n", current->ws);
+			if (current->length > x_find)
+				x_find = current->length;
+			y_find++;
+			current = current->next;
+		}
+		stc->map_data->width_x = x_find;
+		stc->map_data->high_y = y_find;       
 
+		return ;
+	}
+	
 int	main(int ac, char **av)
 {
 	map_t		*stc;
@@ -103,8 +122,10 @@ int	main(int ac, char **av)
 		free_all_allocate(&free_head);
 		return (0);
 	}
+	fill_maps(stc);
+	main2(stc->map_data);
 	// Debug: print map data (optional)
-	print_map_data(stc->map_data);
+	// print_map_data(stc->map_data);
 	// Clean up resources
 	free_all_allocate(&free_head);
 	return (0);

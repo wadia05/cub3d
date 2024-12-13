@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:33 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 13:00:38 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/13 21:55:00 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	handle_texture(char **dest, char *path, char *type, map_t *stc)
 		return (print_error("Duplicate texture definition"));
 	if (validate_texture_path(path, type) != 0)
 		return (1);
-	*dest = ft_strdup_v2(path, stc->free_head);
+	*dest = ft_strdup_v2(path,stc->free_head);
 	if (!*dest)
 		return (print_error("Memory allocation failed"));
 	return (0);

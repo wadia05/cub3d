@@ -6,73 +6,148 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 12:54:59 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/13 22:00:51 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-// # include "../MLX42/include/MLX42/MLX42.h"
+// #include "../MLX42/include/MLX42/MLX42.h"
+// #include "/Users/abenchel/Desktop/cub3d/includes/MLX42/MLX42_Int.h"
+
+// # include "../includes/MLX42/MLX42_Input.h"
+// # include "../includes/MLX42/MLX42_Int.h"
+# include "/Users/wait-bab/Desktop/marge/MLX42/include/MLX42/MLX42.h"
 # include "../GET_NEXT_LINE_42/get_next_line.h"
-# include "../MLX42/include/MLX42/MLX42.h"
+#include "../track_memory/memory_tracker.h"
 # include "../libft_42/libft.h"
-# include "../track_memory/memory_tracker.h"
-# include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
+#include <fcntl.h>
 # include <stdlib.h>
-# include <string.h>
+# include <stdio.h>
 # include <unistd.h>
+#include <string.h>
 
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
 # define YELLOW "\033[1;33m"
 # define RESET "\033[0m"
+# define PLAYER_SIZE 2
+
 
 # define WIDTH 1024
 # define HEIGHT 512
 # define PI 3.1415926535
-# define P1 PI / 2
-# define P2 3 * PI / 2
-# define DR 0.0174533
+# define P1 PI/2
+# define P2 3*PI/2
+// # define DR 0.0174533
+# define DR 0.001047198
+
+
+typedef struct cordwal
+{
+    float x;
+    float y;
+    float distance;
+}cordwal_t;
+
+typedef struct ray_s
+{
+    //--------- horizontal -----------
+    int r;                  // Ray counter
+    int mx, my, mp;         // Map grid coordinates and position
+    int dof;                // Depth of field
+    float rx, ry;           // Ray position
+    float ra;               // Ray angle
+    float xo, yo;           // X and Y offsets
+    float aTan; 
+
+    //--------- vertitcal -----------
+    float vtan;
+    float distH;
+    float xH;
+    float yH;
+    float distV;
+    float dist;
+    float xV;
+    float yV;
+	int is_hori;
+
+
+} ray_t;
+
+typedef struct cub3d_s
+{
+    float x;         // Player's x-coordinate
+    float y;         // Player's y-coordinate
+    float xdx;       // Player's direction vector x-component
+    float ydy;       // Player's direction vector y-component
+    float angle;    // Player's current angle
+    int wall[3][1000];
+
+    char **map;   // 2D map (walls and empty spaces)
+    int map_x;       // Number of columns in the map
+    int map_y;       // Number of rows in the map
+    int map_unit;    // Size of each square in the map (e.g., 64)
+    float pa;
+    int fov;
+	int ray_dof_max;         // Field of view (e.g., 60 degrees)
+    int num_rays;    // Number of rays to cast (e.g., 60)
+    ray_t *ray;
+    mlx_t *win;      // MiniLibX window
+    mlx_image_t *img; // MiniLibX image to draw on
+} cub3d_t;
 
 typedef struct map_list_s
 {
-	char				*map;
-	int					length;
-	int					ws;
-	struct map_list_s	*next;
-	struct map_list_s	*prev;
-}						map_list_t;
+    char *map;
+    int length;
+    int ws;
+	int width_x;
+	int high_y;
+    struct map_list_s *next;
+    struct map_list_s *prev;
+} map_list_t;
 
 typedef struct color_s
 {
-	bool				lock;
-	int					r;
-	int					g;
-	int					b;
+    bool lock;
+    int r;
+    int g;
+    int b;
 
-}						color_t;
+} color_t;
 
 typedef struct map_s
 {
-	map_list_t			*map_data;
-	bool				map_str;
-	bool				map_new_line;
-	char				*no;
-	char				*so;
-	char				*we;
-	char				*ea;
+    map_list_t *map_data;
+    bool  map_str;
+    bool  map_new_line;
+    char *no;
+    char *so;
+    char *we;
+    char *ea;
 
-	char				*f;
-	char				*c;
 
-	color_t				*f_color;
-	color_t				*c_color;
-	tracker_t			*free_head;
+    char *f;
+    char *c;
 
-}						map_t;
+    color_t *f_color;
+    color_t *c_color;
+    tracker_t *free_head;
+} map_t;
+
+
+void main2(map_list_t *stc);
+void fill_maps(map_t *stc);
+map_t *parsing_first(int ac, char **av);
+double dist(float ax, float ay, float bx, float by);
+int init_ray(cub3d_t *cub);
+int draw_moraba3(int x, int y, int color, cub3d_t *cub);
+int draw_rays(cub3d_t *cub);
+
 
 void					free_at_exit(map_t *hd);
 map_t	*init_map_structure(tracker_t *free_hd);
