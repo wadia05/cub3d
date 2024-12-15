@@ -511,7 +511,7 @@ void init_player(cub3d_t *cub)
 	return ;
 }
 
-void main2(map_list_t *stc)
+void main2(map_list_t *stc, map_t *color)
 {
 	cub3d_t *cub3d = malloc(sizeof(cub3d_t));
 	if (!cub3d)
@@ -520,6 +520,8 @@ void main2(map_list_t *stc)
 	cub3d->ray = malloc(sizeof(ray_t));
 	if (!cub3d->ray)
 	    return;
+    cub3d->info = color;
+    loading_image(color);
 	if (stc->width_x > stc->high_y)
 	{
 		cub3d->map_unit = HEIGHT / stc->width_x;

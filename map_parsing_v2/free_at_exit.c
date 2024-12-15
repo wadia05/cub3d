@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_at_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:19:12 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 10:16:47 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/15 22:17:25 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	free_at_exit(map_t *hd)
 {
-	free_all_allocate(&hd->free_head);
+	free_all_allocate(hd->free_head);
 	exit(1);
 }

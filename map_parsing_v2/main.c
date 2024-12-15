@@ -3,29 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:56:56 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/13 21:49:52 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:10:58 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mandatory/cub3d.h"
 
-int	initialize_and_validate(int ac, char **av, map_t **stc,
-		tracker_t **free_head)
+int initialize_and_validate(int ac, char **av, map_t **stc, tracker_t **free_head)
 {
-	if (ac != 2)
-		return (print_error("Usage: ./cub3D map.cub"));
-	if (validate_file_extension(av[1]))
-		return (1);
-	*free_head = NULL;
-	*stc = init_map_structure(*free_head);
-	(*stc)->free_head = *free_head;
-	if (!*stc)
-		return (print_error("Memory allocation failed"));
-	return (0);
+    if (ac != 2)
+        return print_error("Usage: ./cub3D map.cub");
+
+    if (validate_file_extension(av[1]))
+        return 1;
+
+    *free_head = NULL; // Initialize the free_head to NULL
+    *stc = init_map_structure(free_head); // Pass pointer to pointer
+    if (!*stc)
+    {
+        // Memory allocation failed, cleanup already handled
+        return print_error("Memory allocation failed");
+    }
+
+    // Correctly assign free_head (tracker_t **) to stc's free_head
+    (*stc)->free_head = free_head;
+
+    return 0;
 }
+
+
 
 int	process_map_file(map_t *stc, char *filename, tracker_t **free_head)
 {
@@ -95,9 +104,13 @@ void fill_maps(map_t *stc)
 	
 int	main(int ac, char **av)
 {
+
+
+
+
 	map_t		*stc;
-	tracker_t	*free_head;
 	int			init_result;
+	tracker_t	*free_head = NULL;
 	int			file_process_result;
 	int			config_validation_result;
 
@@ -123,7 +136,7 @@ int	main(int ac, char **av)
 		return (0);
 	}
 	fill_maps(stc);
-	main2(stc->map_data);
+	main2(stc->map_data,stc);
 	// Debug: print map data (optional)
 	// print_map_data(stc->map_data);
 	// Clean up resources

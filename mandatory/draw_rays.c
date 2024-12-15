@@ -143,6 +143,7 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
         rays->rx = rays->xH;
         rays->ry = rays->yH;
         rays->dist = distH;
+        rays->is_hori = 0;
         // draw_line(cub->img, (int)cub->x , (int)cub->y , (int)rays->rx, (int)rays->ry, 0xFFFF00FF);
     }
 	else
@@ -150,14 +151,16 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
         rays->rx = rays->xV;
         rays->ry = rays->yV;
         rays->dist = distV;
+        rays->is_hori = 1;
         // draw_line(cub->img, (int)cub->x , (int)cub->y , (int)rays->rx, (int)rays->ry, 0xFF4500FF);
     }
 	// draw_wall(cub, rays->dist);
 }
 
 // Function to draw all rays
-void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index)
+void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index,int s_agl )
 {
+    (void)s_agl;
     // Projection plane calculations
     float fov = PI / 3;  // 60-degree field of view
     float dist_project_plane = (WIDTH / 2) / tan(fov / 2);
@@ -174,7 +177,26 @@ void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index)
     wall_bottom = fmin(wall_bottom, HEIGHT - 1);
 
     // Choose wall color based on horizontal or vertical hit
-    uint32_t wall_color = ray->dist == ray->distH ? 0x00FF00FF : 0xFF4500FF;
+    // uint32_t wall_color = ray->dist == ray->distH ? 0x00FF00FF : 0xFF4500FF;
+    uint32_t wall_color = 0;
+    if (ray->is_hori) {
+        //     // printf("-->%d",s_agl);
+        // if (s_agl > 0 && s_agl < PI) {
+        //     // South walls (bottom half)
+        //     wall_color = 0xFF0000FF;  // Red
+        // } else {
+        //     // North walls (top half)
+            wall_color = 0x0000FFFF;  // Blue
+        // }
+    } else {
+        // if (s_agl > PI/2 && s_agl < 3*PI/2) {
+        //     // West walls (left side)
+        //     wall_color = 0x00FF00FF;  // Green
+        // } else {
+        //     // East walls (right side)
+            wall_color = 0xFFFF00FF;  // Yellow
+        // }
+    }
 
     // Draw the wall strip pixel by pixel
     for (int y = wall_top; y <= wall_bottom; y++) {
@@ -188,6 +210,7 @@ int draw_rays(cub3d_t *cub)
     
     ray_t *rays = cub->ray;
     float start_angle = cub->angle - (PI / 6);
+    float s_angle = start_angle;
 
     // Normalize start_angle
     if (start_angle < 0) start_angle += 2 * PI;
@@ -209,8 +232,8 @@ int draw_rays(cub3d_t *cub)
     // Draw walls using the improved draw_wall function
     for (int i = 0; i < cub->num_rays; i++)
 	{
-        draw_wall(cub, &rays[i], i);
-		start_angle =+ DR;
+        draw_wall(cub, &rays[i], i,s_angle);
+		s_angle += DR;
 	}
 
     return 0;

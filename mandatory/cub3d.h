@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/13 22:00:51 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:36:24 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-// #include "../MLX42/include/MLX42/MLX42.h"
+#include "../MLX42/include/MLX42/MLX42.h"
 // #include "/Users/abenchel/Desktop/cub3d/includes/MLX42/MLX42_Int.h"
 
 // # include "../includes/MLX42/MLX42_Input.h"
 // # include "../includes/MLX42/MLX42_Int.h"
-# include "/Users/wait-bab/Desktop/marge/MLX42/include/MLX42/MLX42.h"
+// # include "/Users/wait-bab/Desktop/marge/MLX42/include/MLX42/MLX42.h"
 # include "../GET_NEXT_LINE_42/get_next_line.h"
 #include "../track_memory/memory_tracker.h"
 # include "../libft_42/libft.h"
@@ -45,7 +45,7 @@
 // # define DR 0.0174533
 # define DR 0.001047198
 
-
+typedef struct map_s map_t;
 typedef struct cordwal
 {
     float x;
@@ -98,6 +98,7 @@ typedef struct cub3d_s
     ray_t *ray;
     mlx_t *win;      // MiniLibX window
     mlx_image_t *img; // MiniLibX image to draw on
+    map_t *info;
 } cub3d_t;
 
 typedef struct map_list_s
@@ -129,6 +130,10 @@ typedef struct map_s
     char *so;
     char *we;
     char *ea;
+    mlx_texture_t *no_png;
+    mlx_texture_t *so_png;
+    mlx_texture_t *we_png;
+    mlx_texture_t *ea_png;
 
 
     char *f;
@@ -136,11 +141,17 @@ typedef struct map_s
 
     color_t *f_color;
     color_t *c_color;
-    tracker_t *free_head;
+    tracker_t **free_head;
 } map_t;
 
 
-void main2(map_list_t *stc);
+
+//-----------texture
+void render_textured_wall(cub3d_t *cub, ray_t *ray, int ray_index);
+void loading_image(map_t *mp);
+
+//-----------wall
+void main2(map_list_t *stc, map_t *color);
 void fill_maps(map_t *stc);
 map_t *parsing_first(int ac, char **av);
 double dist(float ax, float ay, float bx, float by);
@@ -148,9 +159,9 @@ int init_ray(cub3d_t *cub);
 int draw_moraba3(int x, int y, int color, cub3d_t *cub);
 int draw_rays(cub3d_t *cub);
 
-
+// ------------ parsine -------------------- //
 void					free_at_exit(map_t *hd);
-map_t	*init_map_structure(tracker_t *free_hd);
+map_t	*init_map_structure(tracker_t **free_hd);
 int	parse_line(map_t *stc, char *line);
 void	close_file(int file);
 int						check_zero(map_list_t *tmp, map_t *stc);
@@ -175,9 +186,9 @@ void					draw_line(mlx_image_t *img, int x0, int y0, int x1,
 							int y1, int color);
 char					**ft_split(const char *s, char c);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
-char					*ft_strdup_v2(const char *s1, tracker_t *free_head);
+char					*ft_strdup_v2(const char *s1, tracker_t **free_head);
 char					*ft_strjoin_v2(char const *s1, char const *s2,
-							tracker_t *free_head);
+							tracker_t **free_head);
 size_t					ft_strlen(const char *s);
 int						parse_map(int file, map_t *stc);
 // int draw_plyr(mlx_image_t *img, int x, int y, float angle);

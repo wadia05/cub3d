@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   louding_maps.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:55 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/11 10:58:21 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/15 22:09:07 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	white_space(char *map)
 	return (i);
 }
 
-map_list_t	*create_map_list(char *map, tracker_t *free_head)
+map_list_t	*create_map_list(char *map, tracker_t **free_head)
 {
 	map_list_t	*new;
 
-	new = tracker_malloc(sizeof(map_list_t), &free_head);
+	new = tracker_malloc(sizeof(map_list_t), free_head);
 	if (new == NULL)
 		return (NULL);
 	trim_end(map);
