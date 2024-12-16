@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:56:56 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/15 23:10:58 by mole_pc          ###   ########.fr       */
+/*   Updated: 2024/12/16 12:59:05 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int	main(int ac, char **av)
 		free_all_allocate(&free_head);
 		return (0);
 	}
+	// loading_image(stc);
 	fill_maps(stc);
 	main2(stc->map_data,stc);
 	// Debug: print map data (optional)

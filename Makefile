@@ -15,7 +15,7 @@ SRC = \
 	map_parsing_v2/player_parse.c\
 	map_parsing_v2/free_at_exit.c\
 	mandatory/main.c \
-	mandatory/draw_rays.c \
+	mandatory/draw_rays_copy.c \
 	mandatory/texture.c
 
 CC = cc
@@ -27,10 +27,10 @@ LIBFT_DIR := ./libft_42
 LIBFT := $(LIBFT_DIR)/libft.a
 
 # linux
-LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
+# LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 #MAC
-	# LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/wait-bab/.brew/Cellar/glfw/3.4/lib"
-	# FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
+LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/wait-bab/.brew/Cellar/glfw/3.4/lib"
+FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(LIBFT) $(NAME)
 

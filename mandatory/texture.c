@@ -21,5 +21,6 @@ void loading_image(map_t *mp)
         // printf("Failed to load North texture: %s\n", map->no_path);
         return ;
     }
+    printf ("texture loading successfully !!!");
 }
 

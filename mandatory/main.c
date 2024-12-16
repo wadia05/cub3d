@@ -4,8 +4,9 @@
 
 int init_ray(cub3d_t *cub) 
 {
+    
     free(cub->ray);  // Free previous ray if exists
-    cub->ray = malloc(sizeof(ray_t) * 1000);
+    cub->ray = malloc(sizeof(ray_t));
     if (cub->ray == NULL) {
         return 1;  // Memory allocation failure
     }
