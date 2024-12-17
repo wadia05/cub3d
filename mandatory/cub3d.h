@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/16 11:16:41 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:12:38 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,9 @@ typedef struct map_s
 
 
 //-----------texture
-void render_textured_wall(cub3d_t *cub, ray_t *ray, int ray_index);
+
+
+void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index, double s_agl);
 void loading_image(map_t *mp);
 
 //-----------wall

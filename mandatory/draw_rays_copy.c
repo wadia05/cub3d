@@ -157,54 +157,84 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
 	// draw_wall(cub, rays->dist);
 }
 
-// Function to draw all rays
-void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index,double s_agl )
-{
-    // (void)s_agl;
-    // Projection plane calculations
-    // float corrected_dist = ray->dist * cos(s_agl- cub->angle);
+// // Function to draw all rays
+// void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index,double s_agl )
+// {
+//     // (void)s_agl;
+//     // Projection plane calculations
+//     // float corrected_dist = ray->dist * cos(s_agl- cub->angle);
 
-    float fov = PI / 3;  // 60-degree field of view
-    float dist_project_plane = (WIDTH / 2) / tan(fov / 2);
+//     float fov = PI / 3;  // 60-degree field of view
+//     float dist_project_plane = (WIDTH / 2) / tan(fov / 2);
 
-    // Calculate wall strip height based on ray distance
-    float wall_strip_height = (cub->map_unit / ray->dist) * dist_project_plane;
+//     // Calculate wall strip height based on ray distance
+//     float wall_strip_height = (cub->map_unit / ray->dist) * dist_project_plane;
 
-    // Calculate the starting and ending y-coordinates of the wall strip
-    int wall_top = (HEIGHT / 2) - (wall_strip_height / 2);
-    int wall_bottom = (HEIGHT / 2) + (wall_strip_height / 2);
+//     // Calculate the starting and ending y-coordinates of the wall strip
+//     int wall_top = (HEIGHT / 2) - (wall_strip_height / 2);
+//     int wall_bottom = (HEIGHT / 2) + (wall_strip_height / 2);
 
-    // Clamp wall_top and wall_bottom to stay within the screen bounds
-    wall_top = fmax(0, wall_top);
-    wall_bottom = fmin(wall_bottom, HEIGHT - 1);
+//     // Clamp wall_top and wall_bottom to stay within the screen bounds
+//     wall_top = fmax(0, wall_top);
+//     wall_bottom = fmin(wall_bottom, HEIGHT - 1);
 
-    // Choose wall color based on horizontal or vertical hit
-    // uint32_t wall_color = ray->dist == ray->distH ? 0x00FF00FF : 0xFF4500FF;
-    uint32_t wall_color = 0;
-    if (!ray->is_hori) {
-            // printf("-->%d",s_agl);
-        if (s_agl > 0 && s_agl < PI) {
-            // South walls (bottom half)
-            wall_color = 0xFF0000FF;  // Red
-        } else {
-            // North walls (top half)
-            wall_color = 0x0000FFFF;  // Blue
-        }
-    } else {
-        if (s_agl > PI/2 && s_agl < 3*PI/2) {
-            // West walls (left side)
-            wall_color = 0x00FF00FF;  // Green
-        } else {
-            // East walls (right side)
-            wall_color = 0xFFFF00FF;  // Yellow
-        }
-    }
+//     // Choose wall color based on horizontal or vertical hit
+//     // uint32_t wall_color = ray->dist == ray->distH ? 0x00FF00FF : 0xFF4500FF;
+//     mlx_texture_t *wall_texture = NULL;
+//     float texture_x = 0;
+//     uint32_t wall_color = 0;
+//     if (!ray->is_hori) {
+//             // printf("-->%d",s_agl);
+//         if (s_agl > 0 && s_agl < PI) {
+//             // South walls (bottom half)
+//             wall_color = 0xFF0000FF;  // Red
+//         } else {
+//             // North walls (top half)
+//             wall_color = 0x0000FFFF;  // Blue
+//         }
+//     } else {
+//         if (s_agl > PI/2 && s_agl < 3*PI/2) {
+//             // West walls (left side)
+//             wall_color = 0x00FF00FF;  // Green
+//         } else {
+//             // East walls (right side)
+//             wall_color = 0xFFFF00FF;  // Yellow
+//         }
+//     }
+//     // Calculate the x-coordinate on the texture
+//     if (ray->is_hori) {
+//         texture_x = fmod(ray->rx, cub->map_unit) / cub->map_unit;
+//     } else {
+//         texture_x = fmod(ray->ry, cub->map_unit) / cub->map_unit;
+//     }
 
-    // Draw the wall strip pixel by pixel
-    for (int y = wall_top; y <= wall_bottom; y++) {
-        mlx_put_pixel(cub->img, ray_index, y, wall_color);
-    }
-}
+//     // Calculate the texture x-coordinate pixel
+//     // int tex_x = (int)(texture_x * wall_texture->width);
+
+//     // Draw textured wall strip
+//     // for (int y = wall_top; y <= wall_bottom; y++)
+//     // {
+//     //     // Calculate the y-coordinate on the texture
+//     //     float texture_y = (float)(y - wall_top) / (wall_bottom - wall_top);
+//     //     int tex_y = (int)(texture_y * wall_texture->height);
+
+//     //     // Get the color from the texture
+//     //     uint8_t r = wall_texture->pixels[(tex_y * wall_texture->width + tex_x) * 4];
+//     //     uint8_t g = wall_texture->pixels[(tex_y * wall_texture->width + tex_x) * 4 + 1];
+//     //     uint8_t b = wall_texture->pixels[(tex_y * wall_texture->width + tex_x) * 4 + 2];
+//     //     uint8_t a = wall_texture->pixels[(tex_y * wall_texture->width + tex_x) * 4 + 3];
+
+//     //     // Convert to 32-bit color
+//     //     uint32_t color = (r << 24) | (g << 16) | (b << 8) | a;
+
+//     //     // Draw the pixel
+//     //     mlx_put_pixel(cub->img, ray_index, y, color);
+//     // }
+//     // Draw the wall strip pixel by pixel
+//     // for (int y = wall_top; y <= wall_bottom; y++) {
+//     //     mlx_put_pixel(cub->img, ray_index, y, wall_color);
+//     // }
+// }
 
 int draw_rays(cub3d_t *cub) 
 {
