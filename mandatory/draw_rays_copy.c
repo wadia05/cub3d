@@ -243,7 +243,7 @@ int draw_rays(cub3d_t *cub)
    
     ray_t *rays = cub->ray;
     float start_angle = cub->angle - (PI / 6);
-    printf("---> %f", start_angle);
+    // printf("---> %f", start_angle);
     // float s_angle = start_angle;
 
     // Normalize start_angle

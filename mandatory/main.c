@@ -413,7 +413,8 @@ void ft_hook(void* param)
     float x = cub3d->x;
     float y = cub3d->y;
     float f;
-
+    // printf("%f------%f",x,y);
+    // exit(1);
     // Close window if escape key is pressed
     if (mlx_is_key_down(cub3d->win, MLX_KEY_ESCAPE))
         mlx_close_window(cub3d->win);
@@ -421,6 +422,8 @@ void ft_hook(void* param)
     // Move forward
     if (mlx_is_key_down(cub3d->win, MLX_KEY_W))
     {
+    //     if (cub3d->map[((int)x-30)/cub3d->map_unit][((int)y-30)/cub3d->map_unit] == '1')
+    //         return ;
         x += cos(cub3d->angle) * speed;
         y += sin(cub3d->angle) * speed;
 		// printf("x :%f y :%f angle :%f check %f\n", x, y,cub3d->angle, cub3d->ray->distH);
