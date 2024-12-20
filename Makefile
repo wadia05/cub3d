@@ -2,6 +2,7 @@ NAME = cub3d
 HDER = mandatory/cub3d.h
 SRC = \
 	track_memory/memory_tracker.c \
+	map_parsing_v2/main.c \
 	map_parsing_v2/parsing.c \
 	map_parsing_v2/color_parse.c\
 	GET_NEXT_LINE_42/get_next_line.c \
@@ -10,14 +11,15 @@ SRC = \
 	map_parsing_v2/color_tools.c\
 	map_parsing_v2/louding_maps.c\
 	map_parsing_v2/map_parsing.c\
+	map_parsing_v2/map_parsing_p2.c\
 	map_parsing_v2/player_parse.c\
 	map_parsing_v2/free_at_exit.c\
-	# map_parsing/map_parsing.c \
-	# map_parsing/player_parse.c
-	# mandatory/main.c
+	mandatory/main.c \
+	mandatory/draw_rays_copy.c \
+	mandatory/texture.c
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 AR = ar rcs
 OBJ = $(SRC:.c=.o)
 MLX = "./MLX42/build/libmlx42.a"
@@ -25,10 +27,10 @@ LIBFT_DIR := ./libft_42
 LIBFT := $(LIBFT_DIR)/libft.a
 
 # linux
-LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
+# LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 #MAC
-	# LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/wait-bab/.brew/Cellar/glfw/3.4/lib"
-	# FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
+LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/abenchel/.brew/Cellar/glfw/3.4/lib"
+FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(LIBFT) $(NAME)
 

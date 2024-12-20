@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_at_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/11 08:19:12 by wait-bab          #+#    #+#             */
+/*   Updated: 2024/12/15 22:17:25 by mole_pc          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../mandatory/cub3d.h"
 
-void free_at_exit()
+void	free_at_exit(map_t *hd)
 {
-    free_all_allocate();
-    exit(1);
+	free_all_allocate(hd->free_head);
+	exit(1);
 }
