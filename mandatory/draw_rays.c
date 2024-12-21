@@ -18,7 +18,7 @@ int draw_moraba3(int x, int y, int color, cub3d_t *cub)
     int j;
     
     // Reduce the size of each cube by 1 pixel to create a gap
-    int cube_size = cub->map_unit;
+    int cube_size = 10;
     
     while (i < cube_size)
     {

@@ -339,10 +339,51 @@ int draw_plyr(mlx_image_t *img, int x, int y, float angle)
 
 int draw(cub3d_t *cub3d)
 {
-    for (int i = 0; i < WIDTH; i++)
-        for (int j = 0; j < HEIGHT; j++)
+    // Safety check for null pointer
+    if (!cub3d || !cub3d->img || !cub3d->map)
+        return (1);
+
+    // Fill background with black
+    for (int i = 0; i < WIDTH; i++) {
+        for (int j = 0; j < HEIGHT; j++) {
             mlx_put_pixel(cub3d->img, i, j, 0x000000FF);
-    draw_plyr(cub3d->img, cub3d->x, cub3d->y, cub3d->angle);
+        }
+    }
+
+    // Draw map elements
+    for (int i = 0; i < cub3d->map_y; i++)  // Notice: using map_y for rows
+    {
+        for (int j = 0; j < cub3d->map_x; j++)  // Notice: using map_x for columns
+        {
+            // Calculate pixel coordinates
+            int x = j * cub3d->map_unit;  // j for x coordinate
+            int y = i * cub3d->map_unit;  // i for y coordinate
+            
+            // Bounds checking for pixel coordinates
+            if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+            {
+                // Draw walls or empty spaces
+                if (cub3d->map[i][j] == '1' || cub3d->map[i][j] == '0')
+                {
+                    uint32_t color = (cub3d->map[i][j] == '1') ? 0x8833FFFF : 0xFFFFFFFF;
+                    
+                    // Draw the cell pixel by pixel with bounds checking
+                    for (int px = 0; px < cub3d->map_unit && (x + px) < WIDTH; px++)
+                    {
+                        for (int py = 0; py < cub3d->map_unit && (y + py) < HEIGHT; py++)
+                        {
+                            if ((x + px) >= 0 && (x + px) < WIDTH && 
+                                (y + py) >= 0 && (y + py) < HEIGHT)
+                            {
+                                mlx_put_pixel(cub3d->img, x + px, y + py, color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    draw_plyr(cub3d->img,cub3d->x, cub3d->y, cub3d->angle);
     return (0);
 }
 int check_mov(int x, int y, cub3d_t *cub)
@@ -408,7 +449,7 @@ int check_mov(int x, int y, cub3d_t *cub)
 void ft_hook(void* param)
 {
     cub3d_t* cub3d = param;
-    float speed = 2.0f;  // Player movement speed
+    float speed = 10.0f;  // Player movement speed
     float rotation_speed = 0.05f;  // Player rotation speed
     int check;
     float x = cub3d->x;
@@ -480,7 +521,7 @@ void ft_hook(void* param)
         cub3d->x = x;
         cub3d->y = y;
     }
-    draw(cub3d);
+    // draw(cub3d);
     draw_rays(cub3d);
 }
 

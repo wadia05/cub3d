@@ -40,7 +40,7 @@ void handle_horizontal_ray(cub3d_t *cub, double start_angle, ray_t *rays)
     // Handle horizontal lines
     if (start_angle > PI)
 	{
-        rays->yH = ((int)(cub->y / cub->map_unit)) * cub->map_unit - 0.0001;
+        rays->yH = ((int)(cub->y / cub->map_unit)) * cub->map_unit - 0.05;
         rays->xH = (cub->y - rays->yH) * rays->aTan + cub->x;
         rays->yo = -cub->map_unit;  
         rays->xo = -rays->yo * rays->aTan;
@@ -90,14 +90,14 @@ void handle_vertical_ray(cub3d_t *cub, double start_angle, ray_t *rays)
 
     if (start_angle > PI / 2 && start_angle < 3 * PI / 2)
 	{
-        rays->xV = ((int)(cub->x / cub->map_unit)) * cub->map_unit - 0.0001;
+        rays->xV = (floor(cub->x / cub->map_unit)) * cub->map_unit - 0.005 ;
         rays->yV = (cub->x - rays->xV) * rays->aTan + cub->y;
         rays->xo = -cub->map_unit;
         rays->yo = -rays->xo * rays->aTan;
     }
 	else if (start_angle < PI / 2 || start_angle > 3 * PI / 2)
 	{
-        rays->xV = ((int)(cub->x / cub->map_unit)) * cub->map_unit + cub->map_unit;
+        rays->xV = (floor(cub->x / cub->map_unit)) * cub->map_unit + cub->map_unit;
         rays->yV = (cub->x - rays->xV) * rays->aTan + cub->y;
         rays->xo = cub->map_unit;
         rays->yo = -rays->xo * rays->aTan;
