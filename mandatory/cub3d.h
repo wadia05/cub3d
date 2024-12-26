@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/21 04:30:12 by wait-bab         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:40:40 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 // # include "../includes/MLX42/MLX42_Input.h"
 // # include "../includes/MLX42/MLX42_Int.h"
-# include "/Users/wait-bab/Desktop/cub3d/MLX42/include/MLX42/MLX42.h"
+# include "/Users/abenchel/Desktop/cub3d/MLX42/include/MLX42/MLX42.h"
 # include "../GET_NEXT_LINE_42/get_next_line.h"
 #include "../track_memory/memory_tracker.h"
 # include "../libft_42/libft.h"

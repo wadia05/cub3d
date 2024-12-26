@@ -40,7 +40,7 @@ void handle_horizontal_ray(cub3d_t *cub, double start_angle, ray_t *rays)
     // Handle horizontal lines
     if (start_angle > PI)
 	{
-        rays->yH = ((int)(cub->y / cub->map_unit)) * cub->map_unit - 0.05;
+        rays->yH = ((int)(cub->y / cub->map_unit)) * cub->map_unit - 0.005;
         rays->xH = (cub->y - rays->yH) * rays->aTan + cub->x;
         rays->yo = -cub->map_unit;  
         rays->xo = -rays->yo * rays->aTan;
@@ -235,7 +235,22 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
 //     //     mlx_put_pixel(cub->img, ray_index, y, wall_color);
 //     // }
 // }
-
+void deviate_ray_if_flanked(ray_t *rays, int num_rays) {
+    for (int i = 1; i < num_rays - 1; i++) {
+        if (rays[i].is_hori == 1) {
+            if (rays[i - 1].is_hori == 0 && rays[i + 1].is_hori == 0) {
+                rays[i].is_hori = 0;
+            }
+        }
+    }
+	for (int i = 1; i < num_rays - 1; i++) {
+        if (rays[i].is_hori == 1) {
+            if (rays[i - 1].is_hori == 0 && rays[i + 1].is_hori == 0) {
+                rays[i].is_hori = 0;
+            }
+        }
+    }
+}
 int draw_rays(cub3d_t *cub) 
 {
     if (init_ray(cub)) return 1;  // Initialize ray (malloc failure check)
@@ -254,15 +269,24 @@ int draw_rays(cub3d_t *cub)
     {
         // Store the current ray's angle
 
-        handle_horizontal_ray(cub, start_angle, rays);
-        handle_vertical_ray(cub, start_angle, rays);
-        draw_ray(cub, rays);
+        handle_horizontal_ray(cub, start_angle, &rays[i]);
+        handle_vertical_ray(cub, start_angle, &rays[i]);
+        draw_ray(cub, &rays[i]);
 
         start_angle += DR;
         if (start_angle < 0) start_angle += 2 * PI;
         if (start_angle > 2 * PI) start_angle -= 2 * PI;
-        draw_wall(cub, rays, i,start_angle);
     }
+	deviate_ray_if_flanked(rays, cub->num_rays);
+	start_angle = cub->angle - (PI / 6);
+	for (int i = 0; i < cub->num_rays; i++)
+	{
+        draw_wall(cub, &rays[i], i,start_angle);
+		start_angle += DR;
+		if (start_angle < 0) start_angle += 2 * PI;
+    	if (start_angle > 2 * PI) start_angle -= 2 * PI;
+	}
+
 	// start_angle = cub->angle - (PI / 6);
     // // Draw walls using the improved draw_wall function
     // for (int i = 0; i < cub->num_rays; i++)

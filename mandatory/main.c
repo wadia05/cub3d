@@ -6,7 +6,7 @@ int init_ray(cub3d_t *cub)
 {
     
     free(cub->ray);  // Free previous ray if exists
-    cub->ray = malloc(sizeof(ray_t));
+    cub->ray = malloc(sizeof(ray_t) * cub->num_rays);
     if (cub->ray == NULL) {
         return 1;  // Memory allocation failure
     }
@@ -563,7 +563,7 @@ void main2(map_list_t *stc, map_t *color)
 	if (!cub3d)
 	    return;
 
-	cub3d->ray = malloc(sizeof(ray_t));
+	cub3d->ray = malloc(sizeof(ray_t) * cub3d->num_rays);
 	if (!cub3d->ray)
 	    return;
     cub3d->info = color;
