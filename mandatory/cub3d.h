@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/26 23:40:40 by abenchel         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:53:51 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@
 # define P1 PI/2
 # define P2 3*PI/2
 // # define DR 0.0174533
-# define DR 0.001047198
+// # define DR 0.001047198
+# define DR 0.001022653859
+
 
 typedef struct map_s map_t;
 typedef struct cordwal

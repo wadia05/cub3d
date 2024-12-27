@@ -538,13 +538,13 @@ void init_player(cub3d_t *cub)
 			if(cub->map[y][x] != '0' && cub->map[y][x] != '1' && cub->map[y][x] != ' ' && cub->map[y][x] != '\t')
 			{
 		        if (cub->map[y][x] == 'W') 
-		            cub->angle = 0.0;
+		            cub->angle = PI;
 				else if (cub->map[y][x] == 'N')
-					cub->angle = P1;
-				else if (cub->map[y][x] == 'S')
 					cub->angle = 3 * P1;
+				else if (cub->map[y][x] == 'S')
+					cub->angle = P1;
 				else if (cub->map[y][x] == 'E')
-					cub->angle = PI;
+					cub->angle = 0.0;
 				cub->x = x * cub->map_unit + cub->map_unit / 2;
 		        cub->y = y * cub->map_unit + cub->map_unit / 2;
 				// printf("x =%d y = %d\n", x, y);
@@ -608,7 +608,7 @@ void main2(map_list_t *stc, map_t *color)
 	    current = current->next;
 	}
 	init_player(cub3d);
-	cub3d->num_rays = 1000;
+	cub3d->num_rays = 1024;
     cub3d->pa = 0.0;
     cub3d->xdx = cos(cub3d->angle) * 5;
     cub3d->ydy = sin(cub3d->angle) * 5;
