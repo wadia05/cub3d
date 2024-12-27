@@ -120,204 +120,7 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color)
         if (e2 <= dx) { err += dx; y0 += sy; }
     }
 }
-// void draw_rays(cub3d_t *cub)
-// {
-// 	int i = -1;
-// 	// int j = 0;
-// 	double start_angle = cub->angle - (DR*30);
-// 	if (start_angle < 0) 
-// 		start_angle += 2 * PI;
-// 	if (start_angle > 2 * PI)
-// 		start_angle -= 2 * PI;
-// 	while (++i < 25)
-// 	{
-// 		cast_ray(cub , start_angle);
-// 		draw_line(cub->img, (int)cub->x, (int)cub->y, (int)cub->ray->rx, (int)cub->ray->ry, 0xFFFF00FF);
-// 		printf("angle == %f", start_angle);
-// 		start_angle += DR;
-// 		if (start_angle < 0)
-// 			start_angle += 2 * PI; 
-// 		if (start_angle > 2 * PI)
-// 			start_angle -= 2 * PI;
-// 	}
-// 	return ;
-// // }
-// int draw_rays(cub3d_t *cub)
-// {
-//     free(cub->ray);  // Free previous ray if exists
-//     cub->ray = malloc(sizeof(ray_t));
-//     if (cub->ray == NULL)
-//         return 1;
-//     ray_t *rays = cub->ray;
-//     rays->distH = 10000000;
-//     rays->distV = 10000000;
-//     rays->xH = cub->x;
-//     rays->yH = cub->y;
-//     rays->xV = cub->x;
-//     rays->yV = cub->y;
-//     int i = -1;
-//     float start_angle = cub->angle - (DR*30);
-//     if (start_angle < 0) 
-//         start_angle += 2 * PI;
-//     if (start_angle > 2 * PI)
-//         start_angle -= 2 * PI;
-//         // float RD = 
-//     while (++i < cub->num_rays)
-//     {  
-//         rays->dof = 0;
-//         rays->aTan = -1.0 / tan(start_angle);
-        
-//         // Handle horizontal lines
-//         if (start_angle > PI)
-//         {
-//             rays->yH = ((int)(cub->y / cub->map_unit)) * cub->map_unit - 0.0001;
-//             rays->xH = (cub->y - rays->yH) * rays->aTan + cub->x;
-//             rays->yo = -cub->map_unit;  
-//             rays->xo = -rays->yo * rays->aTan;
-//         }
-//         else if (start_angle < PI)
-//         {
-//             rays->yH = ((int)(cub->y / cub->map_unit)) * cub->map_unit + cub->map_unit;
-//             rays->xH = (cub->y - rays->yH) * rays->aTan + cub->x;
-//             rays->yo = cub->map_unit;  
-//             rays->xo = -rays->yo * rays->aTan;
-//         }
-//         else
-//         {
-//             rays->xH = cub->x;
-//             rays->yH = cub->y;
-//             rays->dof = 8;
-//         }
 
-//         // Check horizontal intersections
-//         while (rays->dof < 8)
-//         {
-//             int mx = (int)(rays->xH) / cub->map_unit;
-//             int my = (int)(rays->yH) / cub->map_unit;
-            
-//             if (mx >= 0 && mx < cub->map_x && my >= 0 && my < cub->map_y)
-//             {
-//                 if (cub->map[my][mx] == 1)
-//                 {
-//                     rays->dof = 8;
-//                 }
-//                 else
-//                 {
-//                     rays->xH += rays->xo;
-//                     rays->yH += rays->yo;
-//                     rays->dof += 1;
-//                 }
-//             }
-//             else
-//             {
-//                 rays->dof = 8;
-//             }
-//         }
-        
-//         // Handle vertical lines
-//         rays->dof = 0;
-//         rays->aTan = -tan(start_angle);  // Changed from vtan to aTan for clarity
-//         if (start_angle > P1 && start_angle < P2)
-//         {
-//             rays->xV = ((int)(cub->x / cub->map_unit)) * cub->map_unit - 0.0001;
-//             rays->yV = (cub->x - rays->xV) * rays->aTan + cub->y;  // Fixed: Changed yH to yV
-//             rays->xo = -cub->map_unit;  
-//             rays->yo = -rays->xo * rays->aTan;
-//         }
-//         else if (start_angle < P1 || start_angle > P2)
-//         {
-//             rays->xV = ((int)(cub->x / cub->map_unit)) * cub->map_unit + cub->map_unit;
-//             rays->yV = (cub->x - rays->xV) * rays->aTan + cub->y;  // Fixed: Changed yH to yV
-//             rays->xo = cub->map_unit;  
-//             rays->yo = -rays->xo * rays->aTan;
-//         }
-//         else
-//         {
-//             rays->xV = cub->x;
-//             rays->yV = cub->y;  // Fixed: Changed yH to yV
-//             rays->dof = 8;
-//         }
-
-//         // Check vertical intersections
-//         while (rays->dof < 8)
-//         {
-//             int mx = (int)(rays->xV) / cub->map_unit;
-//             int my = (int)(rays->yV) / cub->map_unit;
-            
-//             if (mx >= 0 && mx < cub->map_x && my >= 0 && my < cub->map_y)
-//             {
-//                 if (cub->map[my][mx] == 1)
-//                 {
-//                     rays->dof = 8;
-//                 }
-//                 else
-//                 {
-//                     rays->xV += rays->xo;
-//                     rays->yV += rays->yo;
-//                     rays->dof += 1;
-//                 }
-//             }
-//             else
-//             {
-//                 rays->dof = 8;
-//             }
-//         }
-
-//         // Calculate distances and choose shorter ray
-//         double distH = dist(cub->x, cub->y, rays->xH, rays->yH);
-//         double distV = dist(cub->x, cub->y, rays->xV, rays->yV);
-        
-//         if (distH < distV)
-//         {
-//             rays->rx = rays->xH;
-//             rays->ry = rays->yH;
-//             rays->dist = distH;
-//             draw_line(cub->img, (int)cub->x + 2, (int)cub->y + 2, (int)rays->rx, (int)rays->ry, 0xFFFF00FF);
-//         }
-//         else
-//         {
-//             rays->rx = rays->xV;
-//             rays->ry = rays->yV;
-//             rays->dist = distV;
-//             draw_line(cub->img, (int)cub->x + 2, (int)cub->y + 2, (int)rays->rx, (int)rays->ry, 0xFF4500FF);
-//         }
-//         start_angle += DR;
-//             if (start_angle < 0)
-//         start_angle += 2 * PI;
-//             if (start_angle > 2 * PI)
-//         start_angle -= 2 * PI;
-        
-//     }
-//     return 0;
-// }
-
-// void	draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color)
-// {
-// 	float	dx;
-// 	float	dy;
-// 	int		steps;
-// 	float	x_inc;
-// 	float	y_inc;
-// 	float	x;
-// 	float	y;
-// 	int		i;
-
-// 	dx = x1 - x0;
-// 	dy = y1 - y0;
-// 	steps = (fabsf(dx) > fabsf(dy)) ? fabsf(dx) : fabsf(dy);
-// 	x_inc = dx / steps;
-// 	y_inc = dy / steps;
-// 	x = x0;
-// 	y = y0;
-// 	i = 0;
-// 	while (i <= steps)
-// 	{
-// 		mlx_put_pixel(img, round(x), round(y), color);
-// 		x += x_inc;
-// 		y += y_inc;
-// 		i++;
-// 	}
-// }
 int draw_plyr(mlx_image_t *img, int x, int y, float angle)
 {
     int i = - PLAYER_SIZE / 2 ;
@@ -337,55 +140,56 @@ int draw_plyr(mlx_image_t *img, int x, int y, float angle)
     return 0;
 }
 
-int draw(cub3d_t *cub3d)
-{
-    // Safety check for null pointer
-    if (!cub3d || !cub3d->img || !cub3d->map)
-        return (1);
+// int draw(cub3d_t *cub3d)
+// {
+//     // Safety check for null pointer
+//     if (!cub3d || !cub3d->img || !cub3d->map)
+//         return (1);
 
-    // Fill background with black
-    for (int i = 0; i < WIDTH; i++) {
-        for (int j = 0; j < HEIGHT; j++) {
-            mlx_put_pixel(cub3d->img, i, j, 0x000000FF);
-        }
-    }
+//     // Fill background with black
+//     for (int i = 0; i < WIDTH; i++) {
+//         for (int j = 0; j < HEIGHT; j++) {
+//             mlx_put_pixel(cub3d->img, i, j, 0x000000FF);
+//         }
+//     }
 
-    // Draw map elements
-    for (int i = 0; i < cub3d->map_y; i++)  // Notice: using map_y for rows
-    {
-        for (int j = 0; j < cub3d->map_x; j++)  // Notice: using map_x for columns
-        {
-            // Calculate pixel coordinates
-            int x = j * cub3d->map_unit;  // j for x coordinate
-            int y = i * cub3d->map_unit;  // i for y coordinate
+//     // Draw map elements
+//     for (int i = 0; i < cub3d->map_y; i++)  // Notice: using map_y for rows
+//     {
+//         for (int j = 0; j < cub3d->map_x; j++)  // Notice: using map_x for columns
+//         {
+//             // Calculate pixel coordinates
+//             int x = j * cub3d->map_unit;  // j for x coordinate
+//             int y = i * cub3d->map_unit;  // i for y coordinate
             
-            // Bounds checking for pixel coordinates
-            if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-            {
-                // Draw walls or empty spaces
-                if (cub3d->map[i][j] == '1' || cub3d->map[i][j] == '0')
-                {
-                    uint32_t color = (cub3d->map[i][j] == '1') ? 0x8833FFFF : 0xFFFFFFFF;
+//             // Bounds checking for pixel coordinates
+//             if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+//             {
+//                 // Draw walls or empty spaces
+//                 if (cub3d->map[i][j] == '1' || cub3d->map[i][j] == '0')
+//                 {
+//                     uint32_t color = (cub3d->map[i][j] == '1') ? 0x8833FFFF : 0xFFFFFFFF;
                     
-                    // Draw the cell pixel by pixel with bounds checking
-                    for (int px = 0; px < cub3d->map_unit && (x + px) < WIDTH; px++)
-                    {
-                        for (int py = 0; py < cub3d->map_unit && (y + py) < HEIGHT; py++)
-                        {
-                            if ((x + px) >= 0 && (x + px) < WIDTH && 
-                                (y + py) >= 0 && (y + py) < HEIGHT)
-                            {
-                                mlx_put_pixel(cub3d->img, x + px, y + py, color);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    draw_plyr(cub3d->img,cub3d->x, cub3d->y, cub3d->angle);
-    return (0);
-}
+//                     // Draw the cell pixel by pixel with bounds checking
+//                     for (int px = 0; px < cub3d->map_unit && (x + px) < WIDTH; px++)
+//                     {
+//                         for (int py = 0; py < cub3d->map_unit && (y + py) < HEIGHT; py++)
+//                         {
+//                             if ((x + px) >= 0 && (x + px) < WIDTH && 
+//                                 (y + py) >= 0 && (y + py) < HEIGHT)
+//                             {
+//                                 mlx_put_pixel(cub3d->img, x + px, y + py, color);
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     draw_plyr(cub3d->img,cub3d->x, cub3d->y, cub3d->angle);
+//     return (0);
+// }
+
 int check_mov(int x, int y, cub3d_t *cub)
 {
     int i;
@@ -393,8 +197,7 @@ int check_mov(int x, int y, cub3d_t *cub)
     int map_row;
     int map_col;
 
-    // Define a buffer to ensure player maintains a safe distance from walls
-    const int BUFFER = 10; // Set this to the desired "safe" distance
+    const int BUFFER = 10;
 
     i = -BUFFER;
     while (i < (PLAYER_SIZE + BUFFER))
@@ -404,48 +207,18 @@ int check_mov(int x, int y, cub3d_t *cub)
         {
             map_row = (y + i) / cub->map_unit;
             map_col = (x + j) / cub->map_unit;
-
-            // Ensure we stay within map boundaries
             if (map_row >= 0 && map_row < cub->map_y && map_col >= 0 && map_col < cub->map_x) 
             {
-                if (cub->map[map_row][map_col] == '1') // Wall detected
-                    return 1; // Block movement
+                if (cub->map[map_row][map_col] == '1')
+                    return 1;
             }
             j++;
         }
         i++;
     }
-    return 0; // No wall nearby, safe to move
+    return 0;
 }
 
-
-// int check_mov(int x, int y, cub3d_t *cub)
-// {
-//     int i;
-//     int j;
-
-//     int map_row;
-//     int map_col;
-
-//     i = 0;
-//     while(i < (PLAYER_SIZE )) 
-//     {
-//         j = 0;
-//         while(j < (PLAYER_SIZE )) 
-//         {
-//             map_row = (y  + i) / cub->map_unit;
-//             map_col = (x  + j) / cub->map_unit;
-//             if (map_row >= 0 && map_row < cub->map_y  && map_col >= 0 && map_col < cub->map_x) 
-//             {
-//                 if (cub->map[map_row][map_col] == '1') 
-//                     return (1);
-//             }
-//             j++;
-//         }
-//         i++;
-//     }
-//     return 0;
-// }
 void ft_hook(void* param)
 {
     cub3d_t* cub3d = param;
@@ -455,21 +228,18 @@ void ft_hook(void* param)
     float x = cub3d->x;
     float y = cub3d->y;
     float f;
-    // printf("%f------%f",x,y);
-    // exit(1);
-    // Close window if escape key is pressed
-    if (mlx_is_key_down(cub3d->win, MLX_KEY_ESCAPE))
-        mlx_close_window(cub3d->win);
 
-    // Move forward
+    if (mlx_is_key_down(cub3d->win, MLX_KEY_ESCAPE))
+	{
+		mlx_terminate(cub3d->win);
+		free(cub3d->ray);
+		free(cub3d);
+        mlx_close_window(cub3d->win);
+	}
     if (mlx_is_key_down(cub3d->win, MLX_KEY_W))
     {
-    //     if (cub3d->map[((int)x-30)/cub3d->map_unit][((int)y-30)/cub3d->map_unit] == '1')
-    //         return ;
         x += cos(cub3d->angle) * speed;
         y += sin(cub3d->angle) * speed;
-		// printf("x :%f y :%f angle :%f check %f\n", x, y,cub3d->angle, cub3d->ray->distH);
-		// printf("meeeeee%f\n", cub3d->y - (int)(cub3d->y / cub3d->map_unit) * cub3d->map_unit);
     }
     if (mlx_is_key_down(cub3d->win, MLX_KEY_S))
     {
@@ -490,38 +260,29 @@ void ft_hook(void* param)
         y -= sin(f) * speed;
 
     }
-    // Rotate left (counter-clockwise)
     if (mlx_is_key_down(cub3d->win, MLX_KEY_LEFT))
     {
         cub3d->angle -= rotation_speed;
         if (cub3d->angle < 0)
             cub3d->angle += 2 * PI;
-
-        // Update direction vectors after rotation
         cub3d->xdx = cos(cub3d->angle) * speed;
         cub3d->ydy = sin(cub3d->angle) * speed;
     }
 
-    // Rotate right (clockwise)
     if (mlx_is_key_down(cub3d->win, MLX_KEY_RIGHT))
     {
         cub3d->angle += rotation_speed;
         if (cub3d->angle > 2 * PI)
             cub3d->angle -= 2 * PI;
-
-        // Update direction vectors after rotation
         cub3d->xdx = cos(cub3d->angle) * speed;
         cub3d->ydy = sin(cub3d->angle) * speed;
     }
-
-    // Redraw the scene after movement/rotation
     check = check_mov(x , y, cub3d);
     if(check == 0)
     {
         cub3d->x = x;
         cub3d->y = y;
     }
-    // draw(cub3d);
     draw_rays(cub3d);
 }
 
@@ -638,11 +399,9 @@ void main2(map_list_t *stc, map_t *color)
 
     mlx_loop_hook(cub3d->win, ft_hook, cub3d);
     mlx_loop(cub3d->win);
-
-    // Cleanup
     mlx_delete_image(cub3d->win, cub3d->img);
     mlx_terminate(cub3d->win);
     free(cub3d);
-
+	free(cub3d->ray);
     return ;
 }

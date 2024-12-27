@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/27 17:53:51 by abenchel         ###   ########.fr       */
+/*   Updated: 2024/12/27 23:00:28 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ typedef struct map_s
 } map_t;
 
 
-
+//-----------
 //-----------texture
 
 
@@ -162,6 +162,10 @@ double dist(float ax, float ay, float bx, float by);
 int init_ray(cub3d_t *cub);
 int draw_moraba3(int x, int y, int color, cub3d_t *cub);
 int draw_rays(cub3d_t *cub);
+double normalize_angle(double angle);
+void draw_ray(cub3d_t *cub, ray_t *rays);
+void handle_vertical_ray(cub3d_t *cub, double start_angle, ray_t *rays);
+void handle_horizontal_ray(cub3d_t *cub, double start_angle, ray_t *rays);
 
 // ------------ parsine -------------------- //
 void					free_at_exit(map_t *hd);

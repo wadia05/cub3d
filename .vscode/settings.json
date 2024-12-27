@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "iterator": "c",
-        "memory_tracker.h": "c"
-    }
-}
