@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2024/12/27 23:00:28 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/01 11:51:00 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-// #include "../MLX42/include/MLX42/MLX42.h"
+#include "../MLX42/include/MLX42/MLX42.h"
 // #include "/Users/abenchel/Desktop/cub3d/includes/MLX42/MLX42_Int.h"
 
 // # include "../includes/MLX42/MLX42_Input.h"
 // # include "../includes/MLX42/MLX42_Int.h"
-# include "/Users/abenchel/Desktop/cub3d/MLX42/include/MLX42/MLX42.h"
+// # include "/Users/abenchel/Desktop/cub3d/MLX42/include/MLX42/MLX42.h"
 # include "../GET_NEXT_LINE_42/get_next_line.h"
 #include "../track_memory/memory_tracker.h"
 # include "../libft_42/libft.h"

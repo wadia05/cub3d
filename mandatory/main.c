@@ -121,24 +121,24 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color)
     }
 }
 
-int draw_plyr(mlx_image_t *img, int x, int y, float angle)
-{
-    int i = - PLAYER_SIZE / 2 ;
-    int j = - PLAYER_SIZE / 2 ;
+// int draw_plyr(mlx_image_t *img, int x, int y, float angle)
+// {
+//     int i = - PLAYER_SIZE / 2 ;
+//     int j = - PLAYER_SIZE / 2 ;
     
 
-    while (i < PLAYER_SIZE / 2)
-    {
-        j = - PLAYER_SIZE / 2;
-        while (j < PLAYER_SIZE / 2)
-        {
-            mlx_put_pixel(img, x + i, y + j, 0x00FF00FF); // Green color
-            j++;
-        }
-        i++;
-    }
-    return 0;
-}
+//     while (i < PLAYER_SIZE / 2)
+//     {
+//         j = - PLAYER_SIZE / 2;
+//         while (j < PLAYER_SIZE / 2)
+//         {
+//             mlx_put_pixel(img, x + i, y + j, 0x00FF00FF); // Green color
+//             j++;
+//         }
+//         i++;
+//     }
+//     return 0;
+// }
 
 // int draw(cub3d_t *cub3d)
 // {
@@ -231,10 +231,11 @@ void ft_hook(void* param)
 
     if (mlx_is_key_down(cub3d->win, MLX_KEY_ESCAPE))
 	{
+        mlx_close_window(cub3d->win);
 		mlx_terminate(cub3d->win);
 		free(cub3d->ray);
 		free(cub3d);
-        mlx_close_window(cub3d->win);
+
 	}
     if (mlx_is_key_down(cub3d->win, MLX_KEY_W))
     {
