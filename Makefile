@@ -1,4 +1,5 @@
 NAME = cub3d
+NAMEB = cub3d_Bonus
 HDER = mandatory/cub3d.h
 HDERB = Bonus/cub3d.h
 SRC = \
@@ -63,7 +64,7 @@ $(NAME): $(OBJ) $(HDER) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ) $(MLX) $(LIBFT) $(LDFLAGS) $(FRAMEWORKS) -o $(NAME)
 
 bonus: fclean $(LIBFT) $(OBJB) $(HDERB)
-	$(CC) $(CFLAGS) $(OBJB) $(MLX) $(LIBFT) $(LDFLAGS) $(FRAMEWORKS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJB) $(MLX) $(LIBFT) $(LDFLAGS) $(FRAMEWORKS) -o $(NAMEB)
 
 %.o: %.c $(HDER) $(HDERB)
 	$(CC) $(CFLAGS) -Iinclude -c $< -o $@
@@ -74,7 +75,7 @@ clean:
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAMEB)
 
 re: fclean all
 
