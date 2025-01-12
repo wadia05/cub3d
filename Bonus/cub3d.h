@@ -76,6 +76,7 @@ typedef struct ray_s
     float xV;
     float yV;
 	int is_hori;
+	int is_door;
 
 
 } ray_t;

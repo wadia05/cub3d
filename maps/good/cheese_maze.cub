@@ -1,7 +1,7 @@
-NO textures/simonkraft/wet_sponge.xpm
-SO textures/simonkraft/wet_sponge.xpm
-WE textures/simonkraft/wet_sponge.xpm
-EA textures/simonkraft/wet_sponge.xpm
+NO /Users/abenchel/Desktop/cub1/test1.png
+SO /Users/abenchel/Desktop/cub1/test1.png
+WE /Users/abenchel/Desktop/cub1/test1.png
+EA /Users/abenchel/Desktop/cub1/test1.png
 
 F 164,169,20
 C 153,204,255
@@ -24,7 +24,7 @@ C 153,204,255
 101000100000100010101
 101011111111111010101
 100010000000000010001
-101010111011111111101
-1N1000001000000000001
+131010111011111111101
+1N0000000000000000001
 111111111111111111111
 

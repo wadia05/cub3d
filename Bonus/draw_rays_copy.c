@@ -24,6 +24,20 @@ void itirate_horizontal(ray_t *rays, cub3d_t *cub)
 		{
             if (cub->map[my][mx] == '1')
                 rays->dof = cub->ray_dof_max;
+			else if(cub->map[my][mx] == '3')
+			{
+				rays->dof = cub->ray_dof_max;
+				rays->is_door = 1;
+				//rays->is_door = 1 mean  is a door
+
+			}
+			else if(cub->map[my][mx] == '5')
+			{
+				rays->dof = cub->ray_dof_max;
+				rays->is_door = 2;
+				//rays->is_door = 2 mean was a door
+
+			}
 			else
 			{
                 rays->xH += rays->xo;
@@ -75,6 +89,20 @@ void itirate_vertical(ray_t *rays, cub3d_t *cub)
 		{
             if (cub->map[my][mx] == '1')
                 rays->dof = cub->ray_dof_max;
+			else if(cub->map[my][mx] == '3')
+			{
+				rays->dof = cub->ray_dof_max;
+				rays->is_door = 1;
+				//rays->is_door = 1 mean  is a door
+
+			}
+			else if(cub->map[my][mx] == '5')
+			{
+				rays->dof = cub->ray_dof_max;
+				rays->is_door = 2;
+				//rays->is_door = 2 mean was a door
+
+			}
 			else
 			{
                 rays->xV += rays->xo;

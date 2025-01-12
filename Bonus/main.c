@@ -209,7 +209,7 @@ int check_mov(int x, int y, cub3d_t *cub)
             map_col = (x + j) / cub->map_unit;
             if (map_row >= 0 && map_row < cub->map_y && map_col >= 0 && map_col < cub->map_x) 
             {
-                if (cub->map[map_row][map_col] == '1')
+                if (cub->map[map_row][map_col] == '1' || cub->map[map_row][map_col] == '3' )
                     return 1;
             }
             j++;
@@ -219,6 +219,87 @@ int check_mov(int x, int y, cub3d_t *cub)
     return 0;
 }
 
+cub3d_t	*open_close_door(cub3d_t *cub, int k) 
+{
+    if(k == 0) // Opening the door
+    {
+        int i = floor(cub->ray[500].rx / 64);
+        int j = floor(cub->ray[500].ry / 64);
+        
+        // Check if we're looking at a door (usually marked as '3' in the map)
+        if(cub->ray[500].is_door == 1)
+        {
+            cub->map[j][i] = '5'; // Change door state to open
+            printf("door opened\n");
+            printf("Map value at [%d][%d]: %c\n", i, j, cub->map[j][i]);
+            cub->ray[500].is_door = 2;
+        }
+        else
+        {
+            printf("i = %d -- j = %d for open is not door\n", i, j);
+        }
+    }
+    else if(k == 1) // Closing the door
+    {
+        int i = floor(cub->ray[500].rx / 64);
+        int j = floor(cub->ray[500].ry / 64);
+        
+        if(cub->ray[500].is_door == 2)
+        {
+            cub->map[j][i] = '3'; // Change door state back to closed
+            printf("door closed\n");
+            cub->ray[500].is_door = 1;
+        }
+        else
+        {
+            printf("for close is not door\n");
+        }
+    }
+	return (cub);
+}
+// void	
+// void	open_close_door(cub3d_t *cub, int k)
+// {
+// 	if(k == 0)
+// 	{
+// 		int i = floor(cub->ray[500].rx / 64);
+// 		int j = floor(cub->ray[500].ry / 64);
+// 		if(cub->ray[500].is_door == 1 )
+// 		{
+// 	 		cub->map[i][j] = '1';
+// 			printf("door opened\n");
+// 			printf("%c\n",cub->map[i][j] );
+// 			cub->ray[500].is_door = 2;
+// 		}
+// 		else
+// 		{
+
+// 			printf("i = %d -- j = %dfor open is not door\n", i , j);
+// 		}
+// 	}
+// 	else if(k == 1)
+// 	{
+// 		int i = floor(cub->ray[500].rx / 64);
+// 		int j = floor(cub->ray[500].ry / 64);
+// 		if(cub->ray[500].is_door == 2 )
+// 		{
+// 	 		cub->map[i][j] = '3';
+// 			printf("door closed\n");
+// 		}
+// 		else
+// 			printf("for close is not door\n");
+// 	}
+
+// }
+void print_all_map(cub3d_t *cub)
+{
+	int j = 0;
+	while(cub->map[18][j] && j < 20)
+	{
+		printf("%c", cub->map[18][j]);
+		j++;
+	}
+}
 void ft_hook(void* param)
 {
     cub3d_t* cub3d = param;
@@ -277,6 +358,15 @@ void ft_hook(void* param)
         cub3d->xdx = cos(cub3d->angle) * speed;
         cub3d->ydy = sin(cub3d->angle) * speed;
     }
+	if (mlx_is_key_down(cub3d->win, MLX_KEY_O))
+	{
+		cub3d = open_close_door(cub3d, 0);
+		print_all_map(cub3d);
+	}
+	if (mlx_is_key_down(cub3d->win, MLX_KEY_C))
+	{
+		cub3d = open_close_door(cub3d, 1);
+	}
     check = check_mov(x , y, cub3d);
     if(check == 0)
     {
@@ -296,7 +386,7 @@ void init_player(cub3d_t *cub)
 		x = 0;
 	    while (x < cub->map_x && cub->map[y][x])
 		{
-			if(cub->map[y][x] != '0' && cub->map[y][x] != '1' && cub->map[y][x] != ' ' && cub->map[y][x] != '\t')
+			if(cub->map[y][x] != '0' && cub->map[y][x] != '1' && cub->map[y][x] != ' ' && cub->map[y][x] != '\t' && cub->map[y][x] != '3' && cub->map[y][x] != '5')
 			{
 		        if (cub->map[y][x] == 'W') 
 		            cub->angle = PI;
@@ -346,6 +436,13 @@ void main2(map_list_t *stc, map_t *color)
 
 	// Initialize map
 	map_list_t *current = stc;
+	// int i = 0;
+	// while(current)
+	// {
+	// 	printf("%s\n", current->map);
+	// 	current = current->next;
+	// }
+	// exit(1);
 	cub3d->map = malloc(sizeof(char *) * stc->high_y);
 	if (!cub3d->map)
 	    return;
