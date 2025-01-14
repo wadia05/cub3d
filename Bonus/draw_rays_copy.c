@@ -36,8 +36,12 @@ void itirate_horizontal(ray_t *rays, cub3d_t *cub)
 			}
 			else if(cub->map[my][mx] == '5')
 			{
-				rays->dof = cub->ray_dof_max;
-				rays->is_door_h = 2;
+				rays->is_door_close_h = 1;
+                rays->xh_was_adoor = rays->xH;
+                rays->yh_was_adoor = rays->yH;
+                rays->xH += rays->xo;
+                rays->yH += rays->yo;
+                rays->dof += 1;
 				//rays->is_door = 2 mean was a door
 
 			}
@@ -104,8 +108,12 @@ void itirate_vertical(ray_t *rays, cub3d_t *cub)
 			}
 			else if(cub->map[my][mx] == '5')
 			{
-				rays->dof = cub->ray_dof_max;
-				rays->is_door_v = 2;
+				rays->is_door_close_v = 1;
+                rays->xv_was_adoor = rays->xV;
+                rays->yv_was_adoor = rays->yV;
+                rays->xV += rays->xo;
+                rays->yV += rays->yo;
+                rays->dof += 1;
 				//rays->is_door = 2 mean was a door
 
 			}
@@ -145,9 +153,9 @@ void handle_vertical_ray(cub3d_t *cub, double start_angle, ray_t *rays)
         rays->yV = cub->y;
         rays->dof = cub->ray_dof_max;
     }
-        int mx = (int)(cub->x) / cub->map_unit;
-        int my = (int)(cub->y) / cub->map_unit;
-        printf("mx : %d  my : %d\n", mx, my);
+        // int mx = (int)(cub->x) / cub->map_unit;
+        // int my = (int)(cub->y) / cub->map_unit;
+        // printf("mx : %d  my : %d\n", mx, my);
 
 	itirate_vertical(rays, cub);
 }
@@ -159,6 +167,8 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
 
 	distH = dist(cub->x, cub->y, rays->xH, rays->yH);
 	distV = dist(cub->x, cub->y, rays->xV, rays->yV);
+
+    rays->is_door_close = 0;
     if (distH < distV)
 	{
         rays->rx = rays->xH;
@@ -166,12 +176,10 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
         rays->dist = distH;
         rays->is_hori = 0;
         rays->is_door = rays->is_door_h;
-        // if (rays->is_door == 2)
-        // {
-        //     int mx = (int)(rays->xH) / cub->map_unit;
-        //     int my = (int)(rays->yH) / cub->map_unit;
-        //     // printf("mx : %d  my : %d\n", mx, my);
-        // }
+        rays->x_was_adoor = rays->xh_was_adoor;
+        rays->y_was_adoor = rays->yh_was_adoor;
+        rays->is_door_close = rays->is_door_close_h;
+        rays->dist_door = dist(cub->x, cub->y, rays->x_was_adoor, rays->y_was_adoor);
     }
 	else
 	{
@@ -180,6 +188,10 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
         rays->dist = distV;
         rays->is_hori = 1;
         rays->is_door = rays->is_door_v;
+        rays->x_was_adoor = rays->xv_was_adoor;
+        rays->y_was_adoor = rays->yv_was_adoor;
+        rays->is_door_close = rays->is_door_close_v;
+        rays->dist_door = dist(cub->x, cub->y, rays->x_was_adoor, rays->y_was_adoor);
         // if (rays->is_door == 2)
         // {
         //     int mx = (int)(rays->xH) / cub->map_unit;

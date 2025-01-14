@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/14 15:37:05 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:08:56 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,21 @@ typedef struct ray_s
     float yH;
     float distV;
     float dist;
+    float xh_was_adoor;
+    float yh_was_adoor;
+    float xv_was_adoor;
+    float yv_was_adoor;
+    float x_was_adoor;
+    float y_was_adoor;
     float xV;
     float yV;
 	int is_hori;
 	int is_door_h;
 	int is_door_v;
+    int is_door_close_h;
+    int is_door_close_v;
+    int is_door_close;
+    int dist_door;
 	int is_door;
 
 

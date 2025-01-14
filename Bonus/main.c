@@ -7,8 +7,32 @@ int init_ray(cub3d_t *cub)
     
     free(cub->ray);  // Free previous ray if exists
     cub->ray = malloc(sizeof(ray_t) * cub->num_rays);
-    if (cub->ray == NULL) {
+    if (cub->ray == NULL) 
+    {
         return 1;  // Memory allocation failure
+    }
+    int i = 0;
+    while(i < cub->num_rays)
+    {
+        cub->ray[i].distV = 0;
+        cub->ray[i].dist = 0;
+        // cub->ray[i].xh_was_adoor = 0;
+        cub->ray[i].yh_was_adoor = 0;
+        cub->ray[i].xv_was_adoor = 0;
+        cub->ray[i].yv_was_adoor = 0;
+        cub->ray[i].x_was_adoor = 0;
+        cub->ray[i].y_was_adoor = 0;
+        cub->ray[i].xV = 0;
+        cub->ray[i].yV = 0;
+        cub->ray[i].is_hori = 0;
+        cub->ray[i].is_door_h = 0;
+        cub->ray[i].is_door_v = 0;
+        cub->ray[i].is_door_close_h = 0;
+        cub->ray[i].is_door_close_v = 0;
+        cub->ray[i].is_door_close = 0;
+        cub->ray[i].dist_door = 0;
+        cub->ray[i].is_door = 0;
+        i++;
     }
     return 0;
 }
@@ -222,7 +246,7 @@ int check_mov(int x, int y, cub3d_t *cub)
 
 cub3d_t	*open_close_door(cub3d_t *cub, int k) 
 {
-    if(k == 0) // Opening the door
+    if(k == 0 ) // Opening the door
     {
         int i = floor(cub->ray[500].rx / 64);
         int j = floor(cub->ray[500].ry / 64);
@@ -232,7 +256,7 @@ cub3d_t	*open_close_door(cub3d_t *cub, int k)
         {
             cub->map[j][i] = '5'; // Change door state to open
             printf("door opened\n");
-            printf("Map value at [%d][%d]: %c\n", i, j, cub->map[j][i]);
+            // printf("Map value at [%d][%d]: %c\n", i, j, cub->map[j][i]);
             cub->ray[500].is_door = 2;
         }
         else
@@ -240,16 +264,18 @@ cub3d_t	*open_close_door(cub3d_t *cub, int k)
             printf("i = %d -- j = %d for open is not door\n", i, j);
         }
     }
-    else if(k == 1) // Closing the door
+    else if(k == 1 ) // Closing the door
     {
-        int i = floor(cub->ray[500].rx / 64);
-        int j = floor(cub->ray[500].ry / 64);
+        int i = floor(cub->ray[500].x_was_adoor / 64);
+        int j = floor(cub->ray[500].y_was_adoor / 64);
         
-        if(cub->ray[500].is_door == 2)
+        // printf("i [%d]  j [%d]   door[%d]", i , j, cub->ray[500].is_door);
+
+        if(cub->ray[500].is_door_close == 1 )
         {
             cub->map[j][i] = '3'; // Change door state back to closed
             printf("door closed\n");
-            cub->ray[500].is_door = 1;
+            cub->ray[500].is_door_close = 0;
         }
         else
         {
@@ -362,7 +388,7 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_O))
 	{
 		cub3d = open_close_door(cub3d, 0);
-		print_all_map(cub3d);
+		// print_all_map(cub3d);
 	}
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_C))
 	{
@@ -408,7 +434,31 @@ void init_player(cub3d_t *cub)
 	}
 	return ;
 }
+void ft_hook_mouse(void* param) {
+    cub3d_t *cub3d = param;
+    static int32_t prev_x = WIDTH / 2;
+    int32_t mouse_x, mouse_y;
+    const float rotation_speed = 0.001;
+    const float speed = 2;
 
+    if (!cub3d || !cub3d->win) return;
+
+    // Hide cursor at game start
+    mlx_set_cursor_mode(cub3d->win, MLX_MOUSE_HIDDEN);
+
+    mlx_get_mouse_pos(cub3d->win, &mouse_x, &mouse_y);
+    float delta_x = mouse_x - prev_x;
+    
+    cub3d->angle += delta_x * rotation_speed;
+    cub3d->angle = fmod(cub3d->angle, 2 * PI);
+    if (cub3d->angle < 0) cub3d->angle += 2 * PI;
+
+    cub3d->xdx = cos(cub3d->angle) * speed;
+    cub3d->ydy = sin(cub3d->angle) * speed;
+
+    mlx_set_mouse_pos(cub3d->win, WIDTH/2, HEIGHT/2);
+    prev_x = WIDTH/2;
+}
 void main2(map_list_t *stc, map_t *color)
 {
 	cub3d_t *cub3d = malloc(sizeof(cub3d_t));
@@ -496,6 +546,7 @@ void main2(map_list_t *stc, map_t *color)
     }
 
     mlx_loop_hook(cub3d->win, ft_hook, cub3d);
+    // mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
     mlx_loop(cub3d->win);
     mlx_delete_image(cub3d->win, cub3d->img);
     mlx_terminate(cub3d->win);
