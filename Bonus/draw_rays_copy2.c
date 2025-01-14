@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_rays_copy2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 22:57:00 by abenchel          #+#    #+#             */
-/*   Updated: 2024/12/27 23:01:34 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:35:22 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,17 @@ int draw_rays(cub3d_t *cub)
     start_angle = normalize_angle(start_angle);
     while (i < cub->num_rays)
     {
+        
         handle_horizontal_ray(cub, start_angle, &rays[i]);
         handle_vertical_ray(cub, start_angle, &rays[i]);
         draw_ray(cub, &rays[i]);
         start_angle += DR;
         start_angle = normalize_angle(start_angle);
 		i++;
+
     }
+    // write (1, "wds", 3)
 	draw_wall2(cub, rays);
+  
     return 0;
 }

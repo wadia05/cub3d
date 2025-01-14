@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/01 12:13:08 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/14 15:37:05 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef struct ray_s
     float xV;
     float yV;
 	int is_hori;
+	int is_door_h;
+	int is_door_v;
 	int is_door;
 
 
@@ -137,6 +139,7 @@ typedef struct map_s
     mlx_texture_t *so_png;
     mlx_texture_t *we_png;
     mlx_texture_t *ea_png;
+    mlx_texture_t *door_png;
 
 
     char *f;

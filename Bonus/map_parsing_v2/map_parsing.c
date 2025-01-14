@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:46 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/01 12:14:47 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/13 07:00:08 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	validate_map_borders_and_walls(map_list_t *map_data, map_t *stc)
 	return (0);
 }
 
-int door_check(map_list_t *hd, map_t *stc)
+int door_check(map_list_t *hd)
 {
     map_list_t *tmp;
     int i;
@@ -139,7 +139,7 @@ int	parse_line_maps(map_t *stc)
 		return (1);
 	if (player_check(stc->map_data, stc) != 0)
 		return (1);
-	if (door_check(stc->map_data, stc) != 0)
+	if (door_check(stc->map_data) != 0)
 		return (1);
 	return (0);
 }

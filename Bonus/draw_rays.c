@@ -157,52 +157,52 @@ void draw_ray(cub3d_t *cub, ray_t *rays)
 	// draw_wall(cub, rays->dist);
 }
 
-// Function to draw all rays
-void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index,int s_agl )
-{
-    (void)s_agl;
-    // Projection plane calculations
-    float fov = PI / 3;  // 60-degree field of view
-    float dist_project_plane = (WIDTH / 2) / tan(fov / 2);
+// // Function to draw all rays
+// void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index,int s_agl )
+// {
+//     (void)s_agl;
+//     // Projection plane calculations
+//     float fov = PI / 3;  // 60-degree field of view
+//     float dist_project_plane = (WIDTH / 2) / tan(fov / 2);
 
-    // Calculate wall strip height based on ray distance
-    float wall_strip_height = (cub->map_unit / ray->dist) * dist_project_plane;
+//     // Calculate wall strip height based on ray distance
+//     float wall_strip_height = (cub->map_unit / ray->dist) * dist_project_plane;
 
-    // Calculate the starting and ending y-coordinates of the wall strip
-    int wall_top = (HEIGHT / 2) - (wall_strip_height / 2);
-    int wall_bottom = (HEIGHT / 2) + (wall_strip_height / 2);
+//     // Calculate the starting and ending y-coordinates of the wall strip
+//     int wall_top = (HEIGHT / 2) - (wall_strip_height / 2);
+//     int wall_bottom = (HEIGHT / 2) + (wall_strip_height / 2);
 
-    // Clamp wall_top and wall_bottom to stay within the screen bounds
-    wall_top = fmax(0, wall_top);
-    wall_bottom = fmin(wall_bottom, HEIGHT - 1);
+//     // Clamp wall_top and wall_bottom to stay within the screen bounds
+//     wall_top = fmax(0, wall_top);
+//     wall_bottom = fmin(wall_bottom, HEIGHT - 1);
 
-    // Choose wall color based on horizontal or vertical hit
-    // uint32_t wall_color = ray->dist == ray->distH ? 0x00FF00FF : 0xFF4500FF;
-    uint32_t wall_color = 0;
-    if (ray->is_hori) {
-        //     // printf("-->%d",s_agl);
-        // if (s_agl > 0 && s_agl < PI) {
-        //     // South walls (bottom half)
-        //     wall_color = 0xFF0000FF;  // Red
-        // } else {
-        //     // North walls (top half)
-            wall_color = 0x0000FFFF;  // Blue
-        // }
-    } else {
-        // if (s_agl > PI/2 && s_agl < 3*PI/2) {
-        //     // West walls (left side)
-        //     wall_color = 0x00FF00FF;  // Green
-        // } else {
-        //     // East walls (right side)
-            wall_color = 0xFFFF00FF;  // Yellow
-        // }
-    }
+//     // Choose wall color based on horizontal or vertical hit
+//     // uint32_t wall_color = ray->dist == ray->distH ? 0x00FF00FF : 0xFF4500FF;
+//     uint32_t wall_color = 0;
+//     if (ray->is_hori) {
+//             // printf("-->%d",s_agl);
+//         if (s_agl > 0 && s_agl < PI) {
+//             // South walls (bottom half)
+//             wall_color = 0xFF0000FF;  // Red
+//         } else {
+//             // North walls (top half)
+//             // wall_color = 0x0000FFFF;  // Blue
+//         }
+//     } else {
+//         // if (s_agl > PI/2 && s_agl < 3*PI/2) {
+//         //     // West walls (left side)
+//         //     wall_color = 0x00FF00FF;  // Green
+//         // } else {
+//         //     // East walls (right side)
+//             wall_color = 0xFFFF00FF;  // Yellow
+//         // }
+//     }
 
-    // Draw the wall strip pixel by pixel
-    for (int y = wall_top; y <= wall_bottom; y++) {
-        mlx_put_pixel(cub->img, ray_index, y, wall_color);
-    }
-}
+//     // Draw the wall strip pixel by pixel
+//     for (int y = wall_top; y <= wall_bottom; y++) {
+//         mlx_put_pixel(cub->img, ray_index, y, wall_color);
+//     }
+// }
 
 int draw_rays(cub3d_t *cub) 
 {

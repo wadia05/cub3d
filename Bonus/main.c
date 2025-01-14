@@ -123,6 +123,7 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, int color)
 
 int draw_plyr(mlx_image_t *img, int x, int y, float angle)
 {
+    (void)angle;
     int i = - PLAYER_SIZE / 2 ;
     int j = - PLAYER_SIZE / 2 ;
     

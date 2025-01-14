@@ -36,7 +36,7 @@ void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index, double s_agl)
     float wall_strip_height = (cub->map_unit / corrected_distance) * dist_project_plane;
 
     // Calculate the actual wall height before clamping
-    float actual_wall_height = wall_strip_height;
+    // float actual_wall_height = wall_strip_height;
     
     // Calculate initial wall positions
     int wall_top = (HEIGHT / 2) - (wall_strip_height / 2);
