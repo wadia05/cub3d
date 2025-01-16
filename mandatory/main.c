@@ -324,6 +324,7 @@ void main2(map_list_t *stc, map_t *color)
 	cub3d_t *cub3d = malloc(sizeof(cub3d_t));
 	if (!cub3d)
 	    return;
+	cub3d->num_rays = 1024;
 
 	cub3d->ray = malloc(sizeof(ray_t) * cub3d->num_rays);
 	if (!cub3d->ray)
@@ -370,7 +371,6 @@ void main2(map_list_t *stc, map_t *color)
 	    current = current->next;
 	}
 	init_player(cub3d);
-	cub3d->num_rays = 1024;
     cub3d->pa = 0.0;
     cub3d->xdx = cos(cub3d->angle) * 5;
     cub3d->ydy = sin(cub3d->angle) * 5;
@@ -402,7 +402,7 @@ void main2(map_list_t *stc, map_t *color)
     mlx_loop(cub3d->win);
     mlx_delete_image(cub3d->win, cub3d->img);
     mlx_terminate(cub3d->win);
-    free(cub3d);
-	free(cub3d->ray);
+    // free(cub3d);
+	// free(cub3d->ray);
     return ;
 }

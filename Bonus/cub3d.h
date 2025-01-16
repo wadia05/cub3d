@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/14 17:08:56 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:37:16 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,16 @@ typedef struct ray_s
 
 
 } ray_t;
+// typedef struct texture_s
+// {
+//     float dist_project_plane;
+//     float corrected_distance;
+//     float wall_strip_height;
+//     int wall_top;
+//     int wall_bottom;
+//     float texture_offset;
 
+// }texture_t;
 typedef struct cub3d_s
 {
     float x;         // Player's x-coordinate
@@ -114,6 +123,7 @@ typedef struct cub3d_s
     mlx_t *win;      // MiniLibX window
     mlx_image_t *img; // MiniLibX image to draw on
     map_t *info;
+    
 } cub3d_t;
 
 typedef struct map_list_s
@@ -150,11 +160,21 @@ typedef struct map_s
     mlx_texture_t *we_png;
     mlx_texture_t *ea_png;
     mlx_texture_t *door_png;
+    
+    mlx_texture_t *wall_texture;
 
+    
+    float dist_project_plane;
+    float corrected_distance;
+    float wall_strip_height;
+    int wall_top;
+    int wall_bottom;
+    float texture_offset;
+    float fov;
 
     char *f;
     char *c;
-
+    
     color_t *f_color;
     color_t *c_color;
     tracker_t **free_head;

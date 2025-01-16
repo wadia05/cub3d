@@ -342,7 +342,7 @@ void ft_hook(void* param)
 		mlx_terminate(cub3d->win);
 		free(cub3d->ray);
 		free(cub3d);
-        mlx_close_window(cub3d->win);
+        // mlx_close_window(cub3d->win);
 	}
     if (mlx_is_key_down(cub3d->win, MLX_KEY_W))
     {
@@ -465,6 +465,7 @@ void main2(map_list_t *stc, map_t *color)
 	if (!cub3d)
 	    return;
 
+	cub3d->num_rays = 1024;
 	cub3d->ray = malloc(sizeof(ray_t) * cub3d->num_rays);
 	if (!cub3d->ray)
 	    return;
@@ -517,7 +518,6 @@ void main2(map_list_t *stc, map_t *color)
 	    current = current->next;
 	}
 	init_player(cub3d);
-	cub3d->num_rays = 1024;
     cub3d->pa = 0.0;
     cub3d->xdx = cos(cub3d->angle) * 5;
     cub3d->ydy = sin(cub3d->angle) * 5;
@@ -546,11 +546,11 @@ void main2(map_list_t *stc, map_t *color)
     }
 
     mlx_loop_hook(cub3d->win, ft_hook, cub3d);
-    // mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
+    mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
     mlx_loop(cub3d->win);
     mlx_delete_image(cub3d->win, cub3d->img);
     mlx_terminate(cub3d->win);
-    free(cub3d);
-	free(cub3d->ray);
+    // free(cub3d);
+	// free(cub3d->ray);
     return ;
 }
