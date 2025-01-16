@@ -41,7 +41,7 @@ SRCB = \
 	Bonus/draw_rays_copy2.c
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 AR = ar rcs
 OBJ = $(SRC:.c=.o)
 OBJB = $(SRCB:.c=.o)
@@ -50,10 +50,10 @@ LIBFT_DIR := ./libft_42
 LIBFT := $(LIBFT_DIR)/libft.a
 
 # linux
-LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
-#MAC
-# LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/wait-bab/.brew/opt/glfw/lib"
-# FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
+# LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
+# MAC
+LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/abenchel/.brew/opt/glfw/lib"
+FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(LIBFT) $(NAME)
 

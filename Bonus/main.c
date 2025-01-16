@@ -1,6 +1,47 @@
 #include "cub3d.h"
 
+void draw__mini_map(cub3d_t *cub) {
+    const int MAP_SIZE = 100;
+    const int CELL_SIZE = 64;
 
+    for (int y = 0; y < MAP_SIZE; y++) {
+        for (int x = 0; x < MAP_SIZE; x++) {
+            // Calculate map coordinates relative to player position
+            int map_x = (cub->x + x - 50) / CELL_SIZE;
+            int map_y = (cub->y + y - 50) / CELL_SIZE;
+
+
+
+            // Try to directly access the map position
+            if (map_y >= 0 && map_y < HEIGHT && map_x >= 0 && map_x < WIDTH) {
+                char map_char = cub->map[map_y][map_x];
+
+                if (map_char == '1') {
+                    mlx_put_pixel(cub->img, x, y, 0x00FF0000);  // Red for walls
+                }
+				if (map_char == '3') {
+                    mlx_put_pixel(cub->img, x, y, 0x00FF0000);  // Red for walls
+                }
+				else if (map_char == '5') {
+                    mlx_put_pixel(cub->img, x, y, 0x00FFFFFF);  // White for floor
+                }
+				else if (map_char == '0') {
+                    mlx_put_pixel(cub->img, x, y, 0x00FFFFFF);  // White for floor
+                } else {
+                    mlx_put_pixel(cub->img, x, y, 0x00444444);  // Grey for unknown
+                }
+            } else {
+                mlx_put_pixel(cub->img, x, y, 0x00444444);  // Grey for out of bounds
+            }
+        }
+    }
+
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            mlx_put_pixel(cub->img, 50 + i, 50 + j, 0x0000FF00);  // Green dot for player
+        }
+    }
+}
 
 int init_ray(cub3d_t *cub) 
 {
@@ -8,15 +49,12 @@ int init_ray(cub3d_t *cub)
     free(cub->ray);  // Free previous ray if exists
     cub->ray = malloc(sizeof(ray_t) * cub->num_rays);
     if (cub->ray == NULL) 
-    {
         return 1;  // Memory allocation failure
-    }
     int i = 0;
     while(i < cub->num_rays)
     {
         cub->ray[i].distV = 0;
         cub->ray[i].dist = 0;
-        // cub->ray[i].xh_was_adoor = 0;
         cub->ray[i].yh_was_adoor = 0;
         cub->ray[i].xv_was_adoor = 0;
         cub->ray[i].yv_was_adoor = 0;
@@ -255,32 +293,22 @@ cub3d_t	*open_close_door(cub3d_t *cub, int k)
         if(cub->ray[500].is_door == 1)
         {
             cub->map[j][i] = '5'; // Change door state to open
-            printf("door opened\n");
-            // printf("Map value at [%d][%d]: %c\n", i, j, cub->map[j][i]);
             cub->ray[500].is_door = 2;
         }
-        else
-        {
-            printf("i = %d -- j = %d for open is not door\n", i, j);
-        }
+
     }
     else if(k == 1 ) // Closing the door
     {
         int i = floor(cub->ray[500].x_was_adoor / 64);
         int j = floor(cub->ray[500].y_was_adoor / 64);
         
-        // printf("i [%d]  j [%d]   door[%d]", i , j, cub->ray[500].is_door);
 
         if(cub->ray[500].is_door_close == 1 )
         {
             cub->map[j][i] = '3'; // Change door state back to closed
-            printf("door closed\n");
             cub->ray[500].is_door_close = 0;
         }
-        else
-        {
-            printf("for close is not door\n");
-        }
+
     }
 	return (cub);
 }
@@ -340,8 +368,8 @@ void ft_hook(void* param)
     if (mlx_is_key_down(cub3d->win, MLX_KEY_ESCAPE))
 	{
 		mlx_terminate(cub3d->win);
-		free(cub3d->ray);
-		free(cub3d);
+		// free(cub3d->ray);
+		// free(cub3d);
         // mlx_close_window(cub3d->win);
 	}
     if (mlx_is_key_down(cub3d->win, MLX_KEY_W))
@@ -401,6 +429,7 @@ void ft_hook(void* param)
         cub3d->y = y;
     }
     draw_rays(cub3d);
+	draw__mini_map(cub3d);
 }
 
 void init_player(cub3d_t *cub)
@@ -457,7 +486,7 @@ void ft_hook_mouse(void* param) {
     cub3d->ydy = sin(cub3d->angle) * speed;
 
     mlx_set_mouse_pos(cub3d->win, WIDTH/2, HEIGHT/2);
-    prev_x = WIDTH/2;
+    // prev_x = WIDTH/2;
 }
 void main2(map_list_t *stc, map_t *color)
 {
