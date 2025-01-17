@@ -1,0 +1,145 @@
+<html>
+<head>
+  <style>
+    .container {
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .wall, .texture {
+      border: 2px solid #333;
+      position: relative;
+      height: 300px;
+      width: 100px;
+      background: #f0f0f0;
+    }
+    .texture {
+      background: linear-gradient(to bottom, 
+        #ff0000 0%, #ff0000 33%, 
+        #00ff00 33%, #00ff00 66%, 
+        #0000ff 66%, #0000ff 100%);
+    }
+    .marker {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: black;
+      left: 0;
+      pointer-events: none;
+    }
+    .connector {
+      position: absolute;
+      height: 2px;
+      background: rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+    .label {
+      position: absolute;
+      right: -120px;
+      transform: translateY(-10px);
+      font-size: 12px;
+    }
+    .wall-segment {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Wall Texture Mapping Visualization</h2>
+  <p>Move your mouse over the wall to see how screen coordinates map to texture coordinates.</p>
+  
+  <div class="grid">
+    <div style="position: relative;">
+      <h3>Screen Wall (y pixels)</h3>
+      <div class="wall" id="wall">
+        <div class="marker" id="marker"></div>
+        <div class="label" id="wallLabel"></div>
+      </div>
+    </div>
+    
+    <div style="position: relative;">
+      <h3>Texture (0.0 to 1.0)</h3>
+      <div class="texture" id="texture">
+        <div class="marker" id="textureMarker"></div>
+        <div class="label" id="textureLabel"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="calculations" style="font-family: monospace; margin-top: 20px;"></div>
+</div>
+
+<script>
+const wall = document.getElementById('wall');
+const texture = document.getElementById('texture');
+const marker = document.getElementById('marker');
+const textureMarker = document.getElementById('textureMarker');
+const wallLabel = document.getElementById('wallLabel');
+const textureLabel = document.getElementById('textureLabel');
+const calculations = document.getElementById('calculations');
+
+const wallTop = 50;
+const wallBottom = 250;
+const textureOffset = 0.1;
+
+wall.addEventListener('mousemove', (e) => {
+  const rect = wall.getBoundingClientRect();
+  const y = e.clientY - rect.top;
+  
+  // Only process if within wall boundaries
+  if (y >= wallTop && y <= wallBottom) {
+    marker.style.top = `${y}px`;
+    
+    // Calculate screen position (0 to 1)
+    const screenPos = (y - wallTop) / (wallBottom - wallTop);
+    
+    // Calculate texture Y coordinate with offset
+    const textureY = textureOffset + (screenPos * (1.0 - 2.0 * textureOffset));
+    
+    // Position texture marker
+    const texturePixel = textureY * texture.offsetHeight;
+    textureMarker.style.top = `${texturePixel}px`;
+    
+    // Update labels
+    wallLabel.style.top = `${y}px`;
+    wallLabel.textContent = `Screen Y: ${Math.round(y)}px`;
+    
+    textureLabel.style.top = `${texturePixel}px`;
+    textureLabel.textContent = `Texture Y: ${textureY.toFixed(3)}`;
+    
+    // Show calculations
+    calculations.innerHTML = `
+      screen_pos = (y - wall_top) / (wall_bottom - wall_top)
+                = (${Math.round(y)} - ${wallTop}) / (${wallBottom} - ${wallTop})
+                = ${screenPos.toFixed(3)}
+                
+      texture_y = offset + (screen_pos * (1.0 - 2.0 * offset))
+                = ${textureOffset} + (${screenPos.toFixed(3)} * (1.0 - 2.0 * ${textureOffset}))
+                = ${textureY.toFixed(3)}
+    `;
+  }
+});
+
+// Add wall boundary markers
+const topBoundary = document.createElement('div');
+topBoundary.className = 'wall-segment';
+topBoundary.style.top = `${wallTop}px`;
+wall.appendChild(topBoundary);
+
+const bottomBoundary = document.createElement('div');
+bottomBoundary.className = 'wall-segment';
+bottomBoundary.style.top = `${wallBottom}px`;
+wall.appendChild(bottomBoundary);
+</script>
+</body>
+</html>

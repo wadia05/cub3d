@@ -85,33 +85,44 @@ void Render_floor(cub3d_t *cub, int ray_index )
         y++;
     }  
 }
-int Calculate_texture_X_coordinate(cub3d_t *cub , ray_t *ray)
+int Calculate_texture_X_coordinate(cub3d_t *cub, ray_t *ray, double s_agl)
 {
     map_t *txtur;
     float texture_x;
-    int tex_x ;
+    int tex_x;
 
     txtur = cub->info;
     texture_x = 0;
     
     if (!ray->is_hori) {
         texture_x = fmod(ray->rx, cub->map_unit) / cub->map_unit;
+        // Flip horizontal texture coordinate for west and south walls
+        if (s_agl > 0 && s_agl< PI) {  // South wall
+            texture_x = 1.0 - texture_x;
+        }
     } else {
         texture_x = fmod(ray->ry, cub->map_unit) / cub->map_unit;
+        // Flip horizontal texture coordinate for west wall
+        if (s_agl> PI/2 && s_agl< 3*PI/2) {  // West wall
+            texture_x = 1.0 - texture_x;
+        }
     }
+    
     tex_x = (int)(texture_x * txtur->wall_texture->width);
-
     return (tex_x);
 }
 
-void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index, double s_agl)
+void wall_top_bottom(cub3d_t **cub, ray_t *ray, double s_agl)
 {
-    map_t *txtur = cub->info;
+
+    float overflow;
+    map_t *txtur = (*cub)->info;
     txtur->fov = PI / 3;
     txtur->dist_project_plane = (WIDTH / 2) / tan(txtur->fov / 2);
+
      // Apply fisheye correction and calculate wall height
-    txtur->corrected_distance = ray->dist * cos(cub->angle - s_agl);
-    txtur->wall_strip_height = (cub->map_unit / txtur->corrected_distance) * txtur->dist_project_plane;
+    txtur->corrected_distance = ray->dist * cos((*cub)->angle - s_agl);
+    txtur->wall_strip_height = ((*cub)->map_unit / txtur->corrected_distance) * txtur->dist_project_plane;
 
     // Calculate wall strip's vertical start and end positions
     txtur->wall_top = (HEIGHT / 2) - (txtur->wall_strip_height / 2);
@@ -120,24 +131,49 @@ void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index, double s_agl)
     // Handle cases where wall is taller than screen height
     txtur->texture_offset = 0.0f;
     if (txtur->wall_strip_height > HEIGHT) {
-        float overflow = txtur->wall_strip_height - HEIGHT;
+        overflow = txtur->wall_strip_height - HEIGHT;
         txtur->texture_offset = (overflow / 2) / txtur->wall_strip_height;
     }
-
+    // printf ("%f\n",  txtur->texture_offset);   
     txtur->wall_top = fmax(0, txtur->wall_top);
     txtur->wall_bottom = fmin(txtur->wall_bottom, HEIGHT - 1);
 
     // Modified texture selection logic to include doors
     txtur->wall_texture = NULL;
-    txtur->wall_texture = get_texturte(cub, ray , s_agl);
+    txtur->wall_texture = get_texturte(*cub, ray , s_agl);
+    // return cub;
+}
+uint32_t get_color_px(cub3d_t *cub, int tex_y ,int tex_x)
+{
+        uint8_t r;
+        uint8_t g;
+        uint8_t b;
+        uint8_t a;
+        float shade_factor;
+        uint32_t color;
 
-    // Calculate texture x-coordinate
-    int tex_x = Calculate_texture_X_coordinate(cub , ray);
+        map_t *txtur = cub->info;
+         r = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x) * 4];
+         g = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x) * 4 + 1];
+         b = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x) * 4 + 2];
+         a = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x) * 4 + 3];
 
-    // Render ceiling
-    Render_ceiling(cub , ray_index );
+        shade_factor = 1.0f - (txtur->corrected_distance / (cub->map_unit * 10.0f));
+        shade_factor = fmaxf(0.1f, fminf(shade_factor, 1.0f));
 
-    // Draw textured wall strip
+        color = (
+            (uint8_t)(r * shade_factor) << 24 | 
+            (uint8_t)(g * shade_factor) << 16 | 
+            (uint8_t)(b * shade_factor) << 8 | 
+            a
+        );
+        return color;
+
+}
+
+void Draw_textured_wall_strip(cub3d_t *cub, int ray_index, int tex_x)
+{
+    map_t *txtur = cub->info;
     for (int y = txtur->wall_top; y <= txtur->wall_bottom; y++)
     {
         float screen_pos = (float)(y - txtur->wall_top) / (txtur->wall_bottom - txtur->wall_top);
@@ -145,25 +181,23 @@ void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index, double s_agl)
         int tex_y = (int)(texture_y * txtur->wall_texture->height);
 
         tex_y = fmax(0, fmin(tex_y, txtur->wall_texture->height - 1));
-
-        uint8_t r = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x) * 4];
-        uint8_t g = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x) * 4 + 1];
-        uint8_t b = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x) * 4 + 2];
-        uint8_t a = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x) * 4 + 3];
-
-        float shade_factor = 1.0f - (txtur->corrected_distance / (cub->map_unit * 10.0f));
-        shade_factor = fmaxf(0.1f, fminf(shade_factor, 1.0f));
-
-        uint32_t color = (
-            (uint8_t)(r * shade_factor) << 24 | 
-            (uint8_t)(g * shade_factor) << 16 | 
-            (uint8_t)(b * shade_factor) << 8 | 
-            a
-        );
-
-        mlx_put_pixel(cub->img, ray_index, y, color);
+        mlx_put_pixel(cub->img, ray_index, y, get_color_px(cub, tex_y, tex_x));
     }
 
+}
+
+void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index, double s_agl)
+{
+    // map_t *txtur = cub->info;
+    wall_top_bottom(&cub , ray, s_agl);
+    // Calculate texture x-coordinate
+    int tex_x = Calculate_texture_X_coordinate(cub , ray, s_agl);
+
+    // Render ceiling
+    Render_ceiling(cub , ray_index );
+
+    // Draw textured wall strip
+    Draw_textured_wall_strip(cub,ray_index, tex_x);
     // Render floor
     Render_floor(cub, ray_index);
 }
