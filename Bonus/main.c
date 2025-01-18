@@ -20,10 +20,10 @@ void draw__mini_map(cub3d_t *cub) {
                     mlx_put_pixel(cub->img, x, y, 0x00FF0000);  // Red for walls
                 }
 				if (map_char == '3') {
-                    mlx_put_pixel(cub->img, x, y, 0x00FF0000);  // Red for walls
+                    mlx_put_pixel(cub->img, x, y, 0x0011AAFF);  // Red for walls
                 }
 				else if (map_char == '5') {
-                    mlx_put_pixel(cub->img, x, y, 0x00FFFFFF);  // White for floor
+                    mlx_put_pixel(cub->img, x, y, 0x0077CCFF);  // White for floor
                 }
 				else if (map_char == '0') {
                     mlx_put_pixel(cub->img, x, y, 0x00FFFFFF);  // White for floor
@@ -367,10 +367,10 @@ void ft_hook(void* param)
 
     if (mlx_is_key_down(cub3d->win, MLX_KEY_ESCAPE))
 	{
-		mlx_terminate(cub3d->win);
+		// mlx_terminate(cub3d->win);
 		// free(cub3d->ray);
 		// free(cub3d);
-        // mlx_close_window(cub3d->win);
+        mlx_close_window(cub3d->win);
 	}
     if (mlx_is_key_down(cub3d->win, MLX_KEY_W))
     {
@@ -546,6 +546,7 @@ void main2(map_list_t *stc, map_t *color)
 	    j++;
 	    current = current->next;
 	}
+    // free(stc);
 	init_player(cub3d);
     cub3d->pa = 0.0;
     cub3d->xdx = cos(cub3d->angle) * 5;
@@ -554,6 +555,7 @@ void main2(map_list_t *stc, map_t *color)
     cub3d->win = mlx_init(WIDTH, HEIGHT, "cub3d", false);
     if (!cub3d->win)
     {
+        free_all_allocate(color->free_head);
         free(cub3d);
         return ;
     }
@@ -561,6 +563,7 @@ void main2(map_list_t *stc, map_t *color)
     cub3d->img = mlx_new_image(cub3d->win, WIDTH, HEIGHT);
     if (!cub3d->img)
     {
+        free_all_allocate(color->free_head);
         mlx_terminate(cub3d->win);
         free(cub3d);
         return ;
@@ -568,6 +571,7 @@ void main2(map_list_t *stc, map_t *color)
 
     if (mlx_image_to_window(cub3d->win, cub3d->img, 0, 0) < 0)
     {
+        free_all_allocate(color->free_head);
         mlx_delete_image(cub3d->win, cub3d->img);
         mlx_terminate(cub3d->win);
         free(cub3d);
@@ -575,11 +579,12 @@ void main2(map_list_t *stc, map_t *color)
     }
 
     mlx_loop_hook(cub3d->win, ft_hook, cub3d);
-    mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
+    // mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
     mlx_loop(cub3d->win);
     mlx_delete_image(cub3d->win, cub3d->img);
     mlx_terminate(cub3d->win);
-    // free(cub3d);
-	// free(cub3d->ray);
+    free_all_allocate(color->free_head);
+	free(cub3d->ray);
+    free(cub3d);
     return ;
 }

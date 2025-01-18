@@ -25,14 +25,11 @@ void itirate_horizontal(ray_t *rays, cub3d_t *cub)
             {
                 rays->dof = cub->ray_dof_max;
                 rays->is_door_h = 0;
-                // printf("mx : %d  my : %d\n", mx, my);
             }
 			else if(cub->map[my][mx] == '3')
 			{
 				rays->dof = cub->ray_dof_max;
 				rays->is_door_h = 1;
-				//rays->is_door = 1 mean  is a door
-
 			}
 			else if(cub->map[my][mx] == '5')
 			{
@@ -42,8 +39,6 @@ void itirate_horizontal(ray_t *rays, cub3d_t *cub)
                 rays->xH += rays->xo;
                 rays->yH += rays->yo;
                 rays->dof += 1;
-				//rays->is_door = 2 mean was a door
-
 			}
 			else
 			{
@@ -153,10 +148,6 @@ void handle_vertical_ray(cub3d_t *cub, double start_angle, ray_t *rays)
         rays->yV = cub->y;
         rays->dof = cub->ray_dof_max;
     }
-        // int mx = (int)(cub->x) / cub->map_unit;
-        // int my = (int)(cub->y) / cub->map_unit;
-        // printf("mx : %d  my : %d\n", mx, my);
-
 	itirate_vertical(rays, cub);
 }
 
