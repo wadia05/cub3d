@@ -1,34 +1,79 @@
 #include "cub3d.h"
-
-void	loading_image(map_t *mp)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	mp->no_png = mlx_load_png(mp->no);
-	if (!mp->no_png)
-	{
-		return ;
-	}
-	mp->so_png = mlx_load_png(mp->so);
-	if (!mp->so_png)
-	{
-		return ;
-	}
-	mp->ea_png = mlx_load_png(mp->ea);
-	if (!mp->ea_png)
-	{
-		return ;
-	}
-	mp->we_png = mlx_load_png(mp->we);
-	if (!mp->we_png)
-	{
-		return ;
-	}
-	// Add door texture loading
-	mp->door_png = mlx_load_png("door.png");
-	if (!mp->door_png)
-	{
-		return ;
-	}
-	printf("texture loading successfully !!!");
+	char	*aloo;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	aloo = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (aloo == NULL)
+		return (NULL);
+	ft_strlcpy(aloo, s1, ft_strlen(s1) + 1);
+	ft_strlcat(aloo, s2, ft_strlen(s2) + ft_strlen(s1) + 1);
+	return (aloo);
+}
+int loading_image(map_t *mp)
+{
+    char filename[20];
+    
+    // Load regular textures
+    mp->no_png = mlx_load_png(mp->no);
+    if (!mp->no_png)
+        return 1;
+    mp->so_png = mlx_load_png(mp->so);
+    if (!mp->so_png)
+        return 1;
+    mp->ea_png = mlx_load_png(mp->ea);
+    if (!mp->ea_png)
+        return 1;
+    mp->we_png = mlx_load_png(mp->we);
+    if (!mp->we_png)
+        return 1;
+    mp->door_png = mlx_load_png("door.png");
+    if (!mp->door_png)
+        return 1;
+
+    // Allocate memory for kick animation textures array
+    mp->Kickpng = malloc(sizeof(mlx_texture_t*) * 23);
+    if (!mp->Kickpng)
+        return 1;
+
+    // Load all kick animation frames
+    int i = 0;
+    while (i < 23)
+    {
+        // Create filename string for each frame (1.png to 23.png)
+        filename[0] = (i + 1) / 10 + '0';  // Tens digit
+        filename[1] = (i + 1) % 10 + '0';  // Ones digit
+        filename[2] = '.';
+        filename[3] = 'p';
+        filename[4] = 'n';
+        filename[5] = 'g';
+        filename[6] = '\0';
+        char *path = ft_strjoin("kick/", filename);
+
+        // Load the image
+        mp->Kickpng[i] = mlx_load_png(path);
+		printf ("%s\n", path);
+        if (!mp->Kickpng[i])
+        {
+            // Clean up previously loaded frames if current frame fails
+            while (--i >= 0)
+                mlx_delete_texture(mp->Kickpng[i]);
+            free(mp->Kickpng);
+            free(path);
+			return 1;
+
+        }
+            free(path);
+        i++;
+    }
+
+    return 0;
 }
 mlx_texture_t	*get_texturte(cub3d_t *cub, ray_t *ray, double s_agl)
 {
@@ -68,6 +113,7 @@ void	Render_ceiling(cub3d_t *cub, int ray_index)
 
 	txtur = NULL;
 	txtur = cub->info;
+	(void)ray_index;
 	y = -1;
 	while (++y < txtur->wall_top)
 	{
@@ -83,7 +129,7 @@ void	Render_floor(cub3d_t *cub, int ray_index)
 	map_t		*txtur;
 	uint32_t	floor_color;
 	int			y;
-	// (void)ray_index;
+	(void)ray_index;
 	txtur = NULL;
 	txtur = cub->info;
 	floor_color = 0;
@@ -192,6 +238,9 @@ void	Draw_textured_wall_strip(cub3d_t *cub, int ray_index, int tex_x)
 	int		tex_y;
 
 	txtur = cub->info;
+	// (void)ray_index;
+	// (void)tex_x;
+	// (void)tex_y;
 	for (int y = txtur->wall_top; y <= txtur->wall_bottom; y++)
 	{
 		screen_pos = (float)(y - txtur->wall_top) / (txtur->wall_bottom

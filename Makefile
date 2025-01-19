@@ -41,7 +41,7 @@ SRCB = \
 	Bonus/draw_rays_copy2.c
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 AR = ar rcs
 OBJ = $(SRC:.c=.o)
 OBJB = $(SRCB:.c=.o)

@@ -355,8 +355,92 @@ void print_all_map(cub3d_t *cub)
 		j++;
 	}
 }
+// Animation system for handling the kick animation sequence
+
+void init_kick_animation(cub3d_t *cub3d)
+{
+    // Reset animation state
+    cub3d->info->i = 0;
+    cub3d->info->last_time = mlx_get_time();
+
+    // Preload all animation frames as images
+    cub3d->animation_frames = malloc(sizeof(mlx_image_t*) * 23);
+    if (!cub3d->animation_frames )
+        return;
+
+    for (int i = 0; i < 23; i++)
+    {
+        // Convert texture to image
+        cub3d->animation_frames [i] = mlx_texture_to_image(cub3d->win, cub3d->info->Kickpng[i]);
+        if (!cub3d->animation_frames [i])
+        {
+            // Cleanup on failure
+            while (--i >= 0)
+                mlx_delete_image(cub3d->win, cub3d->animation_frames [i]);
+            free(cub3d->animation_frames );
+            return;
+        }
+
+        // Resize image
+        mlx_resize_image(cub3d->animation_frames [i], WIDTH, HEIGHT);
+
+        // Load to window but keep hidden
+        if (mlx_image_to_window(cub3d->win, cub3d->animation_frames [i], 0, 0) < 0)
+        {
+            // Cleanup on failure
+            while (i >= 0)
+                mlx_delete_image(cub3d->win, cub3d->animation_frames [i]);
+            free(cub3d->animation_frames );
+            return;
+        }
+
+        // Hide the image initially
+        cub3d->animation_frames [i]->enabled = false;
+    }
+
+    // Store the frames in cub3d structure for later use
+    // cub3d->animation_frames = animation_frames;
+}
+
+int update_kick_animation(cub3d_t *cub3d)
+{
+    const double FRAME_DURATION = 0.027;  // 50ms per frame
+    const int TOTAL_FRAMES = 23;
+    const int DOOR_FRAME = 12;
+    
+    double current_time = mlx_get_time();
+    
+    if (current_time - cub3d->info->last_time >= FRAME_DURATION)
+    {
+        // Hide previous frame
+        if (cub3d->info->i > 0)
+            cub3d->animation_frames[cub3d->info->i - 1]->enabled = false;
+
+        // Show current frame
+        cub3d->animation_frames[cub3d->info->i]->enabled = true;
+
+        // Handle door opening
+        if (cub3d->info->i == DOOR_FRAME)
+            cub3d = open_close_door(cub3d, 0);
+        
+        cub3d->info->last_time = current_time;
+        cub3d->info->i++;
+        
+        if (cub3d->info->i >= TOTAL_FRAMES)
+        {
+            // Hide last frame
+            cub3d->animation_frames[TOTAL_FRAMES - 1]->enabled = false;
+            cub3d->info->i = 0;
+            return 0;
+        }
+    }
+    
+    return 1;
+}
 void ft_hook(void* param)
 {
+    static bool animation_loaded = false;
+    static bool animation_in_progress = false;
     cub3d_t* cub3d = param;
     float speed = 10.0f;  // Player movement speed
     float rotation_speed = 0.05f;  // Player rotation speed
@@ -413,24 +497,40 @@ void ft_hook(void* param)
         cub3d->xdx = cos(cub3d->angle) * speed;
         cub3d->ydy = sin(cub3d->angle) * speed;
     }
-	if (mlx_is_key_down(cub3d->win, MLX_KEY_O))
-	{
-		cub3d = open_close_door(cub3d, 0);
-		// print_all_map(cub3d);
-	}
-	if (mlx_is_key_down(cub3d->win, MLX_KEY_C))
-	{
-		cub3d = open_close_door(cub3d, 1);
-	}
-    check = check_mov(x , y, cub3d);
-    if(check == 0)
+    if (mlx_is_key_down(cub3d->win, MLX_KEY_O))
     {
-        cub3d->x = x;
-        cub3d->y = y;
+        if (!animation_loaded)
+        {
+            init_kick_animation(cub3d);
+            animation_loaded = true;
+        }
+        
+        if (!animation_in_progress)
+        {
+            animation_in_progress = true;
+        }
     }
-    draw_rays(cub3d);
-	draw__mini_map(cub3d);
-}
+
+    if (animation_in_progress)
+    {
+        if (!update_kick_animation(cub3d))
+        {
+            animation_in_progress = false;
+        }
+    }
+        if (mlx_is_key_down(cub3d->win, MLX_KEY_C))
+        {
+            cub3d = open_close_door(cub3d, 1);
+        }
+        check = check_mov(x , y, cub3d);
+        if(check == 0)
+        {
+            cub3d->x = x;
+            cub3d->y = y;
+        }
+        draw_rays(cub3d);
+        draw__mini_map(cub3d);
+    }
 
 void init_player(cub3d_t *cub)
 {
@@ -579,7 +679,7 @@ void main2(map_list_t *stc, map_t *color)
     }
 
     mlx_loop_hook(cub3d->win, ft_hook, cub3d);
-    // mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
+    mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
     mlx_loop(cub3d->win);
     mlx_delete_image(cub3d->win, cub3d->img);
     mlx_terminate(cub3d->win);

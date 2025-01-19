@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/16 18:37:16 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/19 12:48:51 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct cub3d_s
     ray_t *ray;
     mlx_t *win;      // MiniLibX window
     mlx_image_t *img; // MiniLibX image to draw on
+    mlx_image_t **animation_frames;
     map_t *info;
     
 } cub3d_t;
@@ -162,7 +163,9 @@ typedef struct map_s
     mlx_texture_t *door_png;
     
     mlx_texture_t *wall_texture;
-
+    mlx_texture_t **Kickpng;
+    double last_time;
+    int i;
     
     float dist_project_plane;
     float corrected_distance;
@@ -186,7 +189,7 @@ typedef struct map_s
 
 
 void draw_wall(cub3d_t *cub, ray_t *ray, int ray_index, double s_agl);
-void loading_image(map_t *mp);
+int loading_image(map_t *mp);
 
 //-----------wall
 void main2(map_list_t *stc, map_t *color);
