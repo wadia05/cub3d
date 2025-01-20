@@ -357,86 +357,7 @@ void print_all_map(cub3d_t *cub)
 }
 // Animation system for handling the kick animation sequence
 
-void init_kick_animation(cub3d_t *cub3d)
-{
-    // Reset animation state
-    cub3d->info->i = 0;
-    cub3d->info->last_time = mlx_get_time();
 
-    // Preload all animation frames as images
-    cub3d->animation_frames = malloc(sizeof(mlx_image_t*) * 23);
-    if (!cub3d->animation_frames )
-        return;
-
-    for (int i = 0; i < 23; i++)
-    {
-        // Convert texture to image
-        cub3d->animation_frames [i] = mlx_texture_to_image(cub3d->win, cub3d->info->Kickpng[i]);
-        if (!cub3d->animation_frames [i])
-        {
-            // Cleanup on failure
-            while (--i >= 0)
-                mlx_delete_image(cub3d->win, cub3d->animation_frames [i]);
-            free(cub3d->animation_frames );
-            return;
-        }
-
-        // Resize image
-        mlx_resize_image(cub3d->animation_frames [i], WIDTH, HEIGHT);
-
-        // Load to window but keep hidden
-        if (mlx_image_to_window(cub3d->win, cub3d->animation_frames [i], 0, 0) < 0)
-        {
-            // Cleanup on failure
-            while (i >= 0)
-                mlx_delete_image(cub3d->win, cub3d->animation_frames [i]);
-            free(cub3d->animation_frames );
-            return;
-        }
-
-        // Hide the image initially
-        cub3d->animation_frames [i]->enabled = false;
-    }
-
-    // Store the frames in cub3d structure for later use
-    // cub3d->animation_frames = animation_frames;
-}
-
-int update_kick_animation(cub3d_t *cub3d)
-{
-    const double FRAME_DURATION = 0.027;  // 50ms per frame
-    const int TOTAL_FRAMES = 23;
-    const int DOOR_FRAME = 12;
-    
-    double current_time = mlx_get_time();
-    
-    if (current_time - cub3d->info->last_time >= FRAME_DURATION)
-    {
-        // Hide previous frame
-        if (cub3d->info->i > 0)
-            cub3d->animation_frames[cub3d->info->i - 1]->enabled = false;
-
-        // Show current frame
-        cub3d->animation_frames[cub3d->info->i]->enabled = true;
-
-        // Handle door opening
-        if (cub3d->info->i == DOOR_FRAME)
-            cub3d = open_close_door(cub3d, 0);
-        
-        cub3d->info->last_time = current_time;
-        cub3d->info->i++;
-        
-        if (cub3d->info->i >= TOTAL_FRAMES)
-        {
-            // Hide last frame
-            cub3d->animation_frames[TOTAL_FRAMES - 1]->enabled = false;
-            cub3d->info->i = 0;
-            return 0;
-        }
-    }
-    
-    return 1;
-}
 void ft_hook(void* param)
 {
     static bool animation_loaded = false;
@@ -455,7 +376,8 @@ void ft_hook(void* param)
 		// free(cub3d->ray);
 		// free(cub3d);
         mlx_close_window(cub3d->win);
-	}
+        // return ;
+    }
     if (mlx_is_key_down(cub3d->win, MLX_KEY_W))
     {
         x += cos(cub3d->angle) * speed;
@@ -588,6 +510,61 @@ void ft_hook_mouse(void* param) {
     mlx_set_mouse_pos(cub3d->win, WIDTH/2, HEIGHT/2);
     // prev_x = WIDTH/2;
 }
+void cleanup_all(cub3d_t *cub3d)
+{
+    int i;
+
+    // Cleanup animation frames
+    if (cub3d->animation_frames)
+    {
+        i = 0;
+        while (i < 23)
+        {
+            if (cub3d->animation_frames[i])
+                mlx_delete_image(cub3d->win, cub3d->animation_frames[i]);
+            i++;
+        }
+        free(cub3d->animation_frames);
+    }
+
+    // Cleanup kick animation textures
+    if (cub3d->info && cub3d->info->Kickpng)
+    {
+        i = 0;
+        while (i < 23)
+        {
+            if (cub3d->info->Kickpng[i])
+                mlx_delete_texture(cub3d->info->Kickpng[i]);
+            i++;
+        }
+        free(cub3d->info->Kickpng);
+    }
+
+    // Cleanup wall textures
+    if (cub3d->info)
+    {
+        if (cub3d->info->no_png)
+            mlx_delete_texture(cub3d->info->no_png);
+        if (cub3d->info->so_png)
+            mlx_delete_texture(cub3d->info->so_png);
+        if (cub3d->info->ea_png)
+            mlx_delete_texture(cub3d->info->ea_png);
+        if (cub3d->info->we_png)
+            mlx_delete_texture(cub3d->info->we_png);
+        if (cub3d->info->door_png)
+            mlx_delete_texture(cub3d->info->door_png);
+    }
+
+    // Cleanup main image if it exists
+    if (cub3d->img)
+        mlx_delete_image(cub3d->win, cub3d->img);
+
+    // Cleanup MLX window
+    if (cub3d->win)
+        mlx_terminate(cub3d->win);
+    
+
+}
 void main2(map_list_t *stc, map_t *color)
 {
 	cub3d_t *cub3d = malloc(sizeof(cub3d_t));
@@ -681,9 +658,11 @@ void main2(map_list_t *stc, map_t *color)
     mlx_loop_hook(cub3d->win, ft_hook, cub3d);
     mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
     mlx_loop(cub3d->win);
-    mlx_delete_image(cub3d->win, cub3d->img);
-    mlx_terminate(cub3d->win);
-    free_all_allocate(color->free_head);
+    // mlx_delete_image(cub3d->win, cub3d->img);
+    cleanup_all(cub3d);
+    // cleanup_animation_frames(cub3d, 23,1);
+    // free_all_allocate(color->free_head);
+    // mlx_terminate(cub3d->win);
 	free(cub3d->ray);
     free(cub3d);
     return ;

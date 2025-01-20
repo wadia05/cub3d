@@ -6,7 +6,7 @@
 /*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:46 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/20 07:31:03 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/20 08:27:18 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,44 +90,6 @@ int	validate_map_borders_and_walls(map_list_t *map_data, map_t *stc)
 	return (0);
 }
 
-int	door_check(map_list_t *hd)
-{
-	map_list_t	*tmp;
-	int			i;
-
-	if (hd == NULL)
-		return (1);
-	tmp = hd;
-	while (tmp != NULL)
-	{
-		i = 0;
-		while (tmp->map[i] != '\0')
-		// Changed from 0 to '\0' for string termination
-		{
-			if (tmp->map[i] == '3')
-			{
-				// Check horizontal walls
-				if (tmp->map[i + 1] == '1' && tmp->map[i - 1] == '1')
-				{
-					i++;
-					continue ; // Door is valid horizontally
-				}
-				if (tmp->prev && tmp->next && tmp->prev->map[i] == '1'
-					&& tmp->next->map[i] == '1')
-				{
-					i++;
-					continue ; // Door is valid vertically
-				}
-				// If we reach here, the door is not properly placed
-				print_error("Door should be between two walls");
-				return (1);
-			}
-			i++;
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}
 int	parse_line_maps(map_t *stc)
 {
 	if (!stc || !stc->map_data)

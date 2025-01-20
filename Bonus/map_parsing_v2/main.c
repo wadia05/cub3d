@@ -6,7 +6,7 @@
 /*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:56:56 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/20 06:39:49 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:05:57 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,13 @@ int	initialize_and_validate(int ac, char **av, map_t **stc,
 		return (print_error("Usage: ./cub3D map.cub"));
 	if (validate_file_extension(av[1]))
 		return (1);
-	*free_head = NULL;                    // Initialize the free_head to NULL
-	*stc = init_map_structure(free_head); // Pass pointer to pointer
+	*free_head = NULL;
+	*stc = init_map_structure(free_head);
 	if (!*stc)
 	{
-		// Memory allocation failed, cleanup already handled
 		return (print_error("Memory allocation failed"));
 	}
-	// Correctly assign free_head (tracker_t **) to stc's free_head
 	(*stc)->free_head = free_head;
-	return (0);
-}
-
-int	process_map_file(map_t *stc, char *filename, tracker_t **free_head)
-{
-	int		file;
-	char	*line;
-
-	file = open(filename, O_RDONLY);
-	if (file == -1)
-	{
-		free_all_allocate(free_head);
-		return (print_error("Cannot open map file"));
-	}
-	line = get_next_line(file);
-	while (line != NULL)
-	{
-		if (parse_line(stc, line))
-		{
-			free(line);
-			close_file(file);
-			free_all_allocate(free_head);
-			return (1);
-		}
-		free(line);
-		line = get_next_line(file);
-	}
-	close_file(file);
 	return (0);
 }
 
@@ -69,14 +39,6 @@ int	validate_map_config(map_t *stc)
 	return (0);
 }
 
-// void	print_map_data(map_list_t *current)
-// {
-// 	while (current != NULL)
-// 	{
-// 		printf("Map: |%s|\n", current->map);
-// 		current = current->next;
-// 	}
-// }
 void	fill_maps(map_t *stc)
 {
 	map_list_t	*current;
@@ -88,9 +50,6 @@ void	fill_maps(map_t *stc)
 	x_find = 0;
 	while (current != NULL)
 	{
-		// printf("Map: |%s|\n", current->map);
-		// printf("len = %d\n", current->length);
-		// printf("ws = %d\n", current->ws);
 		if (current->length > x_find)
 			x_find = current->length;
 		y_find++;
@@ -101,42 +60,44 @@ void	fill_maps(map_t *stc)
 	return ;
 }
 
+static int	process_and_validate(map_t *stc, char *map_file,
+		tracker_t **free_head)
+{
+	int	result;
+
+	result = process_map_file(stc, map_file, free_head);
+	if (result != 0)
+		return (result);
+	result = validate_map_config(stc);
+	if (result != 0)
+	{
+		free_all_allocate(free_head);
+		return (result);
+	}
+	if (parse_line_maps(stc) != 0)
+	{
+		free_all_allocate(free_head);
+		return (0);
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	map_t		*stc;
-	int			init_result;
 	tracker_t	*free_head;
-	int			file_process_result;
-	int			config_validation_result;
+	int			result;
 
 	free_head = NULL;
-	// Initialize and validate input
-	init_result = initialize_and_validate(ac, av, &stc, &free_head);
-	if (init_result != 0)
-		return (init_result);
-	// Process map file
-	file_process_result = process_map_file(stc, av[1], &free_head);
-	if (file_process_result != 0)
-		return (file_process_result);
-	// Validate map configuration
-	config_validation_result = validate_map_config(stc);
-	if (config_validation_result != 0)
-	{
-		free_all_allocate(&free_head);
-		return (config_validation_result);
-	}
-	// Parse map lines
-	if (parse_line_maps(stc) != 0)
-	{
-		free_all_allocate(&free_head);
-		return (0);
-	}
-	// loading_image(stc);
+	result = initialize_and_validate(ac, av, &stc, &free_head);
+	if (result != 0)
+		return (result);
+	result = process_and_validate(stc, av[1], &free_head);
+	if (result != 0)
+		return (result);
 	fill_maps(stc);
 	main2(stc->map_data, stc);
-	// Debug: print map data (optional)
-	// print_map_data(stc->map_data);
-	// Clean up resources
 	free_all_allocate(&free_head);
+	printf("----------------------------------------------------");
 	return (0);
 }

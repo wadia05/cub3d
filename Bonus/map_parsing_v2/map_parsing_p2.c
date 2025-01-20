@@ -6,7 +6,7 @@
 /*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 11:23:55 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/20 07:37:21 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/20 07:47:43 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ int	check_zero(map_list_t *tmp, map_t *stc)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!tmp || !tmp->map)
 		return (1);
-	while (tmp->map[i])
+	while (tmp->map[++i])
 	{
 		if (ft_isdigit(tmp->map[i]) && tmp->map[i] != '1' && tmp->map[i] != '0'
 			&& tmp->map[i] != '3')
@@ -73,7 +73,6 @@ int	check_zero(map_list_t *tmp, map_t *stc)
 			check_current_positions(tmp, i, stc);
 			check_adjacent_positions(tmp, i, stc);
 		}
-		i++;
 	}
 	return (0);
 }

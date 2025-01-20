@@ -35,13 +35,17 @@ SRCB = \
 	Bonus/map_parsing_v2/map_parsing_p2.c\
 	Bonus/map_parsing_v2/player_parse.c\
 	Bonus/map_parsing_v2/free_at_exit.c\
+	Bonus/map_parsing_v2/parsing_helper.c \
+	Bonus/map_parsing_v2/parsing_2.c \
+	Bonus/map_parsing_v2/map_parsing_door.c \
 	Bonus/main.c \
 	Bonus/draw_rays_copy.c \
 	Bonus/texture.c \
-	Bonus/draw_rays_copy2.c
+	Bonus/draw_rays_copy2.c \
+	Bonus/animation_kick.c
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g #fsanitize=address
 AR = ar rcs
 OBJ = $(SRC:.c=.o)
 OBJB = $(SRCB:.c=.o)

@@ -6,103 +6,11 @@
 /*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:33 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/20 06:47:51 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/20 08:20:53 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-bool	is_char_here(const char *line, const char *chars)
-{
-	while (*line)
-	{
-		if (ft_strchr(chars, *line))
-		{
-			return (true);
-		}
-		line++;
-	}
-	return (false);
-}
-
-void	trim_end(char *str)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t'))
-	{
-		str[len - 1] = '\0';
-		len--;
-	}
-}
-
-void	remove_newline(char *line)
-{
-	char	*newline;
-
-	newline = ft_strchr(line, '\n');
-	if (newline)
-		*newline = '\0';
-}
-
-int	print_error(char *str)
-{
-	write(2, "Error\n", 6);
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
-	return (1);
-}
-
-int	handle_texture(char **dest, char *path, char *type, map_t *stc)
-{
-	if (*dest != NULL)
-		return (print_error("Duplicate texture definition"));
-	if (validate_texture_path(path, type) != 0)
-		return (1);
-	*dest = ft_strdup_v2(path, stc->free_head);
-	if (!*dest)
-		return (print_error("Memory allocation failed"));
-	return (0);
-}
-
-map_t	*init_map_structure(tracker_t **free_hd)
-{
-	map_t	*stc;
-
-	stc = tracker_malloc(sizeof(map_t), free_hd);
-	if (!stc)
-		return (NULL);
-	ft_memset(stc, 0, sizeof(map_t));
-	// Allocate f_color and c_color
-	stc->f_color = tracker_malloc(sizeof(color_t), free_hd);
-	stc->c_color = tracker_malloc(sizeof(color_t), free_hd);
-	if (!stc->f_color || !stc->c_color)
-	{
-		free_all_allocate(free_hd);
-		return (NULL);
-	}
-	ft_memset(stc->f_color, 0, sizeof(color_t));
-	ft_memset(stc->c_color, 0, sizeof(color_t));
-	return (stc);
-}
-
-int	parse_texture_line(map_t *stc, char **tokens)
-{
-	if (!tokens[1])
-		return (print_error("Missing texture path"));
-	if (word_count(tokens) > 2)
-		print_error("more then one path");
-	if (ft_strncmp(tokens[0], "NO", 3) == 0)
-		return (handle_texture(&stc->no, tokens[1], "NO", stc));
-	else if (ft_strncmp(tokens[0], "SO", 3) == 0)
-		return (handle_texture(&stc->so, tokens[1], "SO", stc));
-	else if (ft_strncmp(tokens[0], "WE", 3) == 0)
-		return (handle_texture(&stc->we, tokens[1], "WE", stc));
-	else if (ft_strncmp(tokens[0], "EA", 3) == 0)
-		return (handle_texture(&stc->ea, tokens[1], "EA", stc));
-	return (print_error("Unknown texture identifier"));
-}
 
 int	parse_color_line(map_t *stc, char **tokens, char *line)
 {
@@ -123,6 +31,39 @@ int	parse_color_line(map_t *stc, char **tokens, char *line)
 	return (0);
 }
 
+static int	parse_identifier(map_t *stc, char **tokens, char *line)
+{
+	if (ft_strncmp(tokens[0], "NO", 2) == 0 || ft_strncmp(tokens[0], "SO",
+			2) == 0 || ft_strncmp(tokens[0], "WE", 2) == 0
+		|| ft_strncmp(tokens[0], "EA", 2) == 0)
+	{
+		if (stc->map_str == true)
+			return (print_error("Map is not at the end"));
+		return (parse_texture_line(stc, tokens));
+	}
+	else if (ft_strncmp(tokens[0], "F", 1) == 0 || ft_strncmp(tokens[0], "C",
+			1) == 0)
+	{
+		if (stc->map_str == true)
+			return (print_error("coloe in inside map"));
+		return (parse_color_line(stc, tokens, line));
+	}
+	return (-1);
+}
+
+static int	parse_map_line(map_t *stc, char *line)
+{
+	if (is_char_here(line, "013WSEN"))
+	{
+		stc->map_str = true;
+		if (!is_char_here(line, "013WSEN \t"))
+			return (print_error("Invalid character in map"));
+		stc->map_data = add_map_list(stc->map_data, line, stc);
+		return (0);
+	}
+	return (print_error("Invalid identifier"));
+}
+
 int	parse_line(map_t *stc, char *line)
 {
 	int		ret;
@@ -135,55 +76,18 @@ int	parse_line(map_t *stc, char *line)
 	trim_end(line);
 	if (line[0] == '\0' && line[1] == '\0' && stc->map_str == true)
 	{
-		write(1, "helooooo", 9);
 		stc->map_data = add_map_list(stc->map_data, "\n", stc);
+		return (0);
 	}
 	tokens = ft_split(line, ' ');
 	if (!tokens)
 		return (print_error("Memory allocation failed"));
 	if (tokens[0])
 	{
-		if (ft_strncmp(tokens[0], "NO", 2) == 0 || ft_strncmp(tokens[0], "SO",
-				2) == 0 || ft_strncmp(tokens[0], "WE", 2) == 0
-			|| ft_strncmp(tokens[0], "EA", 2) == 0)
-		{
-			if (stc->map_str == true)
-				ret = print_error("Map is not at the end");
-			else
-				ret = parse_texture_line(stc, tokens);
-		}
-		else if (ft_strncmp(tokens[0], "F", 1) == 0 || ft_strncmp(tokens[0],
-				"C", 1) == 0)
-		{
-			if (stc->map_str == true)
-				ret = print_error("coloe in inside map");
-			else
-				ret = parse_color_line(stc, tokens, line);
-		}
-		else if (is_char_here(line, "013WSEN"))
-		{
-			stc->map_str = true;
-			if (!is_char_here(line, "013WSEN \t"))
-				ret = print_error("Invalid character in map");
-			else
-				stc->map_data = add_map_list(stc->map_data, line, stc);
-		}
-		else
-			ret = print_error("Invalid identifier");
+		ret = parse_identifier(stc, tokens, line);
+		if (ret == -1)
+			ret = parse_map_line(stc, line);
 	}
 	free_split(tokens);
 	return (ret);
-}
-
-void	close_file(int file)
-{
-	char	*line;
-
-	line = get_next_line(file);
-	while (line != NULL)
-	{
-		free(line);
-		line = get_next_line(file);
-	}
-	close(file);
 }
