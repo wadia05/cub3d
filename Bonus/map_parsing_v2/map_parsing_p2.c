@@ -6,11 +6,12 @@
 /*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 11:23:55 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/01 12:14:45 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/20 07:37:21 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
 void	check_current_positions(map_list_t *tmp, int i, map_t *stc)
 {
 	if (!tmp || !tmp->map)
@@ -34,7 +35,7 @@ void	check_adjacent_positions(map_list_t *tmp, int i, map_t *stc)
 	if (!tmp || !tmp->prev || !tmp->next || !tmp->prev->map || !tmp->next->map)
 		return ;
 	if (tmp->prev->map[i] == ' ' || tmp->prev->map[i] == '\t'
-		|| !tmp->prev->map[i])
+		|| !tmp->prev->map[i] || tmp->prev->length <= i)
 	{
 		print_error("Error: Invalid map - open boundary detected above");
 		free_at_exit(stc);
@@ -56,7 +57,8 @@ int	check_zero(map_list_t *tmp, map_t *stc)
 		return (1);
 	while (tmp->map[i])
 	{
-		if (ft_isdigit(tmp->map[i]) && tmp->map[i] != '1' && tmp->map[i] != '0'&& tmp->map[i] != '3')
+		if (ft_isdigit(tmp->map[i]) && tmp->map[i] != '1' && tmp->map[i] != '0'
+			&& tmp->map[i] != '3')
 		{
 			print_error("Error: Invalid character in map");
 			free_at_exit(stc);

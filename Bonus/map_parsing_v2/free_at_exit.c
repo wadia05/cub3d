@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
 void	free_at_exit(map_t *hd)
 {
 	free_all_allocate(hd->free_head);

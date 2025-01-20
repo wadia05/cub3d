@@ -50,10 +50,10 @@ LIBFT_DIR := ./libft_42
 LIBFT := $(LIBFT_DIR)/libft.a
 
 # linux
-# LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
+LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 # MAC
-LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/wait-bab/.brew/opt/glfw/lib"
-FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
+# LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/wait-bab/.brew/opt/glfw/lib"
+# FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(LIBFT) $(NAME)
 

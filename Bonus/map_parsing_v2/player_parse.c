@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
 int	is_valid_alpha(char alpha)
 {
 	if (alpha == 'E' || alpha == 'S' || alpha == 'W' || alpha == 'N')

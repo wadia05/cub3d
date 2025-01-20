@@ -6,35 +6,30 @@
 /*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:56:56 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/01 12:12:58 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/20 06:39:49 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int initialize_and_validate(int ac, char **av, map_t **stc, tracker_t **free_head)
+int	initialize_and_validate(int ac, char **av, map_t **stc,
+		tracker_t **free_head)
 {
-    if (ac != 2)
-        return print_error("Usage: ./cub3D map.cub");
-
-    if (validate_file_extension(av[1]))
-        return 1;
-
-    *free_head = NULL; // Initialize the free_head to NULL
-    *stc = init_map_structure(free_head); // Pass pointer to pointer
-    if (!*stc)
-    {
-        // Memory allocation failed, cleanup already handled
-        return print_error("Memory allocation failed");
-    }
-
-    // Correctly assign free_head (tracker_t **) to stc's free_head
-    (*stc)->free_head = free_head;
-
-    return 0;
+	if (ac != 2)
+		return (print_error("Usage: ./cub3D map.cub"));
+	if (validate_file_extension(av[1]))
+		return (1);
+	*free_head = NULL;                    // Initialize the free_head to NULL
+	*stc = init_map_structure(free_head); // Pass pointer to pointer
+	if (!*stc)
+	{
+		// Memory allocation failed, cleanup already handled
+		return (print_error("Memory allocation failed"));
+	}
+	// Correctly assign free_head (tracker_t **) to stc's free_head
+	(*stc)->free_head = free_head;
+	return (0);
 }
-
-
 
 int	process_map_file(map_t *stc, char *filename, tracker_t **free_head)
 {
@@ -82,38 +77,39 @@ int	validate_map_config(map_t *stc)
 // 		current = current->next;
 // 	}
 // }
-void fill_maps(map_t *stc)
-	{
-		map_list_t *current = stc->map_data;
-		int y_find = 0;
-		int x_find = 0;
-		while (current != NULL) {
-			// printf("Map: |%s|\n", current->map);
-			// printf("len = %d\n", current->length);
-			// printf("ws = %d\n", current->ws);
-			if (current->length > x_find)
-				x_find = current->length;
-			y_find++;
-			current = current->next;
-		}
-		stc->map_data->width_x = x_find;
-		stc->map_data->high_y = y_find;       
+void	fill_maps(map_t *stc)
+{
+	map_list_t	*current;
+	int			y_find;
+	int			x_find;
 
-		return ;
+	current = stc->map_data;
+	y_find = 0;
+	x_find = 0;
+	while (current != NULL)
+	{
+		// printf("Map: |%s|\n", current->map);
+		// printf("len = %d\n", current->length);
+		// printf("ws = %d\n", current->ws);
+		if (current->length > x_find)
+			x_find = current->length;
+		y_find++;
+		current = current->next;
 	}
-	
+	stc->map_data->width_x = x_find;
+	stc->map_data->high_y = y_find;
+	return ;
+}
+
 int	main(int ac, char **av)
 {
-
-
-
-
 	map_t		*stc;
 	int			init_result;
-	tracker_t	*free_head = NULL;
+	tracker_t	*free_head;
 	int			file_process_result;
 	int			config_validation_result;
 
+	free_head = NULL;
 	// Initialize and validate input
 	init_result = initialize_and_validate(ac, av, &stc, &free_head);
 	if (init_result != 0)
@@ -137,7 +133,7 @@ int	main(int ac, char **av)
 	}
 	// loading_image(stc);
 	fill_maps(stc);
-	main2(stc->map_data,stc);
+	main2(stc->map_data, stc);
 	// Debug: print map data (optional)
 	// print_map_data(stc->map_data);
 	// Clean up resources

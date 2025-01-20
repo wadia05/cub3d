@@ -1,4 +1,5 @@
 #include "cub3d.h"
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*aloo;
@@ -16,64 +17,61 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(aloo, s2, ft_strlen(s2) + ft_strlen(s1) + 1);
 	return (aloo);
 }
-int loading_image(map_t *mp)
+int	loading_image(map_t *mp)
 {
-    char filename[20];
-    
-    // Load regular textures
-    mp->no_png = mlx_load_png(mp->no);
-    if (!mp->no_png)
-        return 1;
-    mp->so_png = mlx_load_png(mp->so);
-    if (!mp->so_png)
-        return 1;
-    mp->ea_png = mlx_load_png(mp->ea);
-    if (!mp->ea_png)
-        return 1;
-    mp->we_png = mlx_load_png(mp->we);
-    if (!mp->we_png)
-        return 1;
-    mp->door_png = mlx_load_png("door.png");
-    if (!mp->door_png)
-        return 1;
+	char	filename[20];
+	int		i;
+	char	*path;
 
-    // Allocate memory for kick animation textures array
-    mp->Kickpng = malloc(sizeof(mlx_texture_t*) * 23);
-    if (!mp->Kickpng)
-        return 1;
-
-    // Load all kick animation frames
-    int i = 0;
-    while (i < 23)
-    {
-        // Create filename string for each frame (1.png to 23.png)
-        filename[0] = (i + 1) / 10 + '0';  // Tens digit
-        filename[1] = (i + 1) % 10 + '0';  // Ones digit
-        filename[2] = '.';
-        filename[3] = 'p';
-        filename[4] = 'n';
-        filename[5] = 'g';
-        filename[6] = '\0';
-        char *path = ft_strjoin("kick/", filename);
-
-        // Load the image
-        mp->Kickpng[i] = mlx_load_png(path);
-		printf ("%s\n", path);
-        if (!mp->Kickpng[i])
-        {
-            // Clean up previously loaded frames if current frame fails
-            while (--i >= 0)
-                mlx_delete_texture(mp->Kickpng[i]);
-            free(mp->Kickpng);
-            free(path);
-			return 1;
-
-        }
-            free(path);
-        i++;
-    }
-
-    return 0;
+	// Load regular textures
+	mp->no_png = mlx_load_png(mp->no);
+	if (!mp->no_png)
+		return (1);
+	mp->so_png = mlx_load_png(mp->so);
+	if (!mp->so_png)
+		return (1);
+	mp->ea_png = mlx_load_png(mp->ea);
+	if (!mp->ea_png)
+		return (1);
+	mp->we_png = mlx_load_png(mp->we);
+	if (!mp->we_png)
+		return (1);
+	mp->door_png = mlx_load_png("door.png");
+	if (!mp->door_png)
+		return (1);
+	// Allocate memory for kick animation textures array
+	mp->Kickpng = malloc(sizeof(mlx_texture_t *) * 23);
+	if (!mp->Kickpng)
+		return (1);
+	// Load all kick animation frames
+	i = 0;
+	while (i < 23)
+	{
+		// Create filename string for each frame (1.png to 23.png)
+		filename[0] = (i + 1) / 10 + '0'; // Tens digit
+		filename[1] = (i + 1) % 10 + '0'; // Ones digit
+		filename[2] = '.';
+		filename[3] = 'p';
+		filename[4] = 'n';
+		filename[5] = 'g';
+		filename[6] = '\0';
+		path = ft_strjoin("kick/", filename);
+		// Load the image
+		mp->Kickpng[i] = mlx_load_png(path);
+		printf("%s\n", path);
+		if (!mp->Kickpng[i])
+		{
+			// Clean up previously loaded frames if current frame fails
+			while (--i >= 0)
+				mlx_delete_texture(mp->Kickpng[i]);
+			free(mp->Kickpng);
+			free(path);
+			return (1);
+		}
+		free(path);
+		i++;
+	}
+	return (0);
 }
 mlx_texture_t	*get_texturte(cub3d_t *cub, ray_t *ray, double s_agl)
 {
@@ -129,6 +127,7 @@ void	Render_floor(cub3d_t *cub, int ray_index)
 	map_t		*txtur;
 	uint32_t	floor_color;
 	int			y;
+
 	(void)ray_index;
 	txtur = NULL;
 	txtur = cub->info;
@@ -204,7 +203,7 @@ void	wall_top_bottom(cub3d_t **cub, ray_t *ray, double s_agl)
 	txtur->wall_texture = get_texturte(*cub, ray, s_agl);
 	// return (cub);
 }
-uint32_t	get_color_px(cub3d_t *cub, int tex_y, int tex_x)
+uint32_t	get_color_px(cub3d_t *cub, int texY, int texX)
 {
 	uint8_t		r;
 	uint8_t		g;
@@ -215,13 +214,13 @@ uint32_t	get_color_px(cub3d_t *cub, int tex_y, int tex_x)
 	map_t		*txtur;
 
 	txtur = cub->info;
-	r = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x)
+	r = txtur->wall_texture->pixels[(texY * txtur->wall_texture->width + texX)
 		* 4];
-	g = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x)
+	g = txtur->wall_texture->pixels[(texY * txtur->wall_texture->width + texX)
 		* 4 + 1];
-	b = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x)
+	b = txtur->wall_texture->pixels[(texY * txtur->wall_texture->width + texX)
 		* 4 + 2];
-	a = txtur->wall_texture->pixels[(tex_y * txtur->wall_texture->width + tex_x)
+	a = txtur->wall_texture->pixels[(texY * txtur->wall_texture->width + texX)
 		* 4 + 3];
 	shade_factor = 1.0f - (txtur->corrected_distance / (cub->map_unit * 10.0f));
 	shade_factor = fmaxf(0.1f, fminf(shade_factor, 1.0f));
@@ -230,12 +229,12 @@ uint32_t	get_color_px(cub3d_t *cub, int tex_y, int tex_x)
 	return (color);
 }
 
-void	Draw_textured_wall_strip(cub3d_t *cub, int ray_index, int tex_x)
+void	Draw_textured_wall_strip(cub3d_t *cub, int ray_index, int texX)
 {
 	map_t	*txtur;
 	float	screen_pos;
 	float	texture_y;
-	int		tex_y;
+	int		texY;
 
 	txtur = cub->info;
 	// (void)ray_index;
@@ -247,9 +246,9 @@ void	Draw_textured_wall_strip(cub3d_t *cub, int ray_index, int tex_x)
 				- txtur->wall_top);
 		texture_y = txtur->texture_offset + (screen_pos * (1.0f - 2.0f
 					* txtur->texture_offset));
-		tex_y = (int)(texture_y * txtur->wall_texture->height);
-		tex_y = fmax(0, fmin(tex_y, txtur->wall_texture->height - 1));
-		mlx_put_pixel(cub->img, ray_index, y, get_color_px(cub, tex_y, tex_x));
+		texY = (int)(texture_y * txtur->wall_texture->height);
+		texY = fmax(0, fmin(texY, txtur->wall_texture->height - 1));
+		mlx_put_pixel(cub->img, ray_index, y, get_color_px(cub, texY, texX));
 	}
 }
 

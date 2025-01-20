@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:46 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/13 07:00:08 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/20 07:31:03 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
 int	validate_map_char(char c)
 {
 	return (c == '0' || c == '1' || c == ' ' || c == '\t' || c == '\n');
@@ -89,45 +90,43 @@ int	validate_map_borders_and_walls(map_list_t *map_data, map_t *stc)
 	return (0);
 }
 
-int door_check(map_list_t *hd)
+int	door_check(map_list_t *hd)
 {
-    map_list_t *tmp;
-    int i;
+	map_list_t	*tmp;
+	int			i;
 
-    if (hd == NULL)
-        return 1;
-
-    tmp = hd;
-    while (tmp != NULL)
-    {
-        i = 0;
-        while (tmp->map[i] != '\0')  // Changed from 0 to '\0' for string termination
-        {
-            if (tmp->map[i] == '3')
-            {
-                // Check horizontal walls
-                if (tmp->map[i + 1] == '1' && tmp->map[i - 1] == '1')
+	if (hd == NULL)
+		return (1);
+	tmp = hd;
+	while (tmp != NULL)
+	{
+		i = 0;
+		while (tmp->map[i] != '\0')
+		// Changed from 0 to '\0' for string termination
+		{
+			if (tmp->map[i] == '3')
+			{
+				// Check horizontal walls
+				if (tmp->map[i + 1] == '1' && tmp->map[i - 1] == '1')
 				{
 					i++;
-                    continue;  // Door is valid horizontally
+					continue ; // Door is valid horizontally
 				}
-                
-                // Check vertical walls - need to verify tmp->prev and tmp->next exist
-                if (tmp->prev && tmp->next && 
-                    tmp->prev->map[i] == '1' && tmp->next->map[i] == '1')
-                {
+				if (tmp->prev && tmp->next && tmp->prev->map[i] == '1'
+					&& tmp->next->map[i] == '1')
+				{
 					i++;
-				    continue;  // Door is valid vertically
+					continue ; // Door is valid vertically
 				}
-                // If we reach here, the door is not properly placed
-                print_error("Door should be between two walls");
-                return 1;
-            }
-            i++;
-        }
-        tmp = tmp->next;
-    }
-    return 0;
+				// If we reach here, the door is not properly placed
+				print_error("Door should be between two walls");
+				return (1);
+			}
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
 }
 int	parse_line_maps(map_t *stc)
 {

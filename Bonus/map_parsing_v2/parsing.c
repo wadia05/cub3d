@@ -6,11 +6,12 @@
 /*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:33 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/01 12:14:50 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/20 06:47:51 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
 bool	is_char_here(const char *line, const char *chars)
 {
 	while (*line)
@@ -59,36 +60,32 @@ int	handle_texture(char **dest, char *path, char *type, map_t *stc)
 		return (print_error("Duplicate texture definition"));
 	if (validate_texture_path(path, type) != 0)
 		return (1);
-	*dest = ft_strdup_v2(path,stc->free_head);
+	*dest = ft_strdup_v2(path, stc->free_head);
 	if (!*dest)
 		return (print_error("Memory allocation failed"));
 	return (0);
 }
 
-map_t *init_map_structure(tracker_t **free_hd)
+map_t	*init_map_structure(tracker_t **free_hd)
 {
-    map_t *stc = tracker_malloc(sizeof(map_t), free_hd);
-    if (!stc)
-        return NULL;
+	map_t	*stc;
 
-    ft_memset(stc, 0, sizeof(map_t));
-
-    // Allocate f_color and c_color
-    stc->f_color = tracker_malloc(sizeof(color_t), free_hd);
-    stc->c_color = tracker_malloc(sizeof(color_t), free_hd);
-
-    if (!stc->f_color || !stc->c_color)
-    {
-        free_all_allocate(free_hd);
-        return NULL;
-    }
-
-    ft_memset(stc->f_color, 0, sizeof(color_t));
-    ft_memset(stc->c_color, 0, sizeof(color_t));
-
-    return stc;
+	stc = tracker_malloc(sizeof(map_t), free_hd);
+	if (!stc)
+		return (NULL);
+	ft_memset(stc, 0, sizeof(map_t));
+	// Allocate f_color and c_color
+	stc->f_color = tracker_malloc(sizeof(color_t), free_hd);
+	stc->c_color = tracker_malloc(sizeof(color_t), free_hd);
+	if (!stc->f_color || !stc->c_color)
+	{
+		free_all_allocate(free_hd);
+		return (NULL);
+	}
+	ft_memset(stc->f_color, 0, sizeof(color_t));
+	ft_memset(stc->c_color, 0, sizeof(color_t));
+	return (stc);
 }
-
 
 int	parse_texture_line(map_t *stc, char **tokens)
 {
@@ -157,7 +154,12 @@ int	parse_line(map_t *stc, char *line)
 		}
 		else if (ft_strncmp(tokens[0], "F", 1) == 0 || ft_strncmp(tokens[0],
 				"C", 1) == 0)
-			ret = parse_color_line(stc, tokens, line);
+		{
+			if (stc->map_str == true)
+				ret = print_error("coloe in inside map");
+			else
+				ret = parse_color_line(stc, tokens, line);
+		}
 		else if (is_char_here(line, "013WSEN"))
 		{
 			stc->map_str = true;
