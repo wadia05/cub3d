@@ -3,23 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/20 11:56:50 by mole_pc          ###   ########.fr       */
+/*   Updated: 2025/01/26 22:15:23 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../MLX42/include/MLX42/MLX42.h"
-// #include "/Users/abenchel/Desktop/cub3d/includes/MLX42/MLX42_Int.h"
-
-// # include "../includes/MLX42/MLX42_Input.h"
-// # include "../includes/MLX42/MLX42_Int.h"
-// # include "/Users/abenchel/Desktop/cub3d/MLX42/include/MLX42/MLX42.h"
 # include "../GET_NEXT_LINE_42/get_next_line.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft_42/libft.h"
 # include "../track_memory/memory_tracker.h"
 # include <fcntl.h>
@@ -34,14 +29,22 @@
 # define YELLOW "\033[1;33m"
 # define RESET "\033[0m"
 # define PLAYER_SIZE 2
+# define BUFFER 10
 
+# define MAP_SIZE 100
+# define CELL_SIZE 64
+# define PLAYER_COLOR 0x0000FF00
+# define WALL_COLOR 0x00FF0000
+# define FLOOR_COLOR 0x00FFFFFF
+# define SPECIAL_COLOR 0x0077CCFF
+# define OUT_OF_BOUNDS_COLOR 0x00444444
+# define SPEED 10.f
+# define ROTATION_SPEED 0.05f
 # define WIDTH 1024
 # define HEIGHT 512
 # define PI 3.1415926535
 # define P1 PI / 2
 # define P2 3 * PI / 2
-// # define DR 0.0174533
-// # define DR 0.001047198
 # define DR 0.001022653859
 
 typedef struct map_s	map_t;
@@ -121,12 +124,11 @@ typedef struct cub3d_s
 	mlx_image_t			**animation_frames;
 	map_t				*info;
 
-
-    //================
-    	uint8_t		r;
-	uint8_t		g;
-	uint8_t		b;
-	uint8_t		a;
+	//================
+	uint8_t				r;
+	uint8_t				g;
+	uint8_t				b;
+	uint8_t				a;
 
 }						cub3d_t;
 
@@ -258,4 +260,17 @@ size_t					ft_strlen(const char *s);
 int						parse_map(int file, map_t *stc);
 // int draw_plyr(mlx_image_t *img, int x, int y, float angle);
 
+void					free_all(cub3d_t *cub);
+double					dist(float ax, float ay, float bx, float by);
+int						init_ray(cub3d_t *cub);
+void					draw_mini_map(cub3d_t *cub);
+cub3d_t					*open_close_door(cub3d_t *cub, int k);
+int						check_mov(int x, int y, cub3d_t *cub);
+void					free_all(cub3d_t *cub);
+void					init_player(cub3d_t *cub);
+void					ft_hook_v3(cub3d_t *cub3d);
+void					ft_hook_v2(cub3d_t *cub3d, float *x, float *y);
+cub3d_t					*init_cub_v1(map_list_t *stc, map_t *color);
+void	itirate_horizontal(ray_t *rays, cub3d_t *cub);
+void	itirate_vertical(ray_t *rays, cub3d_t *cub);
 #endif

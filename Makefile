@@ -42,7 +42,11 @@ SRCB = \
 	Bonus/draw_rays_copy.c \
 	Bonus/texture.c \
 	Bonus/draw_rays_copy2.c \
-	Bonus/animation_kick.c
+	Bonus/animation_kick.c \
+	Bonus/minimap_door.c \
+	Bonus/utils1.c \
+	Bonus/utils2.c \
+	Bonus/recasting.c \
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g #fsanitize=address
@@ -53,11 +57,11 @@ MLX = "./MLX42/build/libmlx42.a"
 LIBFT_DIR := ./libft_42
 LIBFT := $(LIBFT_DIR)/libft.a
 
-# linux
-LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
+# # linux
+# LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 # MAC
-# LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/wait-bab/.brew/opt/glfw/lib"
-# FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
+LDFLAGS = -O3 -Iinclude -lglfw -L"/opt/homebrew/opt/glfw/lib"
+FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(LIBFT) $(NAME)
 
