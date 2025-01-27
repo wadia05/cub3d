@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:05:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/27 16:05:37 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:55:15 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ void	main2(map_list_t *stc, map_t *color)
 		return ;
 	}
 	mlx_loop_hook(cub3d->win, ft_hook, cub3d);
-	mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
+	// mlx_loop_hook(cub3d->win, ft_hook_mouse, cub3d);
 	mlx_loop(cub3d->win);
 	cleanup_all(cub3d);
 	free_all(cub3d);

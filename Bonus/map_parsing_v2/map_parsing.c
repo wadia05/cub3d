@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:38 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:33:39 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:39:06 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	handle_empty_lines(map_list_t **map_data)
 		if (tmp->next && tmp->map[0] == '\n' && tmp->next->map[0] != '\n')
 		{
 			print_error("Error: Empty line detected in map");
-			return (1);
+			exit(1); //! check here
 		}
 		if (tmp->map[0] == '\n')
 		{
@@ -80,7 +80,7 @@ int	validate_map_borders_and_walls(map_list_t *map_data, map_t *stc)
 			if (tmp->map[tmp->ws] != '1')
 			{
 				print_error("First index not wall");
-				return (1);
+				free_at_exit(stc); //! check here
 			}
 			if (check_zero(tmp, stc))
 				return (1);
