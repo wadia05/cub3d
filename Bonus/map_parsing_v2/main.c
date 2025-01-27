@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 12:56:56 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 15:42:49 by wait-bab         ###   ########.fr       */
+/*   Created: 2025/01/27 16:33:24 by wait-bab          #+#    #+#             */
+/*   Updated: 2025/01/27 16:35:13 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,12 @@ static int	process_and_validate(map_t *stc, char *map_file,
 	return (0);
 }
 
-void at_exit() {
-    system("leaks cub3d_Bonus");
-}
 int	main(int ac, char **av)
 {
 	map_t		*stc;
 	tracker_t	*free_head;
 	int			result;
-	atexit(at_exit);
+
 	free_head = NULL;
 	result = initialize_and_validate(ac, av, &stc, &free_head);
 	if (result != 0)
@@ -103,6 +100,5 @@ int	main(int ac, char **av)
 	free_all_allocate(&free_head);
 	exit(1);
 	printf("----------------------------------------------------");
-	// while (1){};
 	return (0);
 }

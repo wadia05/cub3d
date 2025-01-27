@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/26 22:15:23 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:49:07 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,9 @@ typedef struct map_s
 void					draw_wall(cub3d_t *cub, ray_t *ray, int ray_index,
 							double s_agl);
 int						loading_image(map_t *mp);
+mlx_texture_t			*get_texturte(cub3d_t *cub, ray_t *ray, double s_agl);
+void					render_ceiling(cub3d_t *cub, int ray_index);
+void					render_floor(cub3d_t *cub, int ray_index);
 
 //-----------wall
 void					main2(map_list_t *stc, map_t *color);
@@ -271,6 +274,6 @@ void					init_player(cub3d_t *cub);
 void					ft_hook_v3(cub3d_t *cub3d);
 void					ft_hook_v2(cub3d_t *cub3d, float *x, float *y);
 cub3d_t					*init_cub_v1(map_list_t *stc, map_t *color);
-void	itirate_horizontal(ray_t *rays, cub3d_t *cub);
-void	itirate_vertical(ray_t *rays, cub3d_t *cub);
+void					itirate_horizontal(ray_t *rays, cub3d_t *cub);
+void					itirate_vertical(ray_t *rays, cub3d_t *cub);
 #endif

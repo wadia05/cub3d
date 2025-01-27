@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 09:12:06 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/01 12:14:36 by wait-bab          ###   ########.fr       */
+/*   Created: 2025/01/27 16:33:04 by wait-bab          #+#    #+#             */
+/*   Updated: 2025/01/27 16:53:53 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,4 @@ int	in_color_range(color_t *color_)
 	}
 	return (0);
 }
+

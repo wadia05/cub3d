@@ -47,6 +47,8 @@ SRCB = \
 	Bonus/utils1.c \
 	Bonus/utils2.c \
 	Bonus/recasting.c \
+	Bonus/cal_wall.c \
+	Bonus/rander.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
