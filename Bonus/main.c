@@ -1,44 +1,43 @@
 #include "cub3d.h"
 
-void	ft_hook(void *param)
+void	handle_animation(cub3d_t *cub3d)
 {
 	static bool	animation_loaded = false;
 	static bool	animation_in_progress = false;
-	cub3d_t		*cub3d;
-	int			check;
-	float		x;
-	float		y;
 
-	cub3d = param;
-	x = cub3d->x;
-	y = cub3d->y;
-	ft_hook_v2(cub3d, &x, &y);
-	ft_hook_v3(cub3d);
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_O))
 	{
-		if (!animation_loaded)
-		{
+		if (!animation_loaded && (animation_loaded = true))
 			init_kick_animation(cub3d);
-			animation_loaded = true;
-		}
 		if (!animation_in_progress)
-		{
 			animation_in_progress = true;
-		}
 	}
 	if (animation_in_progress)
-	{
-		if (!update_kick_animation(cub3d))
-		{
-			animation_in_progress = false;
-		}
-	}
+		animation_in_progress = update_kick_animation(cub3d);
+}
+
+void	handle_movement(cub3d_t *cub3d)
+{
+	float	x = cub3d->x;
+	float	y = cub3d->y;
+	int		check;
+
+	ft_hook_v2(cub3d, &x, &y);
+	ft_hook_v3(cub3d);
 	check = check_mov(x, y, cub3d);
 	if (check == 0)
 	{
 		cub3d->x = x;
 		cub3d->y = y;
 	}
+}
+
+void	ft_hook(void *param)
+{
+	cub3d_t	*cub3d = param;
+
+	handle_animation(cub3d);
+	handle_movement(cub3d);
 	draw_rays(cub3d);
 	draw_mini_map(cub3d);
 }
