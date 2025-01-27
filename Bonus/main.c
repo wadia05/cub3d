@@ -110,8 +110,8 @@ void	cleanup_all(cub3d_t *cub3d)
 	if (cub3d->img)
 		mlx_delete_image(cub3d->win, cub3d->img);
 	// Cleanup MLX window
-	if (cub3d->win)
-		mlx_terminate(cub3d->win);
+	// if (cub3d->win)
+	// 	mlx_terminate(cub3d->win);
 }
 
 cub3d_t	*remake_map(map_list_t *stc, cub3d_t *cub3d)
@@ -158,7 +158,7 @@ cub3d_t	*main2_v2(cub3d_t *cub3d, map_list_t *stc, map_t *color)
 	cub3d->xdx = cos(cub3d->angle) * 5;
 	cub3d->ydy = sin(cub3d->angle) * 5;
 	cub3d->ray_dof_max = stc->ws;
-	free(stc);
+	// free(stc);
 	cub3d->win = mlx_init(WIDTH, HEIGHT, "cub3d", false);
 	if (!cub3d->win)
 	{
