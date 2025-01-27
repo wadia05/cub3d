@@ -6,7 +6,7 @@
 /*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:45:18 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/26 19:08:24 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:54:41 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,31 @@ void	draw_player(cub3d_t *cub)
 		}
 		i++;
 	}
+	float prev_positions_x[5];
+	float prev_positions_y[5];
+
+	// Calculate previous positions based on current position and direction
+	for (int i = 0; i < 5; i++)
+	{
+		// Calculate positions going backwards from current position
+		prev_positions_x[i] = cub->x + (cos(cub->angle) * (i * 2));
+		prev_positions_y[i] = cub->y + (sin(cub->angle) * (i * 2));
+	}
+		for (int i = 0; i < 5; i++)
+	{
+        // Calculate screen position for tail segment
+        int screen_x = 50 + (int)((prev_positions_x[i] - cub->x) * CELL_SIZE / CELL_SIZE);
+        int screen_y = 50 + (int)((prev_positions_y[i] - cub->y) * CELL_SIZE / CELL_SIZE);
+        
+        // Calculate fade effect (alpha) based on position in tail
+        int alpha = 255 - ((i * 255) / 5);
+        // Create yellow color with fade effect
+        int tail_color = 0x00FFFF00 | (alpha << 24);
+        
+        // Draw tail segment if it's within map boundaries
+        if (screen_x >= 0 && screen_x < MAP_SIZE && screen_y >= 0 && screen_y < MAP_SIZE)
+            mlx_put_pixel(cub->img, screen_x, screen_y, tail_color);
+    }
 }
 
 void	draw_cell(cub3d_t *cub, int x, int y, int map_x, int map_y)
