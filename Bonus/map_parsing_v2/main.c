@@ -6,13 +6,13 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:24 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 18:55:34 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	initialize_and_validate(int ac, char **av, map_t **stc,
+int	initialize_and_validate(int ac, char **av, t_map **stc,
 		tracker_t **free_head)
 {
 	if (ac != 2)
@@ -29,7 +29,7 @@ int	initialize_and_validate(int ac, char **av, map_t **stc,
 	return (0);
 }
 
-int	validate_map_config(map_t *stc)
+int	validate_map_config(t_map *stc)
 {
 	if (stc->c_color->lock != true || stc->f_color->lock != true)
 		return (print_error("Color missing"));
@@ -39,9 +39,9 @@ int	validate_map_config(map_t *stc)
 	return (0);
 }
 
-void	fill_maps(map_t *stc)
+void	fill_maps(t_map *stc)
 {
-	map_list_t	*current;
+	t_map_list	*current;
 	int			y_find;
 	int			x_find;
 
@@ -60,7 +60,7 @@ void	fill_maps(map_t *stc)
 	return ;
 }
 
-static int	process_and_validate(map_t *stc, char *map_file,
+static int	process_and_validate(t_map *stc, char *map_file,
 		tracker_t **free_head)
 {
 	int	result;
@@ -81,16 +81,13 @@ static int	process_and_validate(map_t *stc, char *map_file,
 	}
 	return (0);
 }
-void leaks (){
-	system("leaks cub3d_Bonus");
-}
 
 int	main(int ac, char **av)
 {
-	map_t		*stc;
+	t_map		*stc;
 	tracker_t	*free_head;
 	int			result;
-	atexit(leaks);
+
 	free_head = NULL;
 	result = initialize_and_validate(ac, av, &stc, &free_head);
 	if (result != 0)
@@ -101,7 +98,6 @@ int	main(int ac, char **av)
 	fill_maps(stc);
 	main2(stc->map_data, stc);
 	free_all_allocate(&free_head);
-
 	printf("----------------------------------------------------");
 	return (0);
 }

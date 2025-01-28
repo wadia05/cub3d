@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:52:04 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:52:22 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*generate_kick_filename(int index, char *filename)
 	return (ft_strjoin("kick/", filename));
 }
 
-static int	load_kick_frames(map_t *mp)
+static int	load_kick_frames(t_map *mp)
 {
 	char	filename[20];
 	char	*path;
@@ -52,7 +52,7 @@ static int	load_kick_frames(map_t *mp)
 	return (0);
 }
 
-int	loading_image(map_t *mp)
+int	loading_image(t_map *mp)
 {
 	mp->no_png = mlx_load_png(mp->no);
 	if (!mp->no_png)
@@ -74,7 +74,7 @@ int	loading_image(map_t *mp)
 	return (0);
 }
 
-mlx_texture_t	*get_texturte(cub3d_t *cub, ray_t *ray, double s_agl)
+mlx_texture_t	*get_texturte(t_cub3d *cub, t_ray *ray, double s_agl)
 {
 	if (ray->is_door == 1)
 		return (cub->info->door_png);

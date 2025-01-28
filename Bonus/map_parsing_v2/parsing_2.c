@@ -6,13 +6,13 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:46 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:33:47 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:57:23 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	handle_texture(char **dest, char *path, char *type, map_t *stc)
+int	handle_texture(char **dest, char *path, char *type, t_map *stc)
 {
 	if (*dest != NULL)
 		return (print_error("Duplicate texture definition"));
@@ -24,27 +24,27 @@ int	handle_texture(char **dest, char *path, char *type, map_t *stc)
 	return (0);
 }
 
-map_t	*init_map_structure(tracker_t **free_hd)
+t_map	*init_map_structure(tracker_t **free_hd)
 {
-	map_t	*stc;
+	t_map	*stc;
 
-	stc = tracker_malloc(sizeof(map_t), free_hd);
+	stc = tracker_malloc(sizeof(t_map), free_hd);
 	if (!stc)
 		return (NULL);
-	ft_memset(stc, 0, sizeof(map_t));
-	stc->f_color = tracker_malloc(sizeof(color_t), free_hd);
-	stc->c_color = tracker_malloc(sizeof(color_t), free_hd);
+	ft_memset(stc, 0, sizeof(t_map));
+	stc->f_color = tracker_malloc(sizeof(t_color), free_hd);
+	stc->c_color = tracker_malloc(sizeof(t_color), free_hd);
 	if (!stc->f_color || !stc->c_color)
 	{
 		free_all_allocate(free_hd);
 		return (NULL);
 	}
-	ft_memset(stc->f_color, 0, sizeof(color_t));
-	ft_memset(stc->c_color, 0, sizeof(color_t));
+	ft_memset(stc->f_color, 0, sizeof(t_color));
+	ft_memset(stc->c_color, 0, sizeof(t_color));
 	return (stc);
 }
 
-int	parse_texture_line(map_t *stc, char **tokens)
+int	parse_texture_line(t_map *stc, char **tokens)
 {
 	if (!tokens[1])
 		return (print_error("Missing texture path"));
@@ -61,7 +61,7 @@ int	parse_texture_line(map_t *stc, char **tokens)
 	return (print_error("Unknown texture identifier"));
 }
 
-int	process_map_file(map_t *stc, char *filename, tracker_t **free_head)
+int	process_map_file(t_map *stc, char *filename, tracker_t **free_head)
 {
 	int		file;
 	char	*line;

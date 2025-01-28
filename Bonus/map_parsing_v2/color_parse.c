@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:32:40 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:32:41 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:57:23 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**isvalide_color_line(char *line)
 	return (color_);
 }
 
-int	parse_color(char *line, color_t *color)
+int	parse_color(char *line, t_color *color)
 {
 	char	**color_;
 

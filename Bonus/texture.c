@@ -6,15 +6,15 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:37:16 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:50:21 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	calculate_texture_x_coordinate(cub3d_t *cub, ray_t *ray, double s_agl)
+int	calculate_texture_x_coordinate(t_cub3d *cub, t_ray *ray, double s_agl)
 {
-	map_t	*txtur;
+	t_map	*txtur;
 	float	texture_x;
 	int		tex_x;
 
@@ -36,10 +36,10 @@ int	calculate_texture_x_coordinate(cub3d_t *cub, ray_t *ray, double s_agl)
 	return (tex_x);
 }
 
-void	wall_top_bottom(cub3d_t **cub, ray_t *ray, double s_agl)
+void	wall_top_bottom(t_cub3d **cub, t_ray *ray, double s_agl)
 {
 	float	overflow;
-	map_t	*txtur;
+	t_map	*txtur;
 
 	txtur = (*cub)->info;
 	txtur->fov = PI / 3;
@@ -61,11 +61,11 @@ void	wall_top_bottom(cub3d_t **cub, ray_t *ray, double s_agl)
 	txtur->wall_texture = get_texturte(*cub, ray, s_agl);
 }
 
-uint32_t	get_color_px(cub3d_t *cub, int texY, int texX)
+uint32_t	get_color_px(t_cub3d *cub, int texY, int texX)
 {
 	float		shade_factor;
 	uint32_t	color;
-	map_t		*txtur;
+	t_map		*txtur;
 
 	txtur = cub->info;
 	cub->r = txtur->wall_texture->pixels[(texY * txtur->wall_texture->width
@@ -84,9 +84,9 @@ uint32_t	get_color_px(cub3d_t *cub, int texY, int texX)
 	return (color);
 }
 
-void	draw_textured_wall_strip(cub3d_t *cub, int ray_index, int texX)
+void	draw_textured_wall_strip(t_cub3d *cub, int ray_index, int texX)
 {
-	map_t	*txtur;
+	t_map	*txtur;
 	float	screen_pos;
 	float	texture_y;
 	int		tex_y;
@@ -107,7 +107,7 @@ void	draw_textured_wall_strip(cub3d_t *cub, int ray_index, int texX)
 	}
 }
 
-void	draw_wall(cub3d_t *cub, ray_t *ray, int ray_index, double s_agl)
+void	draw_wall(t_cub3d *cub, t_ray *ray, int ray_index, double s_agl)
 {
 	int	tex_x;
 

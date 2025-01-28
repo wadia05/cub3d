@@ -1,6 +1,6 @@
 NAME = cub3d
 NAMEB = cub3d_Bonus
-HDER = mandatory/cub3d.h
+# HDER = mandatory/cub3d.h
 HDERB = Bonus/cub3d.h
 SRC = \
 	track_memory/memory_tracker.c \
@@ -10,7 +10,7 @@ SRC = \
 	GET_NEXT_LINE_42/get_next_line.c \
 	GET_NEXT_LINE_42/get_next_line_utils.c \
 	mandatory/map_parsing_v2/tools.c\
-	mandatory/map_parsing_v2/color_tools.c\
+	mandatory/map_parsing_v2/t_colorools.c\
 	mandatory/map_parsing_v2/louding_maps.c\
 	mandatory/map_parsing_v2/map_parsing.c\
 	mandatory/map_parsing_v2/map_parsing_p2.c\
@@ -29,7 +29,7 @@ SRCB = \
 	GET_NEXT_LINE_42/get_next_line.c \
 	GET_NEXT_LINE_42/get_next_line_utils.c \
 	Bonus/map_parsing_v2/tools.c\
-	Bonus/map_parsing_v2/color_tools.c\
+	Bonus/map_parsing_v2/t_colorools.c\
 	Bonus/map_parsing_v2/louding_maps.c\
 	Bonus/map_parsing_v2/map_parsing.c\
 	Bonus/map_parsing_v2/map_parsing_p2.c\
@@ -38,6 +38,7 @@ SRCB = \
 	Bonus/map_parsing_v2/parsing_helper.c \
 	Bonus/map_parsing_v2/parsing_2.c \
 	Bonus/map_parsing_v2/map_parsing_door.c \
+	Bonus/animation_move.c\
 	Bonus/main.c \
 	Bonus/draw_rays_copy.c \
 	Bonus/texture.c \
@@ -48,7 +49,8 @@ SRCB = \
 	Bonus/utils2.c \
 	Bonus/recasting.c \
 	Bonus/cal_wall.c \
-	Bonus/rander.c
+	Bonus/rander.c \
+	Bonus/main_v2.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
@@ -89,4 +91,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+# .PHONY: all clean fclean re bonus

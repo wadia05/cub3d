@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "cub3d.h": "c"
+        "cub3d.h": "c",
+        "memory_tracker.h": "c"
     },
     "cmake.sourceDirectory": "/Users/wait-bab/Desktop/cubf/MLX42"
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   recasting.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 21:58:23 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/26 21:58:50 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	itirate_horizontal_v2(ray_t *rays, cub3d_t *cub, int mx, int my)
+void	itirate_horizontal_v2(t_ray *rays, t_cub3d *cub, int mx, int my)
 {
 	if (cub->map[my][mx] == '1')
 	{
@@ -35,7 +35,7 @@ void	itirate_horizontal_v2(ray_t *rays, cub3d_t *cub, int mx, int my)
 	}
 }
 
-void	itirate_horizontal(ray_t *rays, cub3d_t *cub)
+void	itirate_horizontal(t_ray *rays, t_cub3d *cub)
 {
 	int	mx;
 	int	my;
@@ -62,7 +62,7 @@ void	itirate_horizontal(ray_t *rays, cub3d_t *cub)
 	}
 }
 
-void	itirate_vertical_v2(ray_t *rays, cub3d_t *cub, int mx, int my)
+void	itirate_vertical_v2(t_ray *rays, t_cub3d *cub, int mx, int my)
 {
 	if (cub->map[my][mx] == '1')
 	{
@@ -84,10 +84,11 @@ void	itirate_vertical_v2(ray_t *rays, cub3d_t *cub, int mx, int my)
 		rays->dof += 1;
 	}
 }
-void	itirate_vertical(ray_t *rays, cub3d_t *cub)
+
+void	itirate_vertical(t_ray *rays, t_cub3d *cub)
 {
-	int mx;
-	int my;
+	int	mx;
+	int	my;
 
 	rays->dof = 0;
 	while (rays->dof < cub->ray_dof_max)

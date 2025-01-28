@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:04 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:53:53 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:57:23 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	color_erorr(char *str)
 	return (0);
 }
 
-int	in_color_range(color_t *color_)
+int	in_color_range(t_color *color_)
 {
 	if ((color_->r < 0 || color_->r > 255) || (color_->g < 0 || color_->g > 255)
 		|| (color_->b < 0 || color_->b > 255))
@@ -43,4 +43,3 @@ int	in_color_range(color_t *color_)
 	}
 	return (0);
 }
-

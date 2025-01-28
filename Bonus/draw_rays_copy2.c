@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   draw_rays_copy2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 22:57:00 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/26 22:04:44 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	draw_moraba3(int x, int y, int color, cub3d_t *cub)
+int	draw_moraba3(int x, int y, int color, t_cub3d *cub)
 {
 	int	i;
 	int	j;
@@ -33,7 +33,7 @@ int	draw_moraba3(int x, int y, int color, cub3d_t *cub)
 	return (0);
 }
 
-void	deviate_ray_if_flanked(ray_t *rays, int num_rays)
+void	deviate_ray_if_flanked(t_ray *rays, int num_rays)
 {
 	int	i;
 
@@ -53,6 +53,7 @@ void	deviate_ray_if_flanked(ray_t *rays, int num_rays)
 		i++;
 	}
 }
+
 double	normalize_angle(double angle)
 {
 	if (angle < 0)
@@ -62,7 +63,7 @@ double	normalize_angle(double angle)
 	return (angle);
 }
 
-int	draw_wall2(cub3d_t *cub, ray_t *rays)
+int	draw_wall2(t_cub3d *cub, t_ray *rays)
 {
 	float	start_angle;
 	int		i;
@@ -80,9 +81,9 @@ int	draw_wall2(cub3d_t *cub, ray_t *rays)
 	return (0);
 }
 
-int	draw_rays(cub3d_t *cub)
+int	draw_rays(t_cub3d *cub)
 {
-	ray_t	*rays;
+	t_ray	*rays;
 	float	start_angle;
 	int		i;
 

@@ -6,20 +6,20 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:05:52 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/27 16:36:28 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	cleanup_animation_frames(cub3d_t *cub3d, int i)
+void	cleanup_animation_frames(t_cub3d *cub3d, int i)
 {
 	while (--i >= 0)
 		mlx_delete_image(cub3d->win, cub3d->animation_frames[i]);
 	free(cub3d->animation_frames);
 }
 
-static int	load_single_frame(cub3d_t *cub3d, int i)
+static int	load_single_frame(t_cub3d *cub3d, int i)
 {
 	cub3d->animation_frames[i] = mlx_texture_to_image(cub3d->win,
 			cub3d->info->Kickpng[i]);
@@ -32,7 +32,7 @@ static int	load_single_frame(cub3d_t *cub3d, int i)
 	return (0);
 }
 
-void	init_kick_animation(cub3d_t *cub3d)
+void	init_kick_animation(t_cub3d *cub3d)
 {
 	int	i;
 
@@ -52,7 +52,7 @@ void	init_kick_animation(cub3d_t *cub3d)
 	}
 }
 
-static void	handle_frame_transition(cub3d_t *cub3d)
+static void	handle_frame_transition(t_cub3d *cub3d)
 {
 	if (cub3d->info->i > 0)
 		cub3d->animation_frames[cub3d->info->i - 1]->enabled = false;
@@ -61,7 +61,7 @@ static void	handle_frame_transition(cub3d_t *cub3d)
 		cub3d = open_close_door(cub3d, 0);
 }
 
-int	update_kick_animation(cub3d_t *cub3d)
+int	update_kick_animation(t_cub3d *cub3d)
 {
 	double	current_time;
 

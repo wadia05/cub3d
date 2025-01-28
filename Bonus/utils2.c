@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 21:41:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/26 22:15:35 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_hook_v2(cub3d_t *cub3d, float *x, float *y)
+void	ft_hook_v2(t_cub3d *cub3d, float *x, float *y)
 {
+	double	p1;
+
+	p1 = PI / 2;
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_ESCAPE))
 		mlx_close_window(cub3d->win);
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_W))
@@ -28,17 +31,17 @@ void	ft_hook_v2(cub3d_t *cub3d, float *x, float *y)
 	}
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_D))
 	{
-		(*x) += cos(cub3d->angle + P1) * SPEED;
-		(*y) += sin(cub3d->angle + P1) * SPEED;
+		(*x) += cos(cub3d->angle + p1) * SPEED;
+		(*y) += sin(cub3d->angle + p1) * SPEED;
 	}
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_A))
 	{
-		(*x) -= cos(cub3d->angle + P1) * SPEED;
-		(*y) -= sin(cub3d->angle + P1) * SPEED;
+		(*x) -= cos(cub3d->angle + p1) * SPEED;
+		(*y) -= sin(cub3d->angle + p1) * SPEED;
 	}
 }
 
-void	ft_hook_v3(cub3d_t *cub3d)
+void	ft_hook_v3(t_cub3d *cub3d)
 {
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_LEFT))
 	{
@@ -60,21 +63,25 @@ void	ft_hook_v3(cub3d_t *cub3d)
 		cub3d = open_close_door(cub3d, 1);
 }
 
-void	init_player_v2(cub3d_t *cub, int x, int y)
+void	init_player_v2(t_cub3d *cub, int x, int y)
 {
+	double	p1;
+
+	p1 = PI / 2;
 	if (cub->map[y][x] == 'W')
 		cub->angle = PI;
 	else if (cub->map[y][x] == 'N')
-		cub->angle = 3 * P1;
+		cub->angle = 3 * p1;
 	else if (cub->map[y][x] == 'S')
-		cub->angle = P1;
+		cub->angle = p1;
 	else if (cub->map[y][x] == 'E')
 		cub->angle = 0.0;
 	cub->x = x * cub->map_unit + cub->map_unit / 2;
 	cub->y = y * cub->map_unit + cub->map_unit / 2;
 	cub->map[y][x] = '0';
 }
-void	init_player(cub3d_t *cub)
+
+void	init_player(t_cub3d *cub)
 {
 	int	y;
 	int	x;
@@ -96,15 +103,15 @@ void	init_player(cub3d_t *cub)
 	return ;
 }
 
-cub3d_t	*init_cub_v1(map_list_t *stc, map_t *color)
+t_cub3d	*init_cub_v1(t_map_list *stc, t_map *color)
 {
-	cub3d_t *cub3d;
+	t_cub3d	*cub3d;
 
-	cub3d = malloc(sizeof(cub3d_t));
+	cub3d = malloc(sizeof(t_cub3d));
 	if (!cub3d)
 		return (NULL);
 	cub3d->num_rays = 1024;
-	cub3d->ray = malloc(sizeof(ray_t) * cub3d->num_rays);
+	cub3d->ray = malloc(sizeof(t_ray) * cub3d->num_rays);
 	if (!cub3d->ray)
 		return (NULL);
 	cub3d->info = color;

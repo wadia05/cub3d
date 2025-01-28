@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:49:13 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/26 15:50:53 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	free_all(cub3d_t *cub)
+void	free_all(t_cub3d *cub)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ double	dist(float ax, float ay, float bx, float by)
 	return (sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
 }
 
-int	check_mov(int x, int y, cub3d_t *cub)
+int	check_mov(int x, int y, t_cub3d *cub)
 {
 	int	i;
 	int	j;
@@ -64,9 +64,9 @@ int	check_mov(int x, int y, cub3d_t *cub)
 	return (0);
 }
 
-void	init_ray_v2(ray_t *ray)
+void	init_ray_v2(t_ray *ray)
 {
-	ray->distV = 0;
+	ray->distv = 0;
 	ray->dist = 0;
 	ray->yh_was_adoor = 0;
 	ray->xv_was_adoor = 0;
@@ -85,12 +85,12 @@ void	init_ray_v2(ray_t *ray)
 	ray->is_door = 0;
 }
 
-int	init_ray(cub3d_t *cub)
+int	init_ray(t_cub3d *cub)
 {
-	int i;
+	int	i;
 
 	free(cub->ray);
-	cub->ray = malloc(sizeof(ray_t) * cub->num_rays);
+	cub->ray = malloc(sizeof(t_ray) * cub->num_rays);
 	if (cub->ray == NULL)
 		return (1);
 	i = 0;

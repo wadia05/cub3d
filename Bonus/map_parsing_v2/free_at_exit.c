@@ -6,13 +6,13 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:13 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:33:14 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:53:17 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	free_at_exit(map_t *hd)
+void	free_at_exit(t_map *hd)
 {
 	free_all_allocate(hd->free_head);
 	exit(1);

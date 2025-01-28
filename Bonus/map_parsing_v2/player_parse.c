@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:34:03 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:34:04 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_valid_alpha(char alpha)
 	}
 }
 
-int	validate_player_character(char player_char, map_t *stc)
+int	validate_player_character(char player_char, t_map *stc)
 {
 	if (player_char >= 'A' && player_char <= 'Z')
 	{
@@ -39,7 +39,7 @@ int	validate_player_character(char player_char, map_t *stc)
 	return (0);
 }
 
-int	find_player(map_list_t *ply, map_t *stc)
+int	find_player(t_map_list *ply, t_map *stc)
 {
 	int	i;
 	int	ply_offset;
@@ -65,9 +65,9 @@ int	find_player(map_list_t *ply, map_t *stc)
 	return (ply_offset);
 }
 
-int	player_check(map_list_t *hd, map_t *stc)
+int	player_check(t_map_list *hd, t_map *stc)
 {
-	map_list_t	*tmp;
+	t_map_list	*tmp;
 	int			ply_offset;
 
 	tmp = hd;

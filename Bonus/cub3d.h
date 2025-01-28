@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:49:07 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:57:23 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,29 @@
 # define WIDTH 1024
 # define HEIGHT 512
 # define PI 3.1415926535
-# define P1 PI / 2
-# define P2 3 * PI / 2
 # define DR 0.001022653859
 
-typedef struct map_s	map_t;
-typedef struct cordwal
-{
-	float				x;
-	float				y;
-	float				distance;
-}						cordwal_t;
+typedef struct map_s	t_map;
 
 typedef struct ray_s
 {
-	//--------- horizontal -----------
-	int r;          // Ray counter
-	int mx, my, mp; // Map grid coordinates and position
-	int dof;        // Depth of field
-	float rx, ry;   // Ray position
-	float ra;       // Ray angle
-	float xo, yo;   // X and Y offsets
+	int					r;
+	int					mx;
+	int					my;
+	int					mp;
+	int					dof;
+	float				rx;
+	float				ry;
+	float				ra;
+	float				xo;
+	float				yo;
 	float				aTan;
 
-	//--------- vertitcal -----------
 	float				vtan;
-	float				distH;
+	float				disth;
 	float				xH;
 	float				yH;
-	float				distV;
+	float				distv;
 	float				dist;
 	float				xh_was_adoor;
 	float				yh_was_adoor;
@@ -90,47 +84,41 @@ typedef struct ray_s
 	int					dist_door;
 	int					is_door;
 
-}						ray_t;
-// typedef struct texture_s
-// {
-//     float dist_project_plane;
-//     float corrected_distance;
-//     float wall_strip_height;
-//     int wall_top;
-//     int wall_bottom;
-//     float texture_offset;
+}						t_ray;
 
-// }texture_t;
 typedef struct cub3d_s
 {
-	float x;     // Player's x-coordinate
-	float y;     // Player's y-coordinate
-	float xdx;   // Player's direction vector x-component
-	float ydy;   // Player's direction vector y-component
-	float angle; // Player's current angle
+	float				x;
+	float				y;
+	float				xdx;
+	float				ydy;
+	float				angle;
 	int					wall[3][1000];
-
-	char **map;   // 2D map (walls and empty spaces)
-	int map_x;    // Number of columns in the map
-	int map_y;    // Number of rows in the map
-	int map_unit; // Size of each square in the map (e.g., 64)
+	int					add_x;
+	int					add_y;
+	char				**map;
+	int					map_x;
+	int					map_y;
+	int					map_unit;
 	float				pa;
 	int					fov;
-	int ray_dof_max; // Field of view (e.g., 60 degrees)
-	int num_rays;    // Number of rays to cast (e.g., 60)
-	ray_t				*ray;
-	mlx_t *win;       // MiniLibX window
-	mlx_image_t *img; // MiniLibX image to draw on
+	int					ray_dof_max;
+	int					num_rays;
+	t_ray				*ray;
+	mlx_t				*win;
+	mlx_image_t			*img;
 	mlx_image_t			**animation_frames;
-	map_t				*info;
+	t_map				*info;
 
-	//================
 	uint8_t				r;
 	uint8_t				g;
 	uint8_t				b;
 	uint8_t				a;
 
-}						cub3d_t;
+	int32_t				mouse_x;
+	int32_t				mouse_y;
+
+}						t_cub3d;
 
 typedef struct map_list_s
 {
@@ -141,7 +129,7 @@ typedef struct map_list_s
 	int					high_y;
 	struct map_list_s	*next;
 	struct map_list_s	*prev;
-}						map_list_t;
+}						t_map_list;
 
 typedef struct color_s
 {
@@ -150,11 +138,11 @@ typedef struct color_s
 	int					g;
 	int					b;
 
-}						color_t;
+}						t_color;
 
 typedef struct map_s
 {
-	map_list_t			*map_data;
+	t_map_list			*map_data;
 	bool				map_str;
 	bool				map_new_line;
 	char				*no;
@@ -183,73 +171,67 @@ typedef struct map_s
 	char				*f;
 	char				*c;
 
-	color_t				*f_color;
-	color_t				*c_color;
+	t_color				*f_color;
+	t_color				*c_color;
 	tracker_t			**free_head;
-}						map_t;
+}						t_map;
 
-//-----------
-//-----------texture
-
-void					draw_wall(cub3d_t *cub, ray_t *ray, int ray_index,
+void					draw_wall(t_cub3d *cub, t_ray *ray, int ray_index,
 							double s_agl);
-int						loading_image(map_t *mp);
-mlx_texture_t			*get_texturte(cub3d_t *cub, ray_t *ray, double s_agl);
-void					render_ceiling(cub3d_t *cub, int ray_index);
-void					render_floor(cub3d_t *cub, int ray_index);
+int						loading_image(t_map *mp);
+mlx_texture_t			*get_texturte(t_cub3d *cub, t_ray *ray, double s_agl);
+void					render_ceiling(t_cub3d *cub, int ray_index);
+void					render_floor(t_cub3d *cub, int ray_index);
 
-//-----------wall
-void					main2(map_list_t *stc, map_t *color);
-void					fill_maps(map_t *stc);
-map_t					*parsing_first(int ac, char **av);
+void					main2(t_map_list *stc, t_map *color);
+void					fill_maps(t_map *stc);
+t_map					*parsing_first(int ac, char **av);
 double					dist(float ax, float ay, float bx, float by);
-int						init_ray(cub3d_t *cub);
-int						draw_moraba3(int x, int y, int color, cub3d_t *cub);
-int						draw_rays(cub3d_t *cub);
+int						init_ray(t_cub3d *cub);
+int						draw_moraba3(int x, int y, int color, t_cub3d *cub);
+int						draw_rays(t_cub3d *cub);
 double					normalize_angle(double angle);
-void					draw_ray(cub3d_t *cub, ray_t *rays);
-void					handle_vertical_ray(cub3d_t *cub, double start_angle,
-							ray_t *rays);
-void					handle_horizontal_ray(cub3d_t *cub, double start_angle,
-							ray_t *rays);
+void					draw_ray(t_cub3d *cub, t_ray *rays);
+void					handle_vertical_ray(t_cub3d *cub, double start_angle,
+							t_ray *rays);
+void					handle_horizontal_ray(t_cub3d *cub, double start_angle,
+							t_ray *rays);
 
-// ------------ animation -------------------- //
-int						update_kick_animation(cub3d_t *cub3d);
-void					init_kick_animation(cub3d_t *cub3d);
-cub3d_t					*open_close_door(cub3d_t *cub, int k);
-void					cleanup_animation_frames(cub3d_t *cub3d, int i);
-// ------------ parsine -------------------- //
+int						update_kick_animation(t_cub3d *cub3d);
+void					init_kick_animation(t_cub3d *cub3d);
+t_cub3d					*open_close_door(t_cub3d *cub, int k);
+void					cleanup_animation_frames(t_cub3d *cub3d, int i);
 
 bool					is_char_here(const char *line, const char *chars);
 void					trim_end(char *str);
 void					remove_newline(char *line);
 int						print_error(char *str);
 void					close_file(int file);
-int						parse_texture_line(map_t *stc, char **tokens);
-int						door_check(map_list_t *hd);
-int						process_map_file(map_t *stc, char *filename,
+int						parse_texture_line(t_map *stc, char **tokens);
+int						door_check(t_map_list *hd);
+int						process_map_file(t_map *stc, char *filename,
 							tracker_t **free_head);
-//============
-void					free_at_exit(map_t *hd);
-map_t					*init_map_structure(tracker_t **free_hd);
-int						parse_line(map_t *stc, char *line);
+
+void					free_at_exit(t_map *hd);
+t_map					*init_map_structure(tracker_t **free_hd);
+int						parse_line(t_map *stc, char *line);
 void					close_file(int file);
-int						check_zero(map_list_t *tmp, map_t *stc);
-int						parse_line_maps(map_t *stc);
-map_list_t				*add_map_list(map_list_t *head, char *map, map_t *stc);
+int						check_zero(t_map_list *tmp, t_map *stc);
+int						parse_line_maps(t_map *stc);
+t_map_list				*add_map_list(t_map_list *head, char *map, t_map *stc);
 int						word_count(char **str);
 int						validate_texture_path(char *path, char *name);
 int						validate_file_extension(char *ext);
-int						in_color_range(color_t *color_);
+int						in_color_range(t_color *color_);
 int						color_erorr(char *str);
 void					free_split(char **split);
-int						parse_color(char *line, color_t *color);
+int						parse_color(char *line, t_color *color);
 void					trim_end(char *str);
-void					check_current_positions(map_list_t *tmp, int i,
-							map_t *stc);
-void					check_adjacent_positions(map_list_t *tmp, int i,
-							map_t *stc);
-int						player_check(map_list_t *hd, map_t *stc);
+void					check_current_positions(t_map_list *tmp, int i,
+							t_map *stc);
+void					check_adjacent_positions(t_map_list *tmp, int i,
+							t_map *stc);
+int						player_check(t_map_list *hd, t_map *stc);
 void					remove_newline(char *line);
 int						print_error(char *str);
 void					draw_line(mlx_image_t *img, int x0, int y0, int x1,
@@ -260,20 +242,23 @@ char					*ft_strdup_v2(const char *s1, tracker_t **free_head);
 char					*ft_strjoin_v2(char const *s1, char const *s2,
 							tracker_t **free_head);
 size_t					ft_strlen(const char *s);
-int						parse_map(int file, map_t *stc);
-// int draw_plyr(mlx_image_t *img, int x, int y, float angle);
 
-void					free_all(cub3d_t *cub);
+void					free_all(t_cub3d *cub);
 double					dist(float ax, float ay, float bx, float by);
-int						init_ray(cub3d_t *cub);
-void					draw_mini_map(cub3d_t *cub);
-cub3d_t					*open_close_door(cub3d_t *cub, int k);
-int						check_mov(int x, int y, cub3d_t *cub);
-void					free_all(cub3d_t *cub);
-void					init_player(cub3d_t *cub);
-void					ft_hook_v3(cub3d_t *cub3d);
-void					ft_hook_v2(cub3d_t *cub3d, float *x, float *y);
-cub3d_t					*init_cub_v1(map_list_t *stc, map_t *color);
-void					itirate_horizontal(ray_t *rays, cub3d_t *cub);
-void					itirate_vertical(ray_t *rays, cub3d_t *cub);
+int						init_ray(t_cub3d *cub);
+void					draw_mini_map(t_cub3d *cub);
+t_cub3d					*open_close_door(t_cub3d *cub, int k);
+int						check_mov(int x, int y, t_cub3d *cub);
+void					free_all(t_cub3d *cub);
+void					init_player(t_cub3d *cub);
+void					ft_hook_v3(t_cub3d *cub3d);
+void					ft_hook_v2(t_cub3d *cub3d, float *x, float *y);
+t_cub3d					*init_cub_v1(t_map_list *stc, t_map *color);
+void					itirate_horizontal(t_ray *rays, t_cub3d *cub);
+void					itirate_vertical(t_ray *rays, t_cub3d *cub);
+void					ft_hook(void *param);
+void					ft_hook_mouse(void *param);
+void					cleanup_all(t_cub3d *cub3d);
+void					handle_movement(t_cub3d *cub3d);
+void					handle_animation(t_cub3d *cub3d);
 #endif

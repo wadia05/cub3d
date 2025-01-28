@@ -6,13 +6,13 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:30 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 18:49:19 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static int	check_single_door_position(map_list_t *tmp, int i)
+static int	check_single_door_position(t_map_list *tmp, int i)
 {
 	if (tmp->map[i] == '3')
 	{
@@ -23,17 +23,15 @@ static int	check_single_door_position(map_list_t *tmp, int i)
 			print_error("Door is out");
 			return (1);
 		}
-		if (tmp->map[i + 1] == ' ' || tmp->map[i - 1] == ' ' || tmp->map[i \
-			+ 1] == '\t' || tmp->map[i - 1] == '\t')
-		{
-			print_error("free space Door close");
-			return (1);
-		}
-		if (tmp->map[i + 1] == '1' && tmp->map[i - 1] == '1' && tmp->prev->map[i] != '1'
-			&& tmp->next->map[i] != '1')
+		if (tmp->map[i + 1] == ' ' || tmp->map[i - 1] == ' ' \
+			|| tmp->map[i + 1] == '\t' || tmp->map[i - 1] == '\t')
+			return (print_error("free space Door close"));
+		if (tmp->map[i + 1] == '1' && tmp->map[i - 1] == '1'
+			&& tmp->prev->map[i] != '1' && tmp->next->map[i] != '1')
 			return (0);
 		if (tmp->prev && tmp->next && tmp->prev->map[i] == '1'
-			&& tmp->next->map[i] == '1' && tmp->map[i + 1] != '1' && tmp->map[i - 1] != '1' )
+			&& tmp->next->map[i] == '1' && tmp->map[i + 1] != '1' \
+			&& tmp->map[i - 1] != '1')
 			return (0);
 		print_error("Door should be between two walls");
 		exit(1);
@@ -41,9 +39,9 @@ static int	check_single_door_position(map_list_t *tmp, int i)
 	return (0);
 }
 
-int	door_check(map_list_t *hd)
+int	door_check(t_map_list *hd)
 {
-	map_list_t	*tmp;
+	t_map_list	*tmp;
 	int			i;
 
 	if (hd == NULL)

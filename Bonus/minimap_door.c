@@ -3,16 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_door.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:45:18 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/27 15:54:41 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_player(cub3d_t *cub)
+void	draw_tail(t_cub3d *cub)
+{
+	float	prev_positions_x[5];
+	float	prev_positions_y[5];
+	int		screen_x;
+	int		screen_y;
+	int		i;
+
+	i = 0;
+	while (i < 5)
+	{
+		prev_positions_x[i] = cub->x + (cos(cub->angle) * (i * 2));
+		prev_positions_y[i] = cub->y + (sin(cub->angle) * (i * 2));
+		i++;
+	}
+	i = 0;
+	while (i < 5)
+	{
+		screen_x = 50 + (int)((prev_positions_x[i] - cub->x) * CELL_SIZE
+				/ CELL_SIZE);
+		screen_y = 50 + (int)((prev_positions_y[i] - cub->y) * CELL_SIZE
+				/ CELL_SIZE);
+		if (screen_x >= 0 && screen_x < MAP_SIZE && screen_y >= 0
+			&& screen_y < MAP_SIZE)
+			mlx_put_pixel(cub->img, screen_x, screen_y, PLAYER_COLOR);
+		i++;
+	}
+}
+
+void	draw_player(t_cub3d *cub)
 {
 	int	i;
 	int	j;
@@ -28,40 +57,17 @@ void	draw_player(cub3d_t *cub)
 		}
 		i++;
 	}
-	float prev_positions_x[5];
-	float prev_positions_y[5];
-
-	// Calculate previous positions based on current position and direction
-	for (int i = 0; i < 5; i++)
-	{
-		// Calculate positions going backwards from current position
-		prev_positions_x[i] = cub->x + (cos(cub->angle) * (i * 2));
-		prev_positions_y[i] = cub->y + (sin(cub->angle) * (i * 2));
-	}
-		for (int i = 0; i < 5; i++)
-	{
-        // Calculate screen position for tail segment
-        int screen_x = 50 + (int)((prev_positions_x[i] - cub->x) * CELL_SIZE / CELL_SIZE);
-        int screen_y = 50 + (int)((prev_positions_y[i] - cub->y) * CELL_SIZE / CELL_SIZE);
-        
-        // Calculate fade effect (alpha) based on position in tail
-        int alpha = 255 - ((i * 255) / 5);
-        // Create yellow color with fade effect
-        int tail_color = 0x00FFFF00 | (alpha << 24);
-        
-        // Draw tail segment if it's within map boundaries
-        if (screen_x >= 0 && screen_x < MAP_SIZE && screen_y >= 0 && screen_y < MAP_SIZE)
-            mlx_put_pixel(cub->img, screen_x, screen_y, tail_color);
-    }
+	draw_tail(cub);
 }
 
-void	draw_cell(cub3d_t *cub, int x, int y, int map_x, int map_y)
+void	draw_cell(t_cub3d *cub, int x, int y)
 {
 	char	map_char;
 
-	if (map_y >= 0 && map_y < HEIGHT && map_x >= 0 && map_x < WIDTH)
+	if (cub->add_y >= 0 && cub->add_y < HEIGHT && cub->add_x >= 0
+		&& cub->add_x < WIDTH)
 	{
-		map_char = cub->map[map_y][map_x];
+		map_char = cub->map[cub->add_y][cub->add_x];
 		if (map_char == '1')
 			mlx_put_pixel(cub->img, x, y, WALL_COLOR);
 		else if (map_char == '3')
@@ -77,11 +83,9 @@ void	draw_cell(cub3d_t *cub, int x, int y, int map_x, int map_y)
 		mlx_put_pixel(cub->img, x, y, OUT_OF_BOUNDS_COLOR);
 }
 
-void	draw_mini_map(cub3d_t *cub)
+void	draw_mini_map(t_cub3d *cub)
 {
 	int	y;
-	int	map_y;
-	int	map_x;
 	int	x;
 
 	y = 0;
@@ -90,9 +94,9 @@ void	draw_mini_map(cub3d_t *cub)
 		x = 0;
 		while (x < MAP_SIZE)
 		{
-			map_x = (cub->x + x - 50) / CELL_SIZE;
-			map_y = (cub->y + y - 50) / CELL_SIZE;
-			draw_cell(cub, x, y, map_x, map_y);
+			cub->add_x = (cub->x + x - 50) / CELL_SIZE;
+			cub->add_y = (cub->y + y - 50) / CELL_SIZE;
+			draw_cell(cub, x, y);
 			x++;
 		}
 		y++;
@@ -100,10 +104,10 @@ void	draw_mini_map(cub3d_t *cub)
 	draw_player(cub);
 }
 
-cub3d_t	*open_close_door(cub3d_t *cub, int k)
+t_cub3d	*open_close_door(t_cub3d *cub, int k)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	if (k == 0)
 	{

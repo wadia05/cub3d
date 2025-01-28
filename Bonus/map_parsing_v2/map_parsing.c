@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:38 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 18:39:06 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	check_border_line(char *line)
 	return (0);
 }
 
-int	handle_empty_lines(map_list_t **map_data)
+int	handle_empty_lines(t_map_list **map_data)
 {
-	map_list_t	*tmp;
-	map_list_t	*prev;
+	t_map_list	*tmp;
+	t_map_list	*prev;
 
 	tmp = *map_data;
 	prev = NULL;
@@ -49,7 +49,7 @@ int	handle_empty_lines(map_list_t **map_data)
 		if (tmp->next && tmp->map[0] == '\n' && tmp->next->map[0] != '\n')
 		{
 			print_error("Error: Empty line detected in map");
-			exit(1); //! check here
+			exit(1);
 		}
 		if (tmp->map[0] == '\n')
 		{
@@ -63,9 +63,9 @@ int	handle_empty_lines(map_list_t **map_data)
 	return (0);
 }
 
-int	validate_map_borders_and_walls(map_list_t *map_data, map_t *stc)
+int	validate_map_borders_and_walls(t_map_list *map_data, t_map *stc)
 {
-	map_list_t	*tmp;
+	t_map_list	*tmp;
 
 	tmp = map_data;
 	while (tmp)
@@ -80,7 +80,7 @@ int	validate_map_borders_and_walls(map_list_t *map_data, map_t *stc)
 			if (tmp->map[tmp->ws] != '1')
 			{
 				print_error("First index not wall");
-				free_at_exit(stc); //! check here
+				free_at_exit(stc);
 			}
 			if (check_zero(tmp, stc))
 				return (1);
@@ -90,7 +90,7 @@ int	validate_map_borders_and_walls(map_list_t *map_data, map_t *stc)
 	return (0);
 }
 
-int	parse_line_maps(map_t *stc)
+int	parse_line_maps(t_map *stc)
 {
 	if (!stc || !stc->map_data)
 		return (1);

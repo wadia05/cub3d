@@ -6,13 +6,13 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:34 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:33:35 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	check_current_positions(map_list_t *tmp, int i, map_t *stc)
+void	check_current_positions(t_map_list *tmp, int i, t_map *stc)
 {
 	if (!tmp || !tmp->map)
 		return ;
@@ -30,7 +30,7 @@ void	check_current_positions(map_list_t *tmp, int i, map_t *stc)
 	}
 }
 
-void	check_adjacent_positions(map_list_t *tmp, int i, map_t *stc)
+void	check_adjacent_positions(t_map_list *tmp, int i, t_map *stc)
 {
 	if (!tmp || !tmp->prev || !tmp->next || !tmp->prev->map || !tmp->next->map)
 		return ;
@@ -48,7 +48,7 @@ void	check_adjacent_positions(map_list_t *tmp, int i, map_t *stc)
 	}
 }
 
-int	check_zero(map_list_t *tmp, map_t *stc)
+int	check_zero(t_map_list *tmp, t_map *stc)
 {
 	int	i;
 

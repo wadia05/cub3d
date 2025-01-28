@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_rays.c                                        :+:      :+:    :+:   */
+/*   draw_rays_copy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/228 16:15:21 by abenchel          #+#    #+#             */
-/*   Updated: 2024/12/10 19:04:14 by abenchel         ###   ########.fr       */
+/*   Created: 2025/01/27 19:46:12 by wait-bab          #+#    #+#             */
+/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	handle_horizontal_ray(cub3d_t *cub, double start_angle, ray_t *rays)
+void	handle_horizontal_ray(t_cub3d *cub, double start_angle, t_ray *rays)
 {
 	rays->dof = 0;
 	rays->aTan = -1.0 / tan(start_angle);
@@ -40,7 +40,7 @@ void	handle_horizontal_ray(cub3d_t *cub, double start_angle, ray_t *rays)
 	itirate_horizontal(rays, cub);
 }
 
-void	handle_vertical_ray(cub3d_t *cub, double start_angle, ray_t *rays)
+void	handle_vertical_ray(t_cub3d *cub, double start_angle, t_ray *rays)
 {
 	rays->dof = 0;
 	rays->aTan = -tan(start_angle);
@@ -68,11 +68,11 @@ void	handle_vertical_ray(cub3d_t *cub, double start_angle, ray_t *rays)
 	itirate_vertical(rays, cub);
 }
 
-void	draw_ray_v2(cub3d_t *cub, ray_t *rays, double distH)
+void	draw_ray_v2(t_cub3d *cub, t_ray *rays, double disth)
 {
 	rays->rx = rays->xH;
 	rays->ry = rays->yH;
-	rays->dist = distH;
+	rays->dist = disth;
 	rays->is_hori = 0;
 	rays->is_door = rays->is_door_h;
 	rays->x_was_adoor = rays->xh_was_adoor;
@@ -82,21 +82,21 @@ void	draw_ray_v2(cub3d_t *cub, ray_t *rays, double distH)
 			rays->y_was_adoor);
 }
 
-void	draw_ray(cub3d_t *cub, ray_t *rays)
+void	draw_ray(t_cub3d *cub, t_ray *rays)
 {
-	double	distH;
-	double	distV;
+	double	disth;
+	double	distv;
 
-	distH = dist(cub->x, cub->y, rays->xH, rays->yH);
-	distV = dist(cub->x, cub->y, rays->xV, rays->yV);
+	disth = dist(cub->x, cub->y, rays->xH, rays->yH);
+	distv = dist(cub->x, cub->y, rays->xV, rays->yV);
 	rays->is_door_close = 0;
-	if (distH < distV)
-		draw_ray_v2(cub, rays, distH);
+	if (disth < distv)
+		draw_ray_v2(cub, rays, disth);
 	else
 	{
 		rays->rx = rays->xV;
 		rays->ry = rays->yV;
-		rays->dist = distV;
+		rays->dist = distv;
 		rays->is_hori = 1;
 		rays->is_door = rays->is_door_v;
 		rays->x_was_adoor = rays->xv_was_adoor;

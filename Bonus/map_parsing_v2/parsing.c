@@ -6,13 +6,13 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:58 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:33:59 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:53:17 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	parse_color_line(map_t *stc, char **tokens, char *line)
+int	parse_color_line(t_map *stc, char **tokens, char *line)
 {
 	if (ft_strncmp(tokens[0], "F", 2) == 0 && line)
 	{
@@ -31,7 +31,7 @@ int	parse_color_line(map_t *stc, char **tokens, char *line)
 	return (0);
 }
 
-static int	parse_identifier(map_t *stc, char **tokens, char *line)
+static int	parse_identifier(t_map *stc, char **tokens, char *line)
 {
 	if (ft_strncmp(tokens[0], "NO", 2) == 0 || ft_strncmp(tokens[0], "SO",
 			2) == 0 || ft_strncmp(tokens[0], "WE", 2) == 0
@@ -51,7 +51,7 @@ static int	parse_identifier(map_t *stc, char **tokens, char *line)
 	return (-1);
 }
 
-static int	parse_map_line(map_t *stc, char *line)
+static int	parse_map_line(t_map *stc, char *line)
 {
 	if (is_char_here(line, "013WSEN"))
 	{
@@ -64,7 +64,7 @@ static int	parse_map_line(map_t *stc, char *line)
 	return (print_error("Invalid identifier"));
 }
 
-int	parse_line(map_t *stc, char *line)
+int	parse_line(t_map *stc, char *line)
 {
 	int		ret;
 	char	**tokens;
