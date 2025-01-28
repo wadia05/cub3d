@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:49:13 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:03:53 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	init_ray_v2(t_ray *ray)
 	ray->yv_was_adoor = 0;
 	ray->x_was_adoor = 0;
 	ray->y_was_adoor = 0;
-	ray->xV = 0;
-	ray->yV = 0;
+	ray->xv = 0;
+	ray->yv = 0;
 	ray->is_hori = 0;
 	ray->is_door_h = 0;
 	ray->is_door_v = 0;

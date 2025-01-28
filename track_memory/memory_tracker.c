@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:36:40 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:36:41 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	*tracker_malloc(size_t size, tracker_t **hd_tracker)
+void	*tracker_malloc(size_t size, t_tracker **hd_tracker)
 {
 	void		*address_data;
-	tracker_t	*node;
+	t_tracker	*node;
 
 	address_data = malloc(size);
 	if (address_data == NULL)
 		return (NULL);
-	node = malloc(sizeof(tracker_t));
+	node = malloc(sizeof(t_tracker));
 	if (node == NULL)
 	{
 		free(address_data);
 		return (NULL);
 	}
-	ft_memset(node, 0, sizeof(tracker_t));
+	ft_memset(node, 0, sizeof(t_tracker));
 	node->address = address_data;
 	node->next_addr = *hd_tracker;
 	*hd_tracker = node;
 	return (address_data);
 }
 
-void	free_all_allocate(tracker_t **hd_tracker)
+void	free_all_allocate(t_tracker **hd_tracker)
 {
-	tracker_t	*curr;
-	tracker_t	*next;
+	t_tracker	*curr;
+	t_tracker	*next;
 
 	if (*hd_tracker == NULL)
 		return ;

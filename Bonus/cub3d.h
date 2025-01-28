@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:57:23 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,11 @@ typedef struct ray_s
 	float				ra;
 	float				xo;
 	float				yo;
-	float				aTan;
-
+	float				atan;
 	float				vtan;
 	float				disth;
-	float				xH;
-	float				yH;
+	float				xh;
+	float				yh;
 	float				distv;
 	float				dist;
 	float				xh_was_adoor;
@@ -73,8 +72,8 @@ typedef struct ray_s
 	float				yv_was_adoor;
 	float				x_was_adoor;
 	float				y_was_adoor;
-	float				xV;
-	float				yV;
+	float				xv;
+	float				yv;
 	int					is_hori;
 	int					is_door_h;
 	int					is_door_v;
@@ -156,7 +155,7 @@ typedef struct map_s
 	mlx_texture_t		*door_png;
 
 	mlx_texture_t		*wall_texture;
-	mlx_texture_t		**Kickpng;
+	mlx_texture_t		**kickpng;
 	double				last_time;
 	int					i;
 
@@ -173,7 +172,7 @@ typedef struct map_s
 
 	t_color				*f_color;
 	t_color				*c_color;
-	tracker_t			**free_head;
+	t_tracker			**free_head;
 }						t_map;
 
 void					draw_wall(t_cub3d *cub, t_ray *ray, int ray_index,
@@ -210,10 +209,10 @@ void					close_file(int file);
 int						parse_texture_line(t_map *stc, char **tokens);
 int						door_check(t_map_list *hd);
 int						process_map_file(t_map *stc, char *filename,
-							tracker_t **free_head);
+							t_tracker **free_head);
 
 void					free_at_exit(t_map *hd);
-t_map					*init_map_structure(tracker_t **free_hd);
+t_map					*init_map_structure(t_tracker **free_hd);
 int						parse_line(t_map *stc, char *line);
 void					close_file(int file);
 int						check_zero(t_map_list *tmp, t_map *stc);
@@ -234,13 +233,11 @@ void					check_adjacent_positions(t_map_list *tmp, int i,
 int						player_check(t_map_list *hd, t_map *stc);
 void					remove_newline(char *line);
 int						print_error(char *str);
-void					draw_line(mlx_image_t *img, int x0, int y0, int x1,
-							int y1, int color);
 char					**ft_split(const char *s, char c);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
-char					*ft_strdup_v2(const char *s1, tracker_t **free_head);
+char					*ft_strdup_v2(const char *s1, t_tracker **free_head);
 char					*ft_strjoin_v2(char const *s1, char const *s2,
-							tracker_t **free_head);
+							t_tracker **free_head);
 size_t					ft_strlen(const char *s);
 
 void					free_all(t_cub3d *cub);

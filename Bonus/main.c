@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:05:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:04:34 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	cleanup_all2(t_cub3d *cub3d)
 	int	i;
 
 	i = -1;
-	if (cub3d->info && cub3d->info->Kickpng)
+	if (cub3d->info && cub3d->info->kickpng)
 	{
 		while (++i < 23)
 		{
-			if (cub3d->info->Kickpng[i])
-				mlx_delete_texture(cub3d->info->Kickpng[i]);
+			if (cub3d->info->kickpng[i])
+				mlx_delete_texture(cub3d->info->kickpng[i]);
 		}
-		free(cub3d->info->Kickpng);
+		free(cub3d->info->kickpng);
 	}
 	if (cub3d->info)
 	{

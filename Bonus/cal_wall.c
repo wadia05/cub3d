@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:52:04 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:04:34 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ static int	load_kick_frames(t_map *mp)
 	int		i;
 
 	i = 0;
-	mp->Kickpng = malloc(sizeof(mlx_texture_t *) * 23);
-	if (!mp->Kickpng)
+	mp->kickpng = malloc(sizeof(mlx_texture_t *) * 23);
+	if (!mp->kickpng)
 		return (1);
 	while (i < 23)
 	{
 		path = generate_kick_filename(i, filename);
-		mp->Kickpng[i] = mlx_load_png(path);
-		if (!path || !(mp->Kickpng[i]))
+		mp->kickpng[i] = mlx_load_png(path);
+		if (!path || !(mp->kickpng[i]))
 		{
 			free(path);
 			while (--i >= 0)
-				mlx_delete_texture(mp->Kickpng[i]);
-			free(mp->Kickpng);
+				mlx_delete_texture(mp->kickpng[i]);
+			free(mp->kickpng);
 			return (1);
 		}
 		free(path);

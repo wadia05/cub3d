@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:36:54 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:47:23 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ typedef struct tracker_s
 {
 	void				*address;
 	struct tracker_s	*next_addr;
-}						tracker_t;
+}						t_tracker;
 
-void					*tracker_malloc(size_t size, tracker_t **hd_tracker);
-void					free_all_allocate(tracker_t **hd_tracker);
+void					*tracker_malloc(size_t size, t_tracker **hd_tracker);
+void					free_all_allocate(t_tracker **hd_tracker);
 
 #endif

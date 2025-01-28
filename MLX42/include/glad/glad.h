@@ -4540,8 +4540,8 @@ GLAPI PFNGLVERTEXATTRIBLPOINTERPROC glad_glVertexAttribLPointer;
 typedef void (APIENTRYP PFNGLGETVERTEXATTRIBLDVPROC)(GLuint index, GLenum pname, GLdouble *params);
 GLAPI PFNGLGETVERTEXATTRIBLDVPROC glad_glGetVertexAttribLdv;
 #define glGetVertexAttribLdv glad_glGetVertexAttribLdv
-typedef void (APIENTRYP PFNGLVIEWPORTARRAYVPROC)(GLuint first, GLsizei count, const GLfloat *v);
-GLAPI PFNGLVIEWPORTARRAYVPROC glad_glViewportArrayv;
+typedef void (APIENTRYP PFNGLVIEWPORTARRAyvPROC)(GLuint first, GLsizei count, const GLfloat *v);
+GLAPI PFNGLVIEWPORTARRAyvPROC glad_glViewportArrayv;
 #define glViewportArrayv glad_glViewportArrayv
 typedef void (APIENTRYP PFNGLVIEWPORTINDEXEDFPROC)(GLuint index, GLfloat x, GLfloat y, GLfloat w, GLfloat h);
 GLAPI PFNGLVIEWPORTINDEXEDFPROC glad_glViewportIndexedf;
@@ -4549,8 +4549,8 @@ GLAPI PFNGLVIEWPORTINDEXEDFPROC glad_glViewportIndexedf;
 typedef void (APIENTRYP PFNGLVIEWPORTINDEXEDFVPROC)(GLuint index, const GLfloat *v);
 GLAPI PFNGLVIEWPORTINDEXEDFVPROC glad_glViewportIndexedfv;
 #define glViewportIndexedfv glad_glViewportIndexedfv
-typedef void (APIENTRYP PFNGLSCISSORARRAYVPROC)(GLuint first, GLsizei count, const GLint *v);
-GLAPI PFNGLSCISSORARRAYVPROC glad_glScissorArrayv;
+typedef void (APIENTRYP PFNGLSCISSORARRAyvPROC)(GLuint first, GLsizei count, const GLint *v);
+GLAPI PFNGLSCISSORARRAyvPROC glad_glScissorArrayv;
 #define glScissorArrayv glad_glScissorArrayv
 typedef void (APIENTRYP PFNGLSCISSORINDEXEDPROC)(GLuint index, GLint left, GLint bottom, GLsizei width, GLsizei height);
 GLAPI PFNGLSCISSORINDEXEDPROC glad_glScissorIndexed;
@@ -4558,8 +4558,8 @@ GLAPI PFNGLSCISSORINDEXEDPROC glad_glScissorIndexed;
 typedef void (APIENTRYP PFNGLSCISSORINDEXEDVPROC)(GLuint index, const GLint *v);
 GLAPI PFNGLSCISSORINDEXEDVPROC glad_glScissorIndexedv;
 #define glScissorIndexedv glad_glScissorIndexedv
-typedef void (APIENTRYP PFNGLDEPTHRANGEARRAYVPROC)(GLuint first, GLsizei count, const GLdouble *v);
-GLAPI PFNGLDEPTHRANGEARRAYVPROC glad_glDepthRangeArrayv;
+typedef void (APIENTRYP PFNGLDEPTHRANGEARRAyvPROC)(GLuint first, GLsizei count, const GLdouble *v);
+GLAPI PFNGLDEPTHRANGEARRAyvPROC glad_glDepthRangeArrayv;
 #define glDepthRangeArrayv glad_glDepthRangeArrayv
 typedef void (APIENTRYP PFNGLDEPTHRANGEINDEXEDPROC)(GLuint index, GLdouble n, GLdouble f);
 GLAPI PFNGLDEPTHRANGEINDEXEDPROC glad_glDepthRangeIndexed;
@@ -5021,12 +5021,12 @@ GLAPI PFNGLENABLEVERTEXARRAYATTRIBPROC glad_glEnableVertexArrayAttrib;
 typedef void (APIENTRYP PFNGLVERTEXARRAYELEMENTBUFFERPROC)(GLuint vaobj, GLuint buffer);
 GLAPI PFNGLVERTEXARRAYELEMENTBUFFERPROC glad_glVertexArrayElementBuffer;
 #define glVertexArrayElementBuffer glad_glVertexArrayElementBuffer
-typedef void (APIENTRYP PFNGLVERTEXARRAYVERTEXBUFFERPROC)(GLuint vaobj, GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
-GLAPI PFNGLVERTEXARRAYVERTEXBUFFERPROC glad_glVertexArrayVertexBuffer;
-#define glVertexArrayVertexBuffer glad_glVertexArrayVertexBuffer
-typedef void (APIENTRYP PFNGLVERTEXARRAYVERTEXBUFFERSPROC)(GLuint vaobj, GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
-GLAPI PFNGLVERTEXARRAYVERTEXBUFFERSPROC glad_glVertexArrayVertexBuffers;
-#define glVertexArrayVertexBuffers glad_glVertexArrayVertexBuffers
+typedef void (APIENTRYP PFNGLVERTEXARRAyvERTEXBUFFERPROC)(GLuint vaobj, GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
+GLAPI PFNGLVERTEXARRAyvERTEXBUFFERPROC glad_glVertexArrayvertexBuffer;
+#define glVertexArrayvertexBuffer glad_glVertexArrayvertexBuffer
+typedef void (APIENTRYP PFNGLVERTEXARRAyvERTEXBUFFERSPROC)(GLuint vaobj, GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
+GLAPI PFNGLVERTEXARRAyvERTEXBUFFERSPROC glad_glVertexArrayvertexBuffers;
+#define glVertexArrayvertexBuffers glad_glVertexArrayvertexBuffers
 typedef void (APIENTRYP PFNGLVERTEXARRAYATTRIBBINDINGPROC)(GLuint vaobj, GLuint attribindex, GLuint bindingindex);
 GLAPI PFNGLVERTEXARRAYATTRIBBINDINGPROC glad_glVertexArrayAttribBinding;
 #define glVertexArrayAttribBinding glad_glVertexArrayAttribBinding

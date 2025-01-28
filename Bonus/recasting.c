@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 21:58:23 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:03:53 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	itirate_horizontal_v2(t_ray *rays, t_cub3d *cub, int mx, int my)
 	else if (cub->map[my][mx] == '5')
 	{
 		rays->is_door_close_h = 1;
-		rays->xh_was_adoor = rays->xH;
-		rays->yh_was_adoor = rays->yH;
-		rays->xH += rays->xo;
-		rays->yH += rays->yo;
+		rays->xh_was_adoor = rays->xh;
+		rays->yh_was_adoor = rays->yh;
+		rays->xh += rays->xo;
+		rays->yh += rays->yo;
 		rays->dof += 1;
 	}
 }
@@ -43,8 +43,8 @@ void	itirate_horizontal(t_ray *rays, t_cub3d *cub)
 	rays->dof = 0;
 	while (rays->dof < cub->ray_dof_max)
 	{
-		mx = (int)(rays->xH) / cub->map_unit;
-		my = (int)(rays->yH) / cub->map_unit;
+		mx = (int)(rays->xh) / cub->map_unit;
+		my = (int)(rays->yh) / cub->map_unit;
 		if (mx >= 0 && mx < cub->map_x && my >= 0 && my < cub->map_y)
 		{
 			if (cub->map[my][mx] == '1' || cub->map[my][mx] == '3'
@@ -52,8 +52,8 @@ void	itirate_horizontal(t_ray *rays, t_cub3d *cub)
 				itirate_horizontal_v2(rays, cub, mx, my);
 			else
 			{
-				rays->xH += rays->xo;
-				rays->yH += rays->yo;
+				rays->xh += rays->xo;
+				rays->yh += rays->yo;
 				rays->dof += 1;
 			}
 		}
@@ -77,10 +77,10 @@ void	itirate_vertical_v2(t_ray *rays, t_cub3d *cub, int mx, int my)
 	else if (cub->map[my][mx] == '5')
 	{
 		rays->is_door_close_v = 1;
-		rays->xv_was_adoor = rays->xV;
-		rays->yv_was_adoor = rays->yV;
-		rays->xV += rays->xo;
-		rays->yV += rays->yo;
+		rays->xv_was_adoor = rays->xv;
+		rays->yv_was_adoor = rays->yv;
+		rays->xv += rays->xo;
+		rays->yv += rays->yo;
 		rays->dof += 1;
 	}
 }
@@ -93,8 +93,8 @@ void	itirate_vertical(t_ray *rays, t_cub3d *cub)
 	rays->dof = 0;
 	while (rays->dof < cub->ray_dof_max)
 	{
-		mx = (int)(rays->xV) / cub->map_unit;
-		my = (int)(rays->yV) / cub->map_unit;
+		mx = (int)(rays->xv) / cub->map_unit;
+		my = (int)(rays->yv) / cub->map_unit;
 		if (mx >= 0 && mx < cub->map_x && my >= 0 && my < cub->map_y)
 		{
 			if (cub->map[my][mx] == '1' || cub->map[my][mx] == '3'
@@ -102,8 +102,8 @@ void	itirate_vertical(t_ray *rays, t_cub3d *cub)
 				itirate_vertical_v2(rays, cub, mx, my);
 			else
 			{
-				rays->xV += rays->xo;
-				rays->yV += rays->yo;
+				rays->xv += rays->xo;
+				rays->yv += rays->yo;
 				rays->dof += 1;
 			}
 		}

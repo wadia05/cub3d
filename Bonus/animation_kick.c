@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:05:52 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:04:34 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	cleanup_animation_frames(t_cub3d *cub3d, int i)
 static int	load_single_frame(t_cub3d *cub3d, int i)
 {
 	cub3d->animation_frames[i] = mlx_texture_to_image(cub3d->win,
-			cub3d->info->Kickpng[i]);
+			cub3d->info->kickpng[i]);
 	if (!cub3d->animation_frames[i])
 		return (1);
 	mlx_resize_image(cub3d->animation_frames[i], WIDTH, HEIGHT);

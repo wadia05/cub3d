@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:34:08 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:34:09 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	word_count(char **str)
 	return (i);
 }
 
-char	*ft_strdup_v2(const char *s1, tracker_t **free_head)
+char	*ft_strdup_v2(const char *s1, t_tracker **free_head)
 {
 	char	*str;
 	int		i;
@@ -75,7 +75,7 @@ char	*ft_strdup_v2(const char *s1, tracker_t **free_head)
 	return (str);
 }
 
-char	*ft_strjoin_v2(char const *s1, char const *s2, tracker_t **free_head)
+char	*ft_strjoin_v2(char const *s1, char const *s2, t_tracker **free_head)
 {
 	char	*aloo;
 

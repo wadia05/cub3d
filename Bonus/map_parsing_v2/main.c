@@ -6,14 +6,14 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:24 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 int	initialize_and_validate(int ac, char **av, t_map **stc,
-		tracker_t **free_head)
+		t_tracker **free_head)
 {
 	if (ac != 2)
 		return (print_error("Usage: ./cub3D map.cub"));
@@ -61,7 +61,7 @@ void	fill_maps(t_map *stc)
 }
 
 static int	process_and_validate(t_map *stc, char *map_file,
-		tracker_t **free_head)
+		t_tracker **free_head)
 {
 	int	result;
 
@@ -85,7 +85,7 @@ static int	process_and_validate(t_map *stc, char *map_file,
 int	main(int ac, char **av)
 {
 	t_map		*stc;
-	tracker_t	*free_head;
+	t_tracker	*free_head;
 	int			result;
 
 	free_head = NULL;

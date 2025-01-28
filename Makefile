@@ -10,7 +10,6 @@ SRC = \
 	GET_NEXT_LINE_42/get_next_line.c \
 	GET_NEXT_LINE_42/get_next_line_utils.c \
 	mandatory/map_parsing_v2/tools.c\
-	mandatory/map_parsing_v2/t_colorools.c\
 	mandatory/map_parsing_v2/louding_maps.c\
 	mandatory/map_parsing_v2/map_parsing.c\
 	mandatory/map_parsing_v2/map_parsing_p2.c\
@@ -29,7 +28,7 @@ SRCB = \
 	GET_NEXT_LINE_42/get_next_line.c \
 	GET_NEXT_LINE_42/get_next_line_utils.c \
 	Bonus/map_parsing_v2/tools.c\
-	Bonus/map_parsing_v2/t_colorools.c\
+	Bonus/map_parsing_v2/color_tools.c\
 	Bonus/map_parsing_v2/louding_maps.c\
 	Bonus/map_parsing_v2/map_parsing.c\
 	Bonus/map_parsing_v2/map_parsing_p2.c\

@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:46:12 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:03:53 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,26 @@
 void	handle_horizontal_ray(t_cub3d *cub, double start_angle, t_ray *rays)
 {
 	rays->dof = 0;
-	rays->aTan = -1.0 / tan(start_angle);
+	rays->atan = -1.0 / tan(start_angle);
 	if (start_angle > PI)
 	{
-		rays->yH = ((int)(cub->y / cub->map_unit)) * cub->map_unit - 0.0004;
-		rays->xH = (cub->y - rays->yH) * rays->aTan + cub->x;
+		rays->yh = ((int)(cub->y / cub->map_unit)) * cub->map_unit - 0.0004;
+		rays->xh = (cub->y - rays->yh) * rays->atan + cub->x;
 		rays->yo = -cub->map_unit;
-		rays->xo = -rays->yo * rays->aTan;
+		rays->xo = -rays->yo * rays->atan;
 	}
 	else if (start_angle < PI)
 	{
-		rays->yH = ((int)(cub->y / cub->map_unit)) * cub->map_unit
+		rays->yh = ((int)(cub->y / cub->map_unit)) * cub->map_unit
 			+ cub->map_unit;
-		rays->xH = (cub->y - rays->yH) * rays->aTan + cub->x;
+		rays->xh = (cub->y - rays->yh) * rays->atan + cub->x;
 		rays->yo = cub->map_unit;
-		rays->xo = -rays->yo * rays->aTan;
+		rays->xo = -rays->yo * rays->atan;
 	}
 	else
 	{
-		rays->xH = cub->x;
-		rays->yH = cub->y;
+		rays->xh = cub->x;
+		rays->yh = cub->y;
 		rays->dof = cub->ray_dof_max;
 	}
 	itirate_horizontal(rays, cub);
@@ -43,26 +43,26 @@ void	handle_horizontal_ray(t_cub3d *cub, double start_angle, t_ray *rays)
 void	handle_vertical_ray(t_cub3d *cub, double start_angle, t_ray *rays)
 {
 	rays->dof = 0;
-	rays->aTan = -tan(start_angle);
+	rays->atan = -tan(start_angle);
 	if (start_angle > PI / 2 && start_angle < 3 * PI / 2)
 	{
-		rays->xV = (floor(cub->x / cub->map_unit)) * cub->map_unit - 0.0004;
-		rays->yV = (cub->x - rays->xV) * rays->aTan + cub->y;
+		rays->xv = (floor(cub->x / cub->map_unit)) * cub->map_unit - 0.0004;
+		rays->yv = (cub->x - rays->xv) * rays->atan + cub->y;
 		rays->xo = -cub->map_unit;
-		rays->yo = -rays->xo * rays->aTan;
+		rays->yo = -rays->xo * rays->atan;
 	}
 	else if (start_angle < PI / 2 || start_angle > 3 * PI / 2)
 	{
-		rays->xV = (floor(cub->x / cub->map_unit)) * cub->map_unit
+		rays->xv = (floor(cub->x / cub->map_unit)) * cub->map_unit
 			+ cub->map_unit;
-		rays->yV = (cub->x - rays->xV) * rays->aTan + cub->y;
+		rays->yv = (cub->x - rays->xv) * rays->atan + cub->y;
 		rays->xo = cub->map_unit;
-		rays->yo = -rays->xo * rays->aTan;
+		rays->yo = -rays->xo * rays->atan;
 	}
 	else
 	{
-		rays->xV = cub->x;
-		rays->yV = cub->y;
+		rays->xv = cub->x;
+		rays->yv = cub->y;
 		rays->dof = cub->ray_dof_max;
 	}
 	itirate_vertical(rays, cub);
@@ -70,8 +70,8 @@ void	handle_vertical_ray(t_cub3d *cub, double start_angle, t_ray *rays)
 
 void	draw_ray_v2(t_cub3d *cub, t_ray *rays, double disth)
 {
-	rays->rx = rays->xH;
-	rays->ry = rays->yH;
+	rays->rx = rays->xh;
+	rays->ry = rays->yh;
 	rays->dist = disth;
 	rays->is_hori = 0;
 	rays->is_door = rays->is_door_h;
@@ -87,15 +87,15 @@ void	draw_ray(t_cub3d *cub, t_ray *rays)
 	double	disth;
 	double	distv;
 
-	disth = dist(cub->x, cub->y, rays->xH, rays->yH);
-	distv = dist(cub->x, cub->y, rays->xV, rays->yV);
+	disth = dist(cub->x, cub->y, rays->xh, rays->yh);
+	distv = dist(cub->x, cub->y, rays->xv, rays->yv);
 	rays->is_door_close = 0;
 	if (disth < distv)
 		draw_ray_v2(cub, rays, disth);
 	else
 	{
-		rays->rx = rays->xV;
-		rays->ry = rays->yV;
+		rays->rx = rays->xv;
+		rays->ry = rays->yv;
 		rays->dist = distv;
 		rays->is_hori = 1;
 		rays->is_door = rays->is_door_v;

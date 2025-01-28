@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:46 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:57:23 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	handle_texture(char **dest, char *path, char *type, t_map *stc)
 	return (0);
 }
 
-t_map	*init_map_structure(tracker_t **free_hd)
+t_map	*init_map_structure(t_tracker **free_hd)
 {
 	t_map	*stc;
 
@@ -61,7 +61,7 @@ int	parse_texture_line(t_map *stc, char **tokens)
 	return (print_error("Unknown texture identifier"));
 }
 
-int	process_map_file(t_map *stc, char *filename, tracker_t **free_head)
+int	process_map_file(t_map *stc, char *filename, t_tracker **free_head)
 {
 	int		file;
 	char	*line;
