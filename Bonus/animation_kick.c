@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:05:52 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 18:04:34 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:32:00 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D_Bonus.h"
 
 void	cleanup_animation_frames(t_cub3d *cub3d, int i)
 {

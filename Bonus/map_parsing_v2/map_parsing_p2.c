@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:34 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:27:57 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3D_Bonus.h"
 
 void	check_current_positions(t_map_list *tmp, int i, t_map *stc)
 {

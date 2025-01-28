@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:34:08 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:27:57 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3D_Bonus.h"
 
 void	free_split(char **split)
 {
@@ -36,7 +36,7 @@ int	validate_file_extension(char *ext)
 	if (ext[len - 1] == 'b' && ext[len - 2] == 'u' && ext[len - 3] == 'c'
 		&& ext[len - 4] == '.')
 	{
-		printf("good trip extension\n");
+		return (0);
 	}
 	else
 	{
@@ -53,7 +53,6 @@ int	word_count(char **str)
 	i = 0;
 	while (str[i] != NULL)
 		i++;
-	printf("%d\n", i);
 	return (i);
 }
 

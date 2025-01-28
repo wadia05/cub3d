@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:46:12 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 18:03:53 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:31:39 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D_Bonus.h"
 
 void	handle_horizontal_ray(t_cub3d *cub, double start_angle, t_ray *rays)
 {

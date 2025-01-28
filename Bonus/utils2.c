@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 21:41:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:32:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D_Bonus.h"
 
 void	ft_hook_v2(t_cub3d *cub3d, float *x, float *y)
 {

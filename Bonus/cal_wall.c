@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:52:04 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 18:04:34 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:33:15 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D_Bonus.h"
 
 static char	*generate_kick_filename(int index, char *filename)
 {

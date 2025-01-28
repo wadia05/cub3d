@@ -1,24 +1,24 @@
-NAME = cub3d
-NAMEB = cub3d_Bonus
-# HDER = mandatory/cub3d.h
-HDERB = Bonus/cub3d.h
+NAME = cub3D
+NAMEB = cub3D_Bonus
+HDER = mandatory/cub3d.h
+HDERB = Bonus/cub3D_Bonus.h
 SRC = \
 	track_memory/memory_tracker.c \
-	mandatory/map_parsing_v2/main.c \
-	mandatory/map_parsing_v2/parsing.c \
-	mandatory/map_parsing_v2/color_parse.c\
+	Mandatory/map_parsing_v2/main.c \
+	Mandatory/map_parsing_v2/parsing.c \
+	Mandatory/map_parsing_v2/color_parse.c\
 	GET_NEXT_LINE_42/get_next_line.c \
 	GET_NEXT_LINE_42/get_next_line_utils.c \
-	mandatory/map_parsing_v2/tools.c\
-	mandatory/map_parsing_v2/louding_maps.c\
-	mandatory/map_parsing_v2/map_parsing.c\
-	mandatory/map_parsing_v2/map_parsing_p2.c\
-	mandatory/map_parsing_v2/player_parse.c\
-	mandatory/map_parsing_v2/free_at_exit.c\
-	mandatory/main.c \
-	mandatory/draw_rays_copy.c \
-	mandatory/texture.c \
-	mandatory/draw_rays_copy2.c
+	Mandatory/map_parsing_v2/tools.c\
+	Mandatory/map_parsing_v2/louding_maps.c\
+	Mandatory/map_parsing_v2/map_parsing.c\
+	Mandatory/map_parsing_v2/map_parsing_p2.c\
+	Mandatory/map_parsing_v2/player_parse.c\
+	Mandatory/map_parsing_v2/free_at_exit.c\
+	Mandatory/main.c \
+	Mandatory/draw_rays_copy.c \
+	Mandatory/texture.c \
+	Mandatory/draw_rays_copy2.c
 
 SRCB = \
 	track_memory/memory_tracker.c \
@@ -52,7 +52,7 @@ SRCB = \
 	Bonus/main_v2.c
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 OBJ = $(SRC:.c=.o)
 OBJB = $(SRCB:.c=.o)

@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:49 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/27 16:33:55 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:27:57 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3D_Bonus.h"
 
 bool	is_char_here(const char *line, const char *chars)
 {

@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 21:58:23 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 18:03:53 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:32:34 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D_Bonus.h"
 
 void	itirate_horizontal_v2(t_ray *rays, t_cub3d *cub, int mx, int my)
 {

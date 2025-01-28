@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:05:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 18:04:34 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:31:31 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D_Bonus.h"
 
 void	ft_hook_mouse(void *param)
 {
@@ -82,4 +82,5 @@ void	cleanup_all(t_cub3d *cub3d)
 	}
 	if (cub3d->img)
 		mlx_delete_image(cub3d->win, cub3d->img);
+	cleanup_all2(cub3d);
 }

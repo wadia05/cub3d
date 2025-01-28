@@ -6,11 +6,11 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:37:16 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/28 20:31:47 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D_Bonus.h"
 
 int	calculate_texture_x_coordinate(t_cub3d *cub, t_ray *ray, double s_agl)
 {
@@ -68,6 +68,12 @@ uint32_t	get_color_px(t_cub3d *cub, int texY, int texX)
 	t_map		*txtur;
 
 	txtur = cub->info;
+	if ((txtur->wall_texture->width * txtur->wall_texture->height * 4) \
+		< ((texY * txtur->wall_texture->width + texX) * 4))
+	{
+		color = 0x00000000;
+		return (color);
+	}
 	cub->r = txtur->wall_texture->pixels[(texY * txtur->wall_texture->width
 			+ texX) * 4];
 	cub->g = txtur->wall_texture->pixels[(texY * txtur->wall_texture->width
