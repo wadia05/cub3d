@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_door.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:45:18 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 20:32:12 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:46:37 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ void	draw_tail(t_cub3d *cub)
 	i = 0;
 	while (i < 5)
 	{
-		prev_positions_x[i] = cub->x + (cos(cub->angle) * (i * 2));
-		prev_positions_y[i] = cub->y + (sin(cub->angle) * (i * 2));
+		prev_positions_x[i] = (cos(cub->angle) * (i * 2));
+		prev_positions_y[i] = (sin(cub->angle) * (i * 2));
 		i++;
 	}
 	i = 0;
 	while (i < 5)
 	{
-		screen_x = 50 + (int)((prev_positions_x[i] - cub->x) * CELL_SIZE
+		screen_x = 50 + (int)((prev_positions_x[i]) * CELL_SIZE
 				/ CELL_SIZE);
-		screen_y = 50 + (int)((prev_positions_y[i] - cub->y) * CELL_SIZE
+		screen_y = 50 + (int)((prev_positions_y[i]) * CELL_SIZE
 				/ CELL_SIZE);
 		if (screen_x >= 0 && screen_x < MAP_SIZE && screen_y >= 0
 			&& screen_y < MAP_SIZE)
@@ -64,8 +64,8 @@ void	draw_cell(t_cub3d *cub, int x, int y)
 {
 	char	map_char;
 
-	if (cub->add_y >= 0 && cub->add_y < HEIGHT && cub->add_x >= 0
-		&& cub->add_x < WIDTH)
+	if (cub->add_y >= 0 && cub->add_y < HEIGHT - 1 && cub->add_x >= 0
+		&& cub->add_x < WIDTH - 1)
 	{
 		map_char = cub->map[cub->add_y][cub->add_x];
 		if (map_char == '1')

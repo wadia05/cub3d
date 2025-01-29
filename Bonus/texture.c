@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:37:16 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 20:31:47 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:35:44 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ uint32_t	get_color_px(t_cub3d *cub, int texY, int texX)
 
 	txtur = cub->info;
 	if ((txtur->wall_texture->width * txtur->wall_texture->height * 4) \
-		< ((texY * txtur->wall_texture->width + texX) * 4))
+		<= ((texY * txtur->wall_texture->width + texX) * 4))
 	{
 		color = 0x00000000;
 		return (color);

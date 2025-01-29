@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing_p2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:34 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/29 12:24:38 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:53:21 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ void	check_adjacent_positions(t_map_list *tmp, int i, t_map *stc)
 {
 	if (!tmp || !tmp->prev || !tmp->next || !tmp->prev->map || !tmp->next->map)
 		return ;
+	if (i > tmp->prev->length)
+	{
+		print_error("Error: Invalid map - open boundary detected above");
+		free_at_exit(stc);
+	}
 	if (tmp->prev->map[i] == ' ' || tmp->prev->map[i] == '\t'
 		|| !tmp->prev->map[i] || tmp->prev->length <= i)
 	{
@@ -54,7 +59,7 @@ int	check_zero(t_map_list *tmp, t_map *stc)
 
 	i = -1;
 	if (!tmp || !tmp->map)
-		return (1);
+		free_at_exit(stc);
 	while (tmp->map[++i])
 	{
 		if (ft_isdigit(tmp->map[i]) && tmp->map[i] != '1' && tmp->map[i] != '0')

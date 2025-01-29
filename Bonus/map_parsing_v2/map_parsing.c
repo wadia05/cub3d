@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:38 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 20:27:57 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:33:07 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	validate_map_borders_and_walls(t_map_list *map_data, t_map *stc)
 		if (!tmp->prev || !tmp->next || tmp->next->map[0] == '\n')
 		{
 			if (check_border_line(tmp->map))
-				return (1);
+				free_at_exit(stc);
 		}
 		else
 		{

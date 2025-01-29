@@ -18,7 +18,6 @@ SRC = \
 	Mandatory/map_parsing_v2/free_at_exit.c\
 	Mandatory/map_parsing_v2/parsing_helper.c \
 	Mandatory/map_parsing_v2/parsing_2.c \
-	Mandatory/map_parsing_v2/map_parsing_door.c \
 	Mandatory/animation_move.c\
 	Mandatory/main.c \
 	Mandatory/draw_rays_copy.c \
@@ -63,7 +62,7 @@ SRCB = \
 	Bonus/main_v2.c
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 AR = ar rcs
 OBJ = $(SRC:.c=.o)
 OBJB = $(SRCB:.c=.o)
