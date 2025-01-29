@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_v2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:49:41 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/29 12:57:26 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:00:55 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ t_cub3d	*main2_v2(t_cub3d *cub3d, t_map_list *stc, t_map *color)
 	loading_image(color);
 	init_player(cub3d);
 	cub3d->pa = 0.0;
-	cub3d->xdx = cos(cub3d->angle) * 5;
-	cub3d->ydy = sin(cub3d->angle) * 5;
 	cub3d->ray_dof_max = stc->ws;
 	cub3d->win = mlx_init(WIDTH, HEIGHT, "cub3d", false);
 	if (!cub3d->win)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 21:41:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 20:32:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:00:24 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,12 @@ void	ft_hook_v3(t_cub3d *cub3d)
 		cub3d->angle -= ROTATION_SPEED;
 		if (cub3d->angle < 0)
 			cub3d->angle += 2 * PI;
-		cub3d->xdx = cos(cub3d->angle) * SPEED;
-		cub3d->ydy = sin(cub3d->angle) * SPEED;
 	}
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_RIGHT))
 	{
 		cub3d->angle += ROTATION_SPEED;
 		if (cub3d->angle > 2 * PI)
 			cub3d->angle -= 2 * PI;
-		cub3d->xdx = cos(cub3d->angle) * SPEED;
-		cub3d->ydy = sin(cub3d->angle) * SPEED;
 	}
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_C))
 		cub3d = open_close_door(cub3d, 1);
