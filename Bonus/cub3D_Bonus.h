@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D_Bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:35:22 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include "../GET_NEXT_LINE_42/get_next_line.h"
 # include "../MLX42/include/MLX42/MLX42.h"

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   animation_move.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:49:44 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/29 21:02:07 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:25:40 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-
 
 void	handle_movement(t_cub3d *cub3d)
 {

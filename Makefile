@@ -24,7 +24,6 @@ SRC = \
 	Mandatory/draw_rays_copy.c \
 	Mandatory/texture.c \
 	Mandatory/draw_rays_copy2.c \
-	Mandatory/animation_kick.c \
 	Mandatory/utils1.c \
 	Mandatory/utils2.c \
 	Mandatory/recasting.c \

@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:46:12 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/29 21:11:40 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:26:27 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	draw_ray(t_cub3d *cub, t_ray *rays)
 
 	disth = dist(cub->x, cub->y, rays->xh, rays->yh);
 	distv = dist(cub->x, cub->y, rays->xv, rays->yv);
-	// rays->is_door_close = 0;
 	if (disth < distv)
 		draw_ray_v2(cub, rays, disth);
 	else
