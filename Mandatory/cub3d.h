@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 13:25:42 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 18:12:05 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:03:11 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,23 +66,9 @@ typedef struct ray_s
 	float				yh;
 	float				distv;
 	float				dist;
-	float				xh_was_adoor;
-	float				yh_was_adoor;
-	float				xv_was_adoor;
-	float				yv_was_adoor;
-	float				x_was_adoor;
-	float				y_was_adoor;
 	float				xv;
 	float				yv;
 	int					is_hori;
-	int					is_door_h;
-	int					is_door_v;
-	int					is_door_close_h;
-	int					is_door_close_v;
-	int					is_door_close;
-	int					dist_door;
-	int					is_door;
-
 }						t_ray;
 
 typedef struct cub3d_s
@@ -108,15 +94,12 @@ typedef struct cub3d_s
 	mlx_image_t			*img;
 	mlx_image_t			**animation_frames;
 	t_map				*info;
-
 	uint8_t				r;
 	uint8_t				g;
 	uint8_t				b;
 	uint8_t				a;
-
 	int32_t				mouse_x;
 	int32_t				mouse_y;
-
 }						t_cub3d;
 
 typedef struct map_list_s

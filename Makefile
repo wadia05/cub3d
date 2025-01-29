@@ -25,7 +25,6 @@ SRC = \
 	Mandatory/texture.c \
 	Mandatory/draw_rays_copy2.c \
 	Mandatory/animation_kick.c \
-	Mandatory/minimap_door.c \
 	Mandatory/utils1.c \
 	Mandatory/utils2.c \
 	Mandatory/recasting.c \
@@ -77,6 +76,7 @@ LIBFT := $(LIBFT_DIR)/libft.a
 # LDFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 # MAC
 LDFLAGS = -O3 -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib"
+# LDFLAGS = -O3 -Iinclude -lglfw -L"opt/homebrew/opt/glfw/lib"
 FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(LIBFT) $(NAME)

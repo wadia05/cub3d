@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:46:12 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 18:03:53 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:11:40 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,11 @@ void	handle_vertical_ray(t_cub3d *cub, double start_angle, t_ray *rays)
 
 void	draw_ray_v2(t_cub3d *cub, t_ray *rays, double disth)
 {
+	(void)cub;
 	rays->rx = rays->xh;
 	rays->ry = rays->yh;
 	rays->dist = disth;
 	rays->is_hori = 0;
-	rays->is_door = rays->is_door_h;
-	rays->x_was_adoor = rays->xh_was_adoor;
-	rays->y_was_adoor = rays->yh_was_adoor;
-	rays->is_door_close = rays->is_door_close_h;
-	rays->dist_door = dist(cub->x, cub->y, rays->x_was_adoor,
-			rays->y_was_adoor);
 }
 
 void	draw_ray(t_cub3d *cub, t_ray *rays)
@@ -89,7 +84,7 @@ void	draw_ray(t_cub3d *cub, t_ray *rays)
 
 	disth = dist(cub->x, cub->y, rays->xh, rays->yh);
 	distv = dist(cub->x, cub->y, rays->xv, rays->yv);
-	rays->is_door_close = 0;
+	// rays->is_door_close = 0;
 	if (disth < distv)
 		draw_ray_v2(cub, rays, disth);
 	else
@@ -98,11 +93,5 @@ void	draw_ray(t_cub3d *cub, t_ray *rays)
 		rays->ry = rays->yv;
 		rays->dist = distv;
 		rays->is_hori = 1;
-		rays->is_door = rays->is_door_v;
-		rays->x_was_adoor = rays->xv_was_adoor;
-		rays->y_was_adoor = rays->yv_was_adoor;
-		rays->is_door_close = rays->is_door_close_v;
-		rays->dist_door = dist(cub->x, cub->y, rays->x_was_adoor,
-				rays->y_was_adoor);
 	}
 }

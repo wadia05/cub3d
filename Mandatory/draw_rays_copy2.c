@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw_rays_copy2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 22:57:00 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:27 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:43:17 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	draw_moraba3(int x, int y, int color, t_cub3d *cub)
-{
-	int	i;
-	int	j;
-	int	cube_size;
-
-	i = 0;
-	cube_size = cub->map_unit;
-	while (i < cube_size)
-	{
-		j = 0;
-		while (j < cube_size)
-		{
-			mlx_put_pixel(cub->img, x + i, y + j, color);
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
 
 void	deviate_ray_if_flanked(t_ray *rays, int num_rays)
 {

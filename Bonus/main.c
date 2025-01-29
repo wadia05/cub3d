@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:05:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/29 20:45:43 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:12:43 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	ft_hook_mouse(void *param)
 	cub3d->angle = fmod(cub3d->angle, 2 * PI);
 	if (cub3d->angle < 0)
 		cub3d->angle += 2 * PI;
-	cub3d->xdx = cos(cub3d->angle) * speed;
-	cub3d->ydy = sin(cub3d->angle) * speed;
 	mlx_set_mouse_pos(cub3d->win, WIDTH / 2, HEIGHT / 2);
 }
 

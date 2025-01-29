@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 21:41:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/29 13:14:17 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:00:37 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,13 @@ void	ft_hook_v3(t_cub3d *cub3d)
 		cub3d->angle -= ROTATION_SPEED;
 		if (cub3d->angle < 0)
 			cub3d->angle += 2 * PI;
-		cub3d->xdx = cos(cub3d->angle) * SPEED;
-		cub3d->ydy = sin(cub3d->angle) * SPEED;
 	}
 	if (mlx_is_key_down(cub3d->win, MLX_KEY_RIGHT))
 	{
 		cub3d->angle += ROTATION_SPEED;
 		if (cub3d->angle > 2 * PI)
 			cub3d->angle -= 2 * PI;
-		cub3d->xdx = cos(cub3d->angle) * SPEED;
-		cub3d->ydy = sin(cub3d->angle) * SPEED;
 	}
-	// if (mlx_is_key_down(cub3d->win, MLX_KEY_C))
-	// 	cub3d = open_close_door(cub3d, 1);
 }
 
 void	init_player_v2(t_cub3d *cub, int x, int y)
@@ -93,8 +87,7 @@ void	init_player(t_cub3d *cub)
 		while (x < cub->map_x && cub->map[y][x])
 		{
 			if (cub->map[y][x] != '0' && cub->map[y][x] != '1'
-				&& cub->map[y][x] != ' ' && cub->map[y][x] != '\t'
-				&& cub->map[y][x] != '3' && cub->map[y][x] != '5')
+				&& cub->map[y][x] != ' ' && cub->map[y][x] != '\t')
 				init_player_v2(cub, x, y);
 			x++;
 		}
