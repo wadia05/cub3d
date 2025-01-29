@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:49:13 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/28 18:03:53 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:46:14 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,9 @@ void	init_ray_v2(t_ray *ray)
 {
 	ray->distv = 0;
 	ray->dist = 0;
-	ray->yh_was_adoor = 0;
-	ray->xv_was_adoor = 0;
-	ray->yv_was_adoor = 0;
-	ray->x_was_adoor = 0;
-	ray->y_was_adoor = 0;
 	ray->xv = 0;
 	ray->yv = 0;
 	ray->is_hori = 0;
-	ray->is_door_h = 0;
-	ray->is_door_v = 0;
-	ray->is_door_close_h = 0;
-	ray->is_door_close_v = 0;
-	ray->is_door_close = 0;
-	ray->dist_door = 0;
-	ray->is_door = 0;
 }
 
 int	init_ray(t_cub3d *cub)

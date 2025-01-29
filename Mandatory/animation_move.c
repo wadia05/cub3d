@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animation_move.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:49:44 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/29 12:55:05 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:08:51 by abenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,4 @@ void	ft_hook(void *param)
 	// handle_animation(cub3d);
 	handle_movement(cub3d);
 	draw_rays(cub3d);
-	draw_mini_map(cub3d);
 }
