@@ -1,6 +1,6 @@
 NAME = cub3D
 NAMEB = cub3D_Bonus
-HDER = mandatory/cub3d.h
+HDER = Mandatory/cub3d.h
 HDERB = Bonus/cub3D_Bonus.h
 SRC = \
 	track_memory/memory_tracker.c \
@@ -10,15 +10,28 @@ SRC = \
 	GET_NEXT_LINE_42/get_next_line.c \
 	GET_NEXT_LINE_42/get_next_line_utils.c \
 	Mandatory/map_parsing_v2/tools.c\
+	Mandatory/map_parsing_v2/color_tools.c\
 	Mandatory/map_parsing_v2/louding_maps.c\
 	Mandatory/map_parsing_v2/map_parsing.c\
 	Mandatory/map_parsing_v2/map_parsing_p2.c\
 	Mandatory/map_parsing_v2/player_parse.c\
 	Mandatory/map_parsing_v2/free_at_exit.c\
+	Mandatory/map_parsing_v2/parsing_helper.c \
+	Mandatory/map_parsing_v2/parsing_2.c \
+	Mandatory/map_parsing_v2/map_parsing_door.c \
+	Mandatory/animation_move.c\
 	Mandatory/main.c \
 	Mandatory/draw_rays_copy.c \
 	Mandatory/texture.c \
-	Mandatory/draw_rays_copy2.c
+	Mandatory/draw_rays_copy2.c \
+	Mandatory/animation_kick.c \
+	Mandatory/minimap_door.c \
+	Mandatory/utils1.c \
+	Mandatory/utils2.c \
+	Mandatory/recasting.c \
+	Mandatory/cal_wall.c \
+	Mandatory/rander.c \
+	Mandatory/main_v2.c
 
 SRCB = \
 	track_memory/memory_tracker.c \

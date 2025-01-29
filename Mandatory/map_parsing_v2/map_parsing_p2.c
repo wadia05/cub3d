@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:34 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:24:38 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ int	check_zero(t_map_list *tmp, t_map *stc)
 		return (1);
 	while (tmp->map[++i])
 	{
-		if (ft_isdigit(tmp->map[i]) && tmp->map[i] != '1' && tmp->map[i] != '0'
-			&& tmp->map[i] != '3')
+		if (ft_isdigit(tmp->map[i]) && tmp->map[i] != '1' && tmp->map[i] != '0')
 		{
 			print_error("Error: Invalid character in map");
 			free_at_exit(stc);

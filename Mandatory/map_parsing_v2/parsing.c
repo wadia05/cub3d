@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:58 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:53:17 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:30:09 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ static int	parse_identifier(t_map *stc, char **tokens, char *line)
 
 static int	parse_map_line(t_map *stc, char *line)
 {
-	if (is_char_here(line, "013WSEN"))
+	if (is_char_here(line, "01WSEN"))
 	{
 		stc->map_str = true;
-		if (!is_char_here(line, "013WSEN \t"))
+		if (!is_char_here(line, "01WSEN \t"))
 			return (print_error("Invalid character in map"));
 		stc->map_data = add_map_list(stc->map_data, line, stc);
 		return (0);

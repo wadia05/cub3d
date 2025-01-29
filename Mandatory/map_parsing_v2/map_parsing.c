@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:38 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 17:56:24 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:21:31 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ int	parse_line_maps(t_map *stc)
 	if (validate_map_borders_and_walls(stc->map_data, stc))
 		return (1);
 	if (player_check(stc->map_data, stc) != 0)
-		return (1);
-	if (door_check(stc->map_data) != 0)
 		return (1);
 	return (0);
 }
