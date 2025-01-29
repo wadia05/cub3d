@@ -6,7 +6,7 @@
 /*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:52:04 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 20:33:15 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:21:24 by wait-bab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	loading_image(t_map *mp)
 	mp->we_png = mlx_load_png(mp->we);
 	if (!mp->we_png)
 		return (1);
-	mp->door_png = mlx_load_png("door.png");
+	mp->door_png = mlx_load_png("wall_image/door.png");
 	if (!mp->door_png)
 		return (1);
 	if (load_kick_frames(mp))
