@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:37:16 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/29 23:35:44 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:38:59 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	calculate_texture_x_coordinate(t_cub3d *cub, t_ray *ray, double s_agl)
 			texture_x = 1.0 - texture_x;
 	}
 	tex_x = (int)(texture_x * txtur->wall_texture->width);
+	tex_x = fmax(0, fmin(tex_x, txtur->wall_texture->width - 1));
 	return (tex_x);
 }
 

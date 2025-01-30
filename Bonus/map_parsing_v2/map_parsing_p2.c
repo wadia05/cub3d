@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing_p2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:34 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/29 23:56:34 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/30 09:34:34 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,45 @@
 
 void	check_current_positions(t_map_list *tmp, int i, t_map *stc)
 {
-    if (!tmp || !tmp->map)
-        return ;
-    if (tmp->map[i + 1] == ' ' || tmp->map[i - 1] == ' ' || !tmp->map[i + 1])
-    {
-        print_error("Error: Map boundary validation failed \
+	if (!tmp || !tmp->map)
+		return ;
+	if (tmp->map[i + 1] == ' ' || tmp->map[i - 1] == ' ' || !tmp->map[i + 1])
+	{
+		print_error("Error: Map boundary validation failed \
             - invalid wall configuration");
-        free_at_exit(stc);
-    }
-    if (!tmp->next || tmp->next->length <= i)
-    {
-        print_error("Error: Map boundary validation failed \
+		free_at_exit(stc);
+	}
+	if (!tmp->next || tmp->next->length <= i)
+	{
+		print_error("Error: Map boundary validation failed \
             - invalid map dimensions");
-        free_at_exit(stc);
-    }
+		free_at_exit(stc);
+	}
 }
 
-void    check_adjacent_positions(t_map_list *tmp, int i, t_map *stc)
+void	check_adjacent_positions(t_map_list *tmp, int i, t_map *stc)
 {
-    if (!tmp || !tmp->prev || !tmp->next || !tmp->prev->map || !tmp->next->map)
-    	free_at_exit(stc);
+	if (!tmp || !tmp->prev || !tmp->next || !tmp->prev->map || !tmp->next->map)
+	{
+		free_at_exit(stc);
+	}
 	if (i > tmp->prev->length)
 	{
 		print_error("Error: Invalid map - open boundary detected above");
 		free_at_exit(stc);
 	}
-    if ( tmp->prev->map[i] == ' ' || tmp->prev->map[i] == '\t'
-        || !tmp->prev->map[i] || tmp->prev->length <= i)
-    {
-        print_error("Error: Invalid map - open boundary detected above");
-        free_at_exit(stc);
-    }
-    if (tmp->next->map[i] == ' ' || tmp->next->map[i] == '\t'
-        || !tmp->next->map[i])
-    {
-        print_error("Error: Invalid map - open boundary detected below");
-        free_at_exit(stc);
-    }
+	if (tmp->prev->map[i] == ' ' || tmp->prev->map[i] == '\t'
+		|| !tmp->prev->map[i] || tmp->prev->length <= i)
+	{
+		print_error("Error: Invalid map - open boundary detected above");
+		free_at_exit(stc);
+	}
+	if (tmp->next->map[i] == ' ' || tmp->next->map[i] == '\t'
+		|| !tmp->next->map[i])
+	{
+		print_error("Error: Invalid map - open boundary detected below");
+		free_at_exit(stc);
+	}
 }
 
 int	check_zero(t_map_list *tmp, t_map *stc)

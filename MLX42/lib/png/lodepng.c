@@ -3383,23 +3383,23 @@ struct ColorTree {
   int index; /*the payload. Only has a meaningful value if this is in the last level*/
 };
 
-static void t_colorree_init(ColorTree* tree) {
+static void color_tree_init(ColorTree* tree) {
   lodepng_memset(tree->children, 0, 16 * sizeof(*tree->children));
   tree->index = -1;
 }
 
-static void t_colorree_cleanup(ColorTree* tree) {
+static void color_tree_cleanup(ColorTree* tree) {
   int i;
   for(i = 0; i != 16; ++i) {
     if(tree->children[i]) {
-      t_colorree_cleanup(tree->children[i]);
+      color_tree_cleanup(tree->children[i]);
       lodepng_free(tree->children[i]);
     }
   }
 }
 
 /*returns -1 if color not present, its index otherwise*/
-static int t_colorree_get(ColorTree* tree, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+static int color_tree_get(ColorTree* tree, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
   int bit = 0;
   for(bit = 0; bit < 8; ++bit) {
     int i = 8 * ((r >> bit) & 1) + 4 * ((g >> bit) & 1) + 2 * ((b >> bit) & 1) + 1 * ((a >> bit) & 1);
@@ -3410,15 +3410,15 @@ static int t_colorree_get(ColorTree* tree, unsigned char r, unsigned char g, uns
 }
 
 #ifdef LODEPNG_COMPILE_ENCODER
-static int t_colorree_has(ColorTree* tree, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
-  return t_colorree_get(tree, r, g, b, a) >= 0;
+static int color_tree_has(ColorTree* tree, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+  return color_tree_get(tree, r, g, b, a) >= 0;
 }
 #endif /*LODEPNG_COMPILE_ENCODER*/
 
 /*color is not allowed to already exist.
 Index should be >= 0 (it's signed to be compatible with using -1 for "doesn't exist")
 Returns error code, or 0 if ok*/
-static unsigned t_colorree_add(ColorTree* tree,
+static unsigned color_tree_add(ColorTree* tree,
                                unsigned char r, unsigned char g, unsigned char b, unsigned char a, unsigned index) {
   int bit;
   for(bit = 0; bit < 8; ++bit) {
@@ -3426,7 +3426,7 @@ static unsigned t_colorree_add(ColorTree* tree,
     if(!tree->children[i]) {
       tree->children[i] = (ColorTree*)lodepng_malloc(sizeof(ColorTree));
       if(!tree->children[i]) return 83; /*alloc fail*/
-      t_colorree_init(tree->children[i]);
+      color_tree_init(tree->children[i]);
     }
     tree = tree->children[i];
   }
@@ -3458,7 +3458,7 @@ static unsigned rgba8ToPixel(unsigned char* out, size_t i,
       out[i * 6 + 4] = out[i * 6 + 5] = b;
     }
   } else if(mode->colortype == LCT_PALETTE) {
-    int index = t_colorree_get(tree, r, g, b, a);
+    int index = color_tree_get(tree, r, g, b, a);
     if(index < 0) return 82; /*color not in palette*/
     if(mode->bitdepth == 8) out[i] = index;
     else addColorBits(out, i, mode->bitdepth, (unsigned)index);
@@ -3830,10 +3830,10 @@ unsigned lodepng_convert(unsigned char* out, const unsigned char* in,
       }
     }
     if(palettesize < palsize) palsize = palettesize;
-    t_colorree_init(&tree);
+    color_tree_init(&tree);
     for(i = 0; i != palsize; ++i) {
       const unsigned char* p = &palette[i * 4];
-      error = t_colorree_add(&tree, p[0], p[1], p[2], p[3], (unsigned)i);
+      error = color_tree_add(&tree, p[0], p[1], p[2], p[3], (unsigned)i);
       if(error) break;
     }
   }
@@ -3860,7 +3860,7 @@ unsigned lodepng_convert(unsigned char* out, const unsigned char* in,
   }
 
   if(mode_out->colortype == LCT_PALETTE) {
-    t_colorree_cleanup(&tree);
+    color_tree_cleanup(&tree);
   }
 
   return error;
@@ -3983,7 +3983,7 @@ unsigned lodepng_compute_color_stats(LodePNGColorStats* stats,
   /*if palette not allowed, no need to compute numcolors*/
   if(!stats->allow_palette) numcolors_done = 1;
 
-  t_colorree_init(&tree);
+  color_tree_init(&tree);
 
   /*If the stats was already filled in from previous data, fill its palette in tree
   and mark things as done already if we know they are the most expensive case already*/
@@ -3996,7 +3996,7 @@ unsigned lodepng_compute_color_stats(LodePNGColorStats* stats,
   if(!numcolors_done) {
     for(i = 0; i < stats->numcolors; i++) {
       const unsigned char* color = &stats->palette[i * 4];
-      error = t_colorree_add(&tree, color[0], color[1], color[2], color[3], i);
+      error = color_tree_add(&tree, color[0], color[1], color[2], color[3], i);
       if(error) goto cleanup;
     }
   }
@@ -4100,8 +4100,8 @@ unsigned lodepng_compute_color_stats(LodePNGColorStats* stats,
       }
 
       if(!numcolors_done) {
-        if(!t_colorree_has(&tree, r, g, b, a)) {
-          error = t_colorree_add(&tree, r, g, b, a, stats->numcolors);
+        if(!color_tree_has(&tree, r, g, b, a)) {
+          error = color_tree_add(&tree, r, g, b, a, stats->numcolors);
           if(error) goto cleanup;
           if(stats->numcolors < 256) {
             unsigned char* p = stats->palette;
@@ -4139,7 +4139,7 @@ unsigned lodepng_compute_color_stats(LodePNGColorStats* stats,
   }
 
 cleanup:
-  t_colorree_cleanup(&tree);
+  color_tree_cleanup(&tree);
   return error;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:37:16 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/28 20:10:17 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:37:49 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	calculate_texture_x_coordinate(t_cub3d *cub, t_ray *ray, double s_agl)
 			texture_x = 1.0 - texture_x;
 	}
 	tex_x = (int)(texture_x * txtur->wall_texture->width);
+	tex_x = fmax(0, fmin(tex_x, txtur->wall_texture->width - 1));
 	return (tex_x);
 }
 
@@ -68,10 +69,10 @@ uint32_t	get_color_px(t_cub3d *cub, int texY, int texX)
 	t_map		*txtur;
 
 	txtur = cub->info;
-	if ((txtur->wall_texture->width * txtur->wall_texture->height * 4) \
-		< ((texY * txtur->wall_texture->width + texX) * 4))
+	if ((texY * txtur->wall_texture->width + texX) >= \
+		(txtur->wall_texture->width * txtur->wall_texture->height))
 	{
-		color = 0x00000000;
+		color = 0x000000FF;
 		return (color);
 	}
 	cub->r = txtur->wall_texture->pixels[(texY * txtur->wall_texture->width

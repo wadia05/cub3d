@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wait-bab <wait-bab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:05:36 by abenchel          #+#    #+#             */
-/*   Updated: 2025/01/29 21:12:43 by wait-bab         ###   ########.fr       */
+/*   Updated: 2025/01/30 09:35:05 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ void	ft_hook_mouse(void *param)
 {
 	t_cub3d	*cub3d;
 	float	rotation_speed;
-	float	speed;
 	float	delta_x;
 
-	speed = 2;
 	rotation_speed = 0.001;
 	cub3d = param;
 	if (!cub3d || !cub3d->win)

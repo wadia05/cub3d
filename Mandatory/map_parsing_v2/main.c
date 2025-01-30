@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenchel <abenchel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mole_pc <mole_pc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:33:24 by wait-bab          #+#    #+#             */
-/*   Updated: 2025/01/29 22:25:34 by abenchel         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:38:11 by mole_pc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,12 @@ static int	process_and_validate(t_map *stc, char *map_file,
 	return (0);
 }
 
-void et()
-{
-	system("leaks cub3D");
-}
-
 int	main(int ac, char **av)
 {
 	t_map		*stc;
 	t_tracker	*free_head;
 	int			result;
 
-	// atexit(et);
 	free_head = NULL;
 	result = initialize_and_validate(ac, av, &stc, &free_head);
 	if (result != 0)
